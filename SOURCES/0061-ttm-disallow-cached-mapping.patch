@@ -1,0 +1,67 @@
+From 8d4384c55735a62e1cef3e0a252361ced635609e Mon Sep 17 00:00:00 2001
+From: Icenowy Zheng <uwu@icenowy.me>
+Date: Fri, 24 Feb 2023 17:23:17 +0800
+Subject: [PATCH 061/114] ttm: disallow cached mapping
+
+Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
+---
+ drivers/gpu/drm/ttm/ttm_bo_util.c  | 10 +++-------
+ drivers/gpu/drm/ttm/ttm_resource.c |  3 +++
+ 2 files changed, 6 insertions(+), 7 deletions(-)
+
+diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c b/drivers/gpu/drm/ttm/ttm_bo_util.c
+index c6922b4b940e..50e18122bd4a 100644
+--- a/drivers/gpu/drm/ttm/ttm_bo_util.c
++++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
+@@ -365,7 +365,9 @@ static int ttm_bo_kmap_ttm(struct ttm_buffer_object *bo,
+ 		map->bo_kmap_type = ttm_bo_map_kmap;
+ 		map->page = ttm->pages[start_page];
+ 		map->virtual = kmap(map->page);
+-	} else {
++	} else
++#endif
++	{
+ 		/*
+ 		 * We need to use vmap to get the desired page protection
+ 		 * or to make the buffer object look contiguous.
+@@ -375,12 +377,6 @@ static int ttm_bo_kmap_ttm(struct ttm_buffer_object *bo,
+ 		map->virtual = vmap(ttm->pages + start_page, num_pages,
+ 				    0, prot);
+ 	}
+-#else
+-	prot = ttm_io_prot(bo, mem, PAGE_KERNEL);
+-	map->bo_kmap_type = ttm_bo_map_vmap;
+-	map->virtual = vmap(ttm->pages + start_page, num_pages,
+-				0, prot);
+-#endif
+ 	return (!map->virtual) ? -ENOMEM : 0;
+ }
+ 
+diff --git a/drivers/gpu/drm/ttm/ttm_resource.c b/drivers/gpu/drm/ttm/ttm_resource.c
+index 7b097ccb5142..a1aa688c389d 100644
+--- a/drivers/gpu/drm/ttm/ttm_resource.c
++++ b/drivers/gpu/drm/ttm/ttm_resource.c
+@@ -674,17 +674,20 @@ ttm_kmap_iter_linear_io_init(struct ttm_kmap_iter_linear_io *iter_io,
+ 	} else {
+ 		iter_io->needs_unmap = true;
+ 		memset(&iter_io->dmap, 0, sizeof(iter_io->dmap));
++
+ #ifndef CONFIG_SOC_SIFIVE_EIC7700
+ 		if (mem->bus.caching == ttm_write_combined)
+ 			iosys_map_set_vaddr_iomem(&iter_io->dmap,
+ 						  ioremap_wc(mem->bus.offset,
+ 							     mem->size));
++
+ 		else if (mem->bus.caching == ttm_cached)
+ 			iosys_map_set_vaddr(&iter_io->dmap,
+ 					    memremap(mem->bus.offset, mem->size,
+ 						     MEMREMAP_WB |
+ 						     MEMREMAP_WT |
+ 						     MEMREMAP_WC));
++
+ #else
+ 		if (mem->bus.caching == ttm_write_combined || mem->bus.caching == ttm_cached)
+ 			iosys_map_set_vaddr_iomem(&iter_io->dmap,
+-- 
+2.47.0
+

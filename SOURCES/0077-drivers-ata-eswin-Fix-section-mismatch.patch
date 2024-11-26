@@ -1,0 +1,34 @@
+From cc6b95c88694e7be48b3d74d3be0e7b8a439db3b Mon Sep 17 00:00:00 2001
+From: Emil Renner Berthing <emil.renner.berthing@canonical.com>
+Date: Wed, 14 Aug 2024 14:51:55 +0200
+Subject: [PATCH 077/114] drivers: ata: eswin: Fix section mismatch
+
+This fixes the following section mismatch error:
+
+  WARNING: modpost: drivers/ata/ahci_eswin: section mismatch in reference: \
+    ahci_probe+0x38 (section: .text) -> eswin_reset (section: .init.text)
+  ERROR: modpost: Section mismatches detected.
+  Set CONFIG_SECTION_MISMATCH_WARN_ONLY=y to allow them.
+
+Fixes: 06d67c26ec75 ("drivers: ata: Add ESWIN sata driver")
+Signed-off-by: Emil Renner Berthing <emil.renner.berthing@canonical.com>
+---
+ drivers/ata/ahci_eswin.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/ata/ahci_eswin.c b/drivers/ata/ahci_eswin.c
+index 0bc04cd2d8ba..ceec74a5f975 100644
+--- a/drivers/ata/ahci_eswin.c
++++ b/drivers/ata/ahci_eswin.c
+@@ -155,7 +155,7 @@ static int eswin_sata_init(struct device *dev)
+ 	return 0;
+ }
+ 
+-static int __init eswin_reset(struct device *dev)
++static int eswin_reset(struct device *dev)
+ {
+     struct reset_control *asic0_rst;
+     struct reset_control *oob_rst;
+-- 
+2.47.0
+

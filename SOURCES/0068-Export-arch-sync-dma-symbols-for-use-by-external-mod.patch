@@ -1,0 +1,34 @@
+From 8e463bc02cc1c1cbc3807a0421004ee68736418c Mon Sep 17 00:00:00 2001
+From: Jeegar Lakhani <jeegar.lakhani@sifive.com>
+Date: Mon, 26 Aug 2024 22:33:52 -0700
+Subject: [PATCH 068/114] Export arch sync dma symbols for use by external
+ modules
+
+Signed-off-by: Jeegar Lakhani <jeegar.lakhani@sifive.com>
+---
+ arch/riscv/mm/dma-noncoherent.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/arch/riscv/mm/dma-noncoherent.c b/arch/riscv/mm/dma-noncoherent.c
+index 39b2bea86960..cb3c37837a1a 100644
+--- a/arch/riscv/mm/dma-noncoherent.c
++++ b/arch/riscv/mm/dma-noncoherent.c
+@@ -98,6 +98,7 @@ void arch_sync_dma_for_device(phys_addr_t paddr, size_t size,
+ 		break;
+ 	}
+ }
++EXPORT_SYMBOL (arch_sync_dma_for_device);
+ 
+ void arch_sync_dma_for_cpu(phys_addr_t paddr, size_t size,
+ 			   enum dma_data_direction dir)
+@@ -117,6 +118,7 @@ void arch_sync_dma_for_cpu(phys_addr_t paddr, size_t size,
+ 		break;
+ 	}
+ }
++EXPORT_SYMBOL (arch_sync_dma_for_cpu);
+ 
+ void arch_dma_prep_coherent(struct page *page, size_t size)
+ {
+-- 
+2.47.0
+

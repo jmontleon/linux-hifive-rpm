@@ -1,0 +1,29 @@
+From da29a89881c6db123d4b8f53e7c9a00790abc5b5 Mon Sep 17 00:00:00 2001
+From: Pritesh Patel <pritesh.patel@einfochips.com>
+Date: Thu, 24 Oct 2024 12:19:35 +0530
+Subject: [PATCH 103/114] riscv: defconfig: hifive-premier-p550: Disable debug
+ configs
+
+Disable debug info from kernel
+
+Signed-off-by: Pritesh Patel <pritesh.patel@einfochips.com>
+---
+ arch/riscv/configs/hifive-premier-p550_defconfig | 2 --
+ 1 file changed, 2 deletions(-)
+
+diff --git a/arch/riscv/configs/hifive-premier-p550_defconfig b/arch/riscv/configs/hifive-premier-p550_defconfig
+index 377ddb1b6df1..b469c7c7a372 100644
+--- a/arch/riscv/configs/hifive-premier-p550_defconfig
++++ b/arch/riscv/configs/hifive-premier-p550_defconfig
+@@ -2498,8 +2498,6 @@ CONFIG_PRINTK_TIME=y
+ CONFIG_CONSOLE_LOGLEVEL_QUIET=3
+ CONFIG_BOOT_PRINTK_DELAY=y
+ CONFIG_DYNAMIC_DEBUG=y
+-CONFIG_DEBUG_INFO_DWARF5=y
+-CONFIG_GDB_SCRIPTS=y
+ CONFIG_VMLINUX_MAP=y
+ CONFIG_MAGIC_SYSRQ_DEFAULT_ENABLE=0x01b6
+ CONFIG_KGDB=y
+-- 
+2.47.0
+

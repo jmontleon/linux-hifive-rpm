@@ -1,0 +1,31 @@
+From 696a7ce7ca7d7528e8e836a267f5b2bfa8a735b2 Mon Sep 17 00:00:00 2001
+From: Pritesh Patel <pritesh.patel@einfochips.com>
+Date: Fri, 23 Aug 2024 10:46:29 +0530
+Subject: [PATCH 036/114] riscv: defconfig: hifive-premier-p550: Update command
+ line
+
+Updated kernel command line
+  - Removed stale command lines
+  - Moved serial console configs to extlinux conf file
+
+Signed-off-by: Pritesh Patel <pritesh.patel@einfochips.com>
+---
+ arch/riscv/configs/hifive-premier-p550_defconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/arch/riscv/configs/hifive-premier-p550_defconfig b/arch/riscv/configs/hifive-premier-p550_defconfig
+index 7e99e46146ad..e371ee83d382 100644
+--- a/arch/riscv/configs/hifive-premier-p550_defconfig
++++ b/arch/riscv/configs/hifive-premier-p550_defconfig
+@@ -20,7 +20,7 @@ CONFIG_SOC_SIFIVE=y
+ CONFIG_SOC_VIRT=y
+ CONFIG_SMP=y
+ # CONFIG_RISCV_BOOT_SPINWAIT is not set
+-CONFIG_CMDLINE="earlycon=sbi console=ttyS0,115200n8 clk_ignore_unused cma_pernuma=0x2000000 disable_bypass=false"
++CONFIG_CMDLINE="clk_ignore_unused"
+ CONFIG_CMDLINE_EXTEND=y
+ CONFIG_CPU_FREQ=y
+ CONFIG_CPU_FREQ_STAT=y
+-- 
+2.47.0
+

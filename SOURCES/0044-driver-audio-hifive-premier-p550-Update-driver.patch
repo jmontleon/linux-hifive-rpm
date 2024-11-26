@@ -1,0 +1,1455 @@
+From 65c7c0387876dcadc50188202022a434dd8239ca Mon Sep 17 00:00:00 2001
+From: Sean Cross <xobs@kosagi.com>
+Date: Tue, 10 Sep 2024 18:52:31 +0530
+Subject: [PATCH 044/114] driver: audio: hifive-premier-p550: Update driver
+
+Signed-off-by: Sean Cross <xobs@kosagi.com>
+Signed-off-by: Darshan Jasanee <darshan.jasanee@einfochips.com>
+---
+ .../dts/eswin/eic7700-hifive-premier-p550.dts |   2 -
+ include/sound/dmaengine_pcm.h                 |   3 -
+ sound/core/pcm_dmaengine.c                    |   9 +-
+ sound/soc/codecs/eswin/Makefile               |   2 +-
+ sound/soc/codecs/eswin/es8328-i2c.c           |  22 +-
+ sound/soc/codecs/eswin/es8328.c               | 154 +++++--
+ sound/soc/codecs/eswin/es8328.h               |  21 +-
+ sound/soc/eswin/Makefile                      |   4 +-
+ .../{es-audio-proc.c => esw-audio-proc.c}     |   6 +-
+ .../{es-audio-proc.h => esw-audio-proc.h}     |   0
+ sound/soc/eswin/{i2s-stereo.c => esw-i2s.c}   | 430 +++++++-----------
+ sound/soc/eswin/{i2s.h => esw-i2s.h}          |  54 +--
+ sound/soc/generic/audio-graph-card.c          |   3 -
+ sound/soc/soc-generic-dmaengine-pcm.c         |  88 ----
+ 14 files changed, 296 insertions(+), 502 deletions(-)
+ rename sound/soc/eswin/{es-audio-proc.c => esw-audio-proc.c} (98%)
+ rename sound/soc/eswin/{es-audio-proc.h => esw-audio-proc.h} (100%)
+ rename sound/soc/eswin/{i2s-stereo.c => esw-i2s.c} (70%)
+ rename sound/soc/eswin/{i2s.h => esw-i2s.h} (76%)
+
+diff --git a/arch/riscv/boot/dts/eswin/eic7700-hifive-premier-p550.dts b/arch/riscv/boot/dts/eswin/eic7700-hifive-premier-p550.dts
+index c6229169924f..880ec234d084 100644
+--- a/arch/riscv/boot/dts/eswin/eic7700-hifive-premier-p550.dts
++++ b/arch/riscv/boot/dts/eswin/eic7700-hifive-premier-p550.dts
+@@ -281,7 +281,6 @@ &dw_hdmi_hdcp2 {
+ 
+ &d0_i2s0 {
+ 	status = "okay";
+-	eswin-plat = <1>;
+ 	d0_i2s0_port: port {
+ 		d0_i2s0_endpoint: endpoint {
+ 			remote-endpoint = <&hdmi_in_i2s>;
+@@ -292,7 +291,6 @@ d0_i2s0_endpoint: endpoint {
+ 
+ &d0_i2s1 {
+ 	status = "okay";
+-	eswin-plat = <1>;
+ 	d0_i2s1_port: port {
+ 		d0_i2s1_endpoint: endpoint {
+ 			remote-endpoint = <&d0_codec0_endpoint>;
+diff --git a/include/sound/dmaengine_pcm.h b/include/sound/dmaengine_pcm.h
+index 587ebcfcb594..94dbb23580f2 100644
+--- a/include/sound/dmaengine_pcm.h
++++ b/include/sound/dmaengine_pcm.h
+@@ -172,9 +172,6 @@ struct dmaengine_pcm {
+ 	const struct snd_dmaengine_pcm_config *config;
+ 	struct snd_soc_component component;
+ 	unsigned int flags;
+-#ifdef CONFIG_SOC_SIFIVE_EIC7700
+-	void *tmp_buf[2];
+-#endif
+ };
+ 
+ static inline struct dmaengine_pcm *soc_component_to_pcm(struct snd_soc_component *p)
+diff --git a/sound/core/pcm_dmaengine.c b/sound/core/pcm_dmaengine.c
+index 6370a12b9360..62489677f394 100644
+--- a/sound/core/pcm_dmaengine.c
++++ b/sound/core/pcm_dmaengine.c
+@@ -159,18 +159,11 @@ static int dmaengine_pcm_prepare_and_submit(struct snd_pcm_substream *substream)
+ 		flags |= DMA_PREP_INTERRUPT;
+ 
+ 	prtd->pos = 0;
+-#ifdef CONFIG_SOC_SIFIVE_EIC7700
+-	desc = dmaengine_prep_dma_cyclic(chan,
+-		substream->runtime->dma_addr,
+-		snd_pcm_lib_buffer_bytes(substream) * 64 / substream->runtime->frame_bits,
+-		snd_pcm_lib_period_bytes(substream) * 64 / substream->runtime->frame_bits,
+-		direction, flags);
+-#else
+ 	desc = dmaengine_prep_dma_cyclic(chan,
+ 		substream->runtime->dma_addr,
+ 		snd_pcm_lib_buffer_bytes(substream),
+ 		snd_pcm_lib_period_bytes(substream), direction, flags);
+-#endif
++
+ 	if (!desc)
+ 		return -ENOMEM;
+ 
+diff --git a/sound/soc/codecs/eswin/Makefile b/sound/soc/codecs/eswin/Makefile
+index a4ec4f0a622b..ee696d62096c 100755
+--- a/sound/soc/codecs/eswin/Makefile
++++ b/sound/soc/codecs/eswin/Makefile
+@@ -1,3 +1,3 @@
+ esw_es8328_codec-objs := es8328-i2c.o es8328.o
+ 
+-obj-$(CONFIG_ESWIN_SND_ES8388_CODEC) += esw_es8328_codec.o
++obj-$(CONFIG_ESWIN_SND_ES8388_CODEC) += esw_es8328_codec.o
+\ No newline at end of file
+diff --git a/sound/soc/codecs/eswin/es8328-i2c.c b/sound/soc/codecs/eswin/es8328-i2c.c
+index d62627ec2dae..2a59aa9fc168 100644
+--- a/sound/soc/codecs/eswin/es8328-i2c.c
++++ b/sound/soc/codecs/eswin/es8328-i2c.c
+@@ -1,23 +1,10 @@
+-// SPDX-License-Identifier: GPL-2.0
++// SPDX-License-Identifier: GPL-2.0-only
+ /*
+- * ESWIN Codec root complex driver
++ * es8328-i2c.c  --  ES8328 ALSA SoC I2C Audio driver
+  *
+- * Copyright 2024, Beijing ESWIN Computing Technology Co., Ltd.. All rights reserved.
+- * SPDX-License-Identifier: GPL-2.0
++ * Copyright 2014 Sutajio Ko-Usagi PTE LTD
+  *
+- * This program is free software: you can redistribute it and/or modify
+- * it under the terms of the GNU General Public License as published by
+- * the Free Software Foundation, version 2.
+- *
+- * This program is distributed in the hope that it will be useful,
+- * but WITHOUT ANY WARRANTY; without even the implied warranty of
+- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+- * GNU General Public License for more details.
+- *
+- * You should have received a copy of the GNU General Public License
+- * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+- *
+- * Authors: Lei Deng <denglei@eswincomputing.com>
++ * Author: Sean Cross <xobs@kosagi.com>
+  */
+ 
+ #include <linux/module.h>
+@@ -43,7 +30,6 @@ MODULE_DEVICE_TABLE(of, es8328_of_match);
+ 
+ static int es8328_i2c_probe(struct i2c_client *i2c)
+ {
+-	dev_info(&i2c->dev, "dev name:%s\n", i2c->dev.of_node->name);
+ 	return es8328_probe(&i2c->dev,
+ 			devm_regmap_init_i2c(i2c, &es8328_regmap_config));
+ }
+diff --git a/sound/soc/codecs/eswin/es8328.c b/sound/soc/codecs/eswin/es8328.c
+index 1c89066df731..1fcf73f448c2 100644
+--- a/sound/soc/codecs/eswin/es8328.c
++++ b/sound/soc/codecs/eswin/es8328.c
+@@ -1,26 +1,12 @@
+-// SPDX-License-Identifier: GPL-2.0
++// SPDX-License-Identifier: GPL-2.0-only
+ /*
+- * ESWIN Codec root complex driver
++ * es8328.c  --  ES8328 ALSA SoC Audio driver
+  *
+- * Copyright 2024, Beijing ESWIN Computing Technology Co., Ltd.. All rights reserved.
+- * SPDX-License-Identifier: GPL-2.0
++ * Copyright 2014 Sutajio Ko-Usagi PTE LTD
+  *
+- * This program is free software: you can redistribute it and/or modify
+- * it under the terms of the GNU General Public License as published by
+- * the Free Software Foundation, version 2.
+- *
+- * This program is distributed in the hope that it will be useful,
+- * but WITHOUT ANY WARRANTY; without even the implied warranty of
+- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+- * GNU General Public License for more details.
+- *
+- * You should have received a copy of the GNU General Public License
+- * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+- *
+- * Authors: Lei Deng <denglei@eswincomputing.com>
++ * Author: Sean Cross <xobs@kosagi.com>
+  */
+ 
+-
+ #include <linux/clk.h>
+ #include <linux/delay.h>
+ #include <linux/of_device.h>
+@@ -29,14 +15,20 @@
+ #include <linux/regmap.h>
+ #include <linux/slab.h>
+ #include <linux/regulator/consumer.h>
++#include <linux/gpio/consumer.h>
++
+ #include <sound/core.h>
+ #include <sound/initval.h>
+ #include <sound/pcm.h>
+ #include <sound/pcm_params.h>
+ #include <sound/soc.h>
+ #include <sound/tlv.h>
++
+ #include "es8328.h"
+ 
++#define MIN_CHANNEL_NUM		2
++#define MAX_CHANNEL_NUM		2
++
+ static const unsigned int rates_12288[] = {
+ 	8000, 12000, 16000, 24000, 32000, 48000, 96000,
+ };
+@@ -72,6 +64,14 @@ enum sgtl5000_regulator_supplies {
+ 	ES8328_SUPPLY_NUM
+ };
+ 
++/* vddd is optional supply */
++static const char * const supply_names[ES8328_SUPPLY_NUM] = {
++	"DVDD",
++	"AVDD",
++	"PVDD",
++	"HPVDD",
++};
++
+ #define ES8328_RATES (SNDRV_PCM_RATE_192000 | \
+ 		SNDRV_PCM_RATE_96000 | \
+ 		SNDRV_PCM_RATE_88200 | \
+@@ -92,6 +92,11 @@ struct es8328_priv {
+ 	const int *mclk_ratios;
+ 	bool provider;
+ 	struct regulator_bulk_data supplies[ES8328_SUPPLY_NUM];
++
++	u32 eswin_plat;
++	struct snd_soc_component *component;
++	struct gpio_desc *front_jack_gpio;
++	struct gpio_desc *back_jack_gpio;
+ };
+ 
+ /*
+@@ -169,6 +174,7 @@ static int es8328_put_deemph(struct snd_kcontrol *kcontrol,
+ 
+ 	if (es8328->deemph == deemph)
+ 		return 0;
++
+ 	ret = es8328_set_deemph(component);
+ 	if (ret < 0)
+ 		return ret;
+@@ -778,8 +784,19 @@ static int es8328_set_dai_fmt(struct snd_soc_dai *codec_dai,
+ 	/* Set MIC PGA Volume */
+ 	snd_soc_component_write(component, ES8328_ADCCONTROL1, 0x88);
+ 
+-	/* Select Capture path ---> phone mic */
+-	snd_soc_component_write(component, ES8328_ADCCONTROL2, 0xf0);
++	if (es8328->eswin_plat == 2) {
++		if (gpiod_get_value(es8328->front_jack_gpio) == 1 && gpiod_get_value(es8328->back_jack_gpio) == 0) {
++			/* Select default capture path ---> LIN1 */
++			snd_soc_component_write(component, ES8328_ADCCONTROL2, 0);
++		} else {
++			/* Select default capture path ---> LIN2 */
++			snd_soc_component_write(component, ES8328_ADCCONTROL2, 0x50);
++		}
++	} else {
++		/* Select default capture path ---> phone mic */
++		snd_soc_component_write(component, ES8328_ADCCONTROL2, 0xf0);
++	}
++
+ 	snd_soc_component_update_bits(component, ES8328_ADCCONTROL3,
+ 			ES8328_ADCCONTROL3_DS, 0);
+ 
+@@ -857,15 +874,15 @@ static struct snd_soc_dai_driver es8328_dai[3] = {
+ 		.name = "es8328-0-hifi-analog",
+ 		.playback = {
+ 			.stream_name = "Playback",
+-			.channels_min = 2,
+-			.channels_max = 2,
++			.channels_min = MIN_CHANNEL_NUM,
++			.channels_max = MAX_CHANNEL_NUM,
+ 			.rates = ES8328_RATES,
+ 			.formats = ES8328_FORMATS,
+ 		},
+ 		.capture = {
+ 			.stream_name = "Capture",
+-			.channels_min = 2,
+-			.channels_max = 2,
++			.channels_min = MIN_CHANNEL_NUM,
++			.channels_max = MAX_CHANNEL_NUM,
+ 			.rates = ES8328_RATES,
+ 			.formats = ES8328_FORMATS,
+ 		},
+@@ -876,15 +893,15 @@ static struct snd_soc_dai_driver es8328_dai[3] = {
+ 		.name = "es8328-1-hifi-analog",
+ 		.playback = {
+ 			.stream_name = "Playback",
+-			.channels_min = 2,
+-			.channels_max = 2,
++			.channels_min = MIN_CHANNEL_NUM,
++			.channels_max = MAX_CHANNEL_NUM,
+ 			.rates = ES8328_RATES,
+ 			.formats = ES8328_FORMATS,
+ 		},
+ 		.capture = {
+ 			.stream_name = "Capture",
+-			.channels_min = 2,
+-			.channels_max = 2,
++			.channels_min = MIN_CHANNEL_NUM,
++			.channels_max = MAX_CHANNEL_NUM,
+ 			.rates = ES8328_RATES,
+ 			.formats = ES8328_FORMATS,
+ 		},
+@@ -895,15 +912,15 @@ static struct snd_soc_dai_driver es8328_dai[3] = {
+ 		.name = "es8328-2-hifi-analog",
+ 		.playback = {
+ 			.stream_name = "Playback",
+-			.channels_min = 2,
+-			.channels_max = 2,
++			.channels_min = MIN_CHANNEL_NUM,
++			.channels_max = MAX_CHANNEL_NUM,
+ 			.rates = ES8328_RATES,
+ 			.formats = ES8328_FORMATS,
+ 		},
+ 		.capture = {
+ 			.stream_name = "Capture",
+-			.channels_min = 2,
+-			.channels_max = 2,
++			.channels_min = MIN_CHANNEL_NUM,
++			.channels_max = MAX_CHANNEL_NUM,
+ 			.rates = ES8328_RATES,
+ 			.formats = ES8328_FORMATS,
+ 		},
+@@ -934,6 +951,10 @@ static int es8328_resume(struct snd_soc_component *component)
+ 
+ static int es8328_component_probe(struct snd_soc_component *component)
+ {
++	struct es8328_priv *es8328 = snd_soc_component_get_drvdata(component);
++
++	es8328->component = component;
++
+ 	return 0;
+ }
+ 
+@@ -945,7 +966,7 @@ const struct regmap_config es8328_regmap_config = {
+ 	.reg_bits	= 8,
+ 	.val_bits	= 8,
+ 	.max_register	= ES8328_REG_MAX,
+-	.cache_type	= REGCACHE_RBTREE,
++	.cache_type	= REGCACHE_MAPLE,
+ 	.use_single_read = true,
+ 	.use_single_write = true,
+ };
+@@ -969,6 +990,33 @@ static const struct snd_soc_component_driver es8328_component_driver = {
+ 	.endianness		= 1,
+ };
+ 
++static irqreturn_t es8328_jack_irq(int irq, void *data)
++{
++	struct es8328_priv *es8328 = data;
++	struct snd_soc_component *comp = es8328->component;
++	int front_jack_value, back_jack_value;
++
++	if (!es8328->front_jack_gpio || !es8328->back_jack_gpio) {
++		dev_warn(comp->dev, "jack gpio desc is null\n");
++		return IRQ_NONE;
++	}
++
++	front_jack_value = gpiod_get_value(es8328->front_jack_gpio);
++	back_jack_value = gpiod_get_value(es8328->back_jack_gpio);
++
++	dev_dbg(comp->dev, "front jack value:%d, back jack value:%d\n", front_jack_value, back_jack_value);
++
++	if (back_jack_value == 0 && front_jack_value == 1) {
++		/* Select Capture path ---> LIN1 */
++		regmap_write(comp->regmap, ES8328_ADCCONTROL2, 0);
++	} else {
++		/* Select Capture path ---> LIN2 */
++		regmap_write(comp->regmap, ES8328_ADCCONTROL2, 0x50);
++	}
++
++	return IRQ_HANDLED;
++}
++
+ int es8328_probe(struct device *dev, struct regmap *regmap)
+ {
+ 	struct es8328_priv *es8328;
+@@ -985,15 +1033,49 @@ int es8328_probe(struct device *dev, struct regmap *regmap)
+ 
+ 	dev_set_drvdata(dev, es8328);
+ 
++	ret = device_property_read_u32(dev, "eswin-plat", &es8328->eswin_plat);
++	if (0 != ret) {
++		es8328->eswin_plat = 0;
++	}
++	dev_info(dev, "eswin platform:%d\n", es8328->eswin_plat);
++
++	if (es8328->eswin_plat == 2) {
++		es8328->front_jack_gpio = devm_gpiod_get(dev, "front-jack", GPIOD_IN);
++		ret = IS_ERR(es8328->front_jack_gpio);
++		if(ret) {
++			dev_err(dev, "can not get front jack gpio\n");
++		}
++
++		es8328->back_jack_gpio = devm_gpiod_get(dev, "back-jack", GPIOD_IN);
++		ret = IS_ERR(es8328->back_jack_gpio);
++		if(ret) {
++			dev_err(dev, "can not get back jack gpio\n");
++		}
++
++		ret = devm_request_threaded_irq(dev, gpiod_to_irq(es8328->front_jack_gpio), NULL, es8328_jack_irq,
++				IRQF_TRIGGER_RISING | IRQF_TRIGGER_FALLING | IRQF_ONESHOT,
++				"front jack", es8328);
++		if (ret) {
++			dev_err(dev, "Failed to request front irq[%d], ret:%d\n", gpiod_to_irq(es8328->back_jack_gpio), ret);
++		}
++
++		ret = devm_request_threaded_irq(dev, gpiod_to_irq(es8328->back_jack_gpio), NULL, es8328_jack_irq,
++				IRQF_TRIGGER_RISING | IRQF_TRIGGER_FALLING | IRQF_ONESHOT,
++				"back jack", es8328);
++		if (ret) {
++			dev_err(dev, "Failed to request back irq[%d], ret:%d\n", gpiod_to_irq(es8328->back_jack_gpio), ret);
++		}
++	}
++
+ 	if (of_node_name_prefix(dev->of_node, "es8388-0")) {
+ 		ret = devm_snd_soc_register_component(dev,
+-					&es8328_component_driver, &es8328_dai[0], 1);
++				&es8328_component_driver, &es8328_dai[0], 1);
+ 	} else if (of_node_name_prefix(dev->of_node, "es8388-1")) {
+ 		ret = devm_snd_soc_register_component(dev,
+-					&es8328_component_driver, &es8328_dai[1], 1);
++				&es8328_component_driver, &es8328_dai[1], 1);
+ 	} else {
+ 		ret = devm_snd_soc_register_component(dev,
+-					&es8328_component_driver, &es8328_dai[2], 1);
++				&es8328_component_driver, &es8328_dai[2], 1);
+ 	}
+ 
+ 	return ret;
+diff --git a/sound/soc/codecs/eswin/es8328.h b/sound/soc/codecs/eswin/es8328.h
+index 249ed26d16f8..c47988b5ea1b 100644
+--- a/sound/soc/codecs/eswin/es8328.h
++++ b/sound/soc/codecs/eswin/es8328.h
+@@ -1,23 +1,6 @@
+-// SPDX-License-Identifier: GPL-2.0
++/* SPDX-License-Identifier: GPL-2.0 */
+ /*
+- * ESWIN Codec root complex driver
+- *
+- * Copyright 2024, Beijing ESWIN Computing Technology Co., Ltd.. All rights reserved.
+- * SPDX-License-Identifier: GPL-2.0
+- *
+- * This program is free software: you can redistribute it and/or modify
+- * it under the terms of the GNU General Public License as published by
+- * the Free Software Foundation, version 2.
+- *
+- * This program is distributed in the hope that it will be useful,
+- * but WITHOUT ANY WARRANTY; without even the implied warranty of
+- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+- * GNU General Public License for more details.
+- *
+- * You should have received a copy of the GNU General Public License
+- * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+- *
+- * Authors: Lei Deng <denglei@eswincomputing.com>
++ * es8328.h  --  ES8328 ALSA SoC Audio driver
+  */
+ 
+ #ifndef _ES8328_H
+diff --git a/sound/soc/eswin/Makefile b/sound/soc/eswin/Makefile
+index c293a0c76722..2c133c695dbe 100644
+--- a/sound/soc/eswin/Makefile
++++ b/sound/soc/eswin/Makefile
+@@ -1,5 +1,5 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+ # ESWIN Platform Support
+-snd-soc-i2s-objs := i2s-stereo.o es-audio-proc.o
++snd-soc-i2s-objs := esw-i2s.o esw-audio-proc.o
+ 
+-obj-$(CONFIG_SND_ESWIN_DW_I2S) += snd-soc-i2s.o
++obj-$(CONFIG_SND_ESWIN_DW_I2S) += snd-soc-i2s.o
+\ No newline at end of file
+diff --git a/sound/soc/eswin/es-audio-proc.c b/sound/soc/eswin/esw-audio-proc.c
+similarity index 98%
+rename from sound/soc/eswin/es-audio-proc.c
+rename to sound/soc/eswin/esw-audio-proc.c
+index daad20324ac9..ff372ff2d93a 100644
+--- a/sound/soc/eswin/es-audio-proc.c
++++ b/sound/soc/eswin/esw-audio-proc.c
+@@ -200,7 +200,7 @@ static int audio_info_show(struct seq_file *m, void *p)
+ 		return -EINVAL;
+ 	}
+ 
+-	if (g_switch == 0) {
++ 	if (g_switch == 0) {
+ 		seq_printf(m, "The switch is not turned on, pls first turn on the switch.\n");
+ 		return 0;
+ 	}
+@@ -354,10 +354,6 @@ static int audio_dev_mmap(struct file *file, struct vm_area_struct *vma)
+ 	enum DEVICES_ID deviceID = INVALID_DEVICE;
+ 	unsigned long size = vma->vm_end - vma->vm_start;
+ 
+-	pr_info("audio_dev_mmap:%s\n", file->f_path.dentry->d_name.name);
+-
+-	pr_info("vma->vm_end:%ld,vma->vm_start:%ld\n",vma->vm_end, vma->vm_start);
+-
+ 	if (size > (MAX_PERF_SIZE * sizeof(int32_t))) {
+ 		pr_err("audio_dev_mmap: size:%ld > %ld.\n", size, MAX_PERF_SIZE * sizeof(int32_t));
+ 		return -EINVAL;
+diff --git a/sound/soc/eswin/es-audio-proc.h b/sound/soc/eswin/esw-audio-proc.h
+similarity index 100%
+rename from sound/soc/eswin/es-audio-proc.h
+rename to sound/soc/eswin/esw-audio-proc.h
+diff --git a/sound/soc/eswin/i2s-stereo.c b/sound/soc/eswin/esw-i2s.c
+similarity index 70%
+rename from sound/soc/eswin/i2s-stereo.c
+rename to sound/soc/eswin/esw-i2s.c
+index fcd51cdbd7ca..fb032ebd085e 100755
+--- a/sound/soc/eswin/i2s-stereo.c
++++ b/sound/soc/eswin/esw-i2s.c
+@@ -1,5 +1,18 @@
+ /*
++ * ALSA SoC Synopsys I2S Audio Layer
+  *
++ * sound/soc/dwc/designware_i2s.c
++ *
++ * Copyright (C) 2010 ST Microelectronics
++ * Rajeev Kumar <rajeevkumar.linux@gmail.com>
++ *
++ * This file is licensed under the terms of the GNU General Public
++ * License version 2. This program is licensed "as is" without any
++ * warranty of any kind, whether express or implied.
++ *
++ */
++
++/*
+  * Copyright (C) 2021 ESWIN, Inc. All rights reserved.
+  *
+  * This program is free software; you can redistribute it and/or modify
+@@ -37,8 +50,8 @@
+ #include <linux/mfd/syscon.h>
+ #include <linux/reset.h>
+ #include <linux/dma-map-ops.h>
+-#include "i2s.h"
+-#include "es-audio-proc.h"
++#include "esw-i2s.h"
++#include "esw-audio-proc.h"
+ 
+ #define VO_MCLK_DIVSOR_MASK    0xff0
+ #define VO_MCLK_DIVSOR_OFFSET  4
+@@ -58,9 +71,11 @@
+ 			SNDRV_PCM_RATE_32000 | \
+ 			SNDRV_PCM_RATE_16000 | \
+ 			SNDRV_PCM_RATE_8000)
+-#define ESW_I2S_FORMATS (SNDRV_PCM_FMTBIT_S16_LE | \
+-			SNDRV_PCM_FMTBIT_S24_LE | \
+-			SNDRV_PCM_FMTBIT_S32_LE)
++#define ESW_I2S_FORMATS (SNDRV_PCM_FMTBIT_S32_LE)
++
++#define I2S0_IO_ADDR 0x51600124
++
++static struct clk *g_mclk;
+ 
+ static u32 dmaen_txch[] = {
+ 	DMAEN_TXCH_0,
+@@ -274,99 +289,8 @@ static void i2s_stop(struct i2s_dev *i2s_drvdata,
+ 	}
+ }
+ 
+-static irqreturn_t i2s_irq_handler(int irq, void *dev_id)
+-{
+-	struct i2s_dev *i2s_drvdata = dev_id;
+-	bool irq_valid = false;
+-	u32 isr;
+-
+-	isr = i2s_read_reg(i2s_drvdata->i2s_base, ISR(0));
+-	i2s_clear_irqs(i2s_drvdata, SNDRV_PCM_STREAM_PLAYBACK);
+-	i2s_clear_irqs(i2s_drvdata, SNDRV_PCM_STREAM_CAPTURE);
+-	if ((isr & ISR_TXFE)&& i2s_drvdata->use_pio) {
+-		i2s_pcm_push_tx(i2s_drvdata, STEREO);
+-		irq_valid = true;
+-	}
+-	if ((isr & ISR_RXDA)&& i2s_drvdata->use_pio) {
+-		i2s_pcm_pop_rx(i2s_drvdata, STEREO);
+-		irq_valid = true;
+-	}
+-	if (isr & ISR_TXFO) {
+-		dev_err(i2s_drvdata->dev, "TX overrun (ch_id=%d)\n", 0);
+-		irq_valid = true;
+-	}
+-	if (isr & ISR_RXFO) {
+-		dev_err(i2s_drvdata->dev, "RX overrun (ch_id=%d)\n", 0);
+-		irq_valid = true;
+-	}
+-
+-	if (irq_valid) {
+-		return IRQ_HANDLED;
+-	}
+-	else {
+-		return IRQ_NONE;
+-	}
+-}
+-
+-#define	COMP1_MAX_WORDSIZE	5
+-static const u32 i2s_formats[COMP1_MAX_WORDSIZE] = {
+-	SNDRV_PCM_FMTBIT_S16_LE,
+-	SNDRV_PCM_FMTBIT_S16_LE,
+-	SNDRV_PCM_FMTBIT_S24_LE | SNDRV_PCM_FMTBIT_S16_LE,
+-	SNDRV_PCM_FMTBIT_S24_LE | SNDRV_PCM_FMTBIT_S16_LE,
+-	SNDRV_PCM_FMTBIT_S32_LE | SNDRV_PCM_FMTBIT_S24_LE | SNDRV_PCM_FMTBIT_S16_LE
+-};
+-
+-static int i2s_configure_dai(struct i2s_dev *i2s_drvdata,
+-				   struct snd_soc_dai_driver *i2s_dai,
+-				   unsigned int rates)
+-{
+-	u32 idx;
+-	u32 fifo_depth;
+-	u32 comp1, comp2;
+-
+-	comp1 = i2s_read_reg(i2s_drvdata->i2s_base, i2s_drvdata->i2s_reg_comp1);
+-	comp2 = i2s_read_reg(i2s_drvdata->i2s_base, i2s_drvdata->i2s_reg_comp2);
+-	fifo_depth = 1 << (1 + COMP1_FIFO_DEPTH_GLOBAL(comp1));
+-
+-	if (COMP1_TX_ENABLED(comp1)) {
+-		dev_dbg(i2s_drvdata->dev, " i2s: play supported\n");
+-		idx = COMP1_TX_WORDSIZE_0(comp1);
+-		if (WARN_ON(idx >= ARRAY_SIZE(i2s_formats)))
+-			return -EINVAL;
+-		i2s_dai->playback.formats = i2s_formats[idx];
+-		i2s_dai->playback.channels_min = MIN_CHANNEL_NUM;
+-	    i2s_dai->playback.channels_max =
+-				 (COMP1_TX_CHANNELS(comp1) + 1) << 1;
+-		i2s_dai->playback.rates = rates;
+-	}
+-
+-	if (COMP1_RX_ENABLED(comp1)){
+-		dev_dbg(i2s_drvdata->dev, "i2s: record supported\n");
+-		idx = COMP2_RX_WORDSIZE_0(comp2);
+-		if (WARN_ON(idx >= ARRAY_SIZE(i2s_formats)))
+-			return -EINVAL;
+-		i2s_dai->capture.formats = i2s_formats[idx];
+-		i2s_dai->capture.channels_min = MIN_CHANNEL_NUM;
+-		i2s_dai->capture.channels_max =
+-				 (COMP1_RX_CHANNELS(comp1) + 1) << 1;
+-		i2s_dai->capture.rates = rates;
+-	}
+-
+-	if (COMP1_MODE_EN(comp1)) {
+-		dev_dbg(i2s_drvdata->dev, "eswin: i2s master mode supported\n");
+-		i2s_drvdata->capability |= DW_I2S_MASTER;
+-	} else {
+-		dev_dbg(i2s_drvdata->dev, "eswin: i2s slave mode supported\n");
+-		i2s_drvdata->capability |= DW_I2S_SLAVE;
+-	}
+-	i2s_drvdata->fifo_th = fifo_depth / 2;
+-	return 0;
+-}
+-
+-static int i2s_configure_dai_by_dt(struct i2s_dev *dev,
+-				   struct snd_soc_dai_driver *i2s_dai,
+-				   struct resource *res)
++static int i2s_configure_res_by_dt(struct i2s_dev *dev,
++								   struct resource *res)
+ {
+ 	struct snd_soc_component *component;
+ 	struct dmaengine_pcm *pcm;
+@@ -375,7 +299,6 @@ static int i2s_configure_dai_by_dt(struct i2s_dev *dev,
+ 	u32 fifo_depth;
+ 	u32 idx;
+ 	u32 idx2;
+-	int ret;
+ 
+ 	dev_info(dev->dev, "comp1:0x%x, comp2:0x%x\n", comp1, comp2);
+ 	fifo_depth = 1 << (1 + COMP1_FIFO_DEPTH_GLOBAL(comp1));
+@@ -385,11 +308,16 @@ static int i2s_configure_dai_by_dt(struct i2s_dev *dev,
+ 		dev_err(dev->dev, "idx:%d inval\n", idx);
+ 		return -EINVAL;
+ 	}
+-	ret = i2s_configure_dai(dev, i2s_dai, SNDRV_PCM_RATE_8000_192000);
+-	if (ret < 0) {
+-		dev_err(dev->dev, "i2s_configure_dai failed: %d\n", ret);
+-		return ret;
++
++	if (COMP1_MODE_EN(comp1)) {
++		dev_dbg(dev->dev, "eswin: i2s master mode supported\n");
++		dev->capability |= DW_I2S_MASTER;
++	} else {
++		dev_dbg(dev->dev, "eswin: i2s slave mode supported\n");
++		dev->capability |= DW_I2S_SLAVE;
+ 	}
++	dev->fifo_th = fifo_depth / 2;
++
+ 	component = snd_soc_lookup_component(dev->dev, SND_DMAENGINE_PCM_DRV_NAME);
+ 	if (!component) {
+ 		dev_err(dev->dev, "Can not find snd_soc_component\n");
+@@ -443,23 +371,10 @@ static int i2s_configure_dai_by_dt(struct i2s_dev *dev,
+ static int i2s_startup(struct snd_pcm_substream *substream,
+ 		struct snd_soc_dai *cpu_dai)
+ {
+-	struct i2s_dev *dev = snd_soc_dai_get_drvdata(cpu_dai);
+-	struct snd_dmaengine_dai_dma_data *dma_data = NULL;
+-
+-	if (!(dev->capability & DWC_I2S_RECORD) &&
+-			(substream->stream == SNDRV_PCM_STREAM_CAPTURE))
+-		return -EINVAL;
++	struct snd_soc_pcm_runtime *rtd = asoc_substream_to_rtd(substream);
++	struct snd_soc_dai_link *dai_link = rtd->dai_link;
+ 
+-	if (!(dev->capability & DWC_I2S_PLAY) &&
+-			(substream->stream == SNDRV_PCM_STREAM_PLAYBACK))
+-		return -EINVAL;
+-
+-	if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK)
+-		dma_data = &dev->play_dma_data;
+-	else if (substream->stream == SNDRV_PCM_STREAM_CAPTURE)
+-		dma_data = &dev->capture_dma_data;
+-
+-	snd_soc_dai_set_dma_data(cpu_dai, substream, (void *)dma_data);
++	dai_link->trigger_stop = SND_SOC_TRIGGER_ORDER_LDC;
+ 	return 0;
+ }
+ 
+@@ -469,15 +384,10 @@ static int i2s_hw_params(struct snd_pcm_substream *substream,
+ {
+ 	struct i2s_dev *i2s_drvdata = snd_soc_dai_get_drvdata(dai);
+ 	struct i2s_clk_config_data *config = &i2s_drvdata->config;
+-	struct device_node *node = i2s_drvdata->dev->of_node;
+-	struct regmap *vo_mclk_sel_regmap;
+-	uint32_t vo_mclk_sel_reg;
+-	uint32_t vo_mclk_sel;
+-	int ret;
+ 	uint32_t div_num = 0;
+ 	uint32_t div_num_reg;
+ 
+-	dev_info(i2s_drvdata->dev, "sample rate:%d, chan:%d, width:%d\n",
++	dev_dbg(i2s_drvdata->dev, "sample rate:%d, chan:%d, width:%d\n",
+ 			 params_rate(params), params_channels(params), params_width(params));
+ 	switch (params_format(params)) {
+ 	case SNDRV_PCM_FORMAT_S16_LE:
+@@ -502,7 +412,7 @@ static int i2s_hw_params(struct snd_pcm_substream *substream,
+ 		dev_err(i2s_drvdata->dev, "eswin-i2s: unsupported PCM fmt");
+ 		return -EINVAL;
+ 	}
+-	config->chan_nr = params_channels(params);
++	config->chan_nr = MAX_CHANNEL_NUM;
+ 	switch (config->chan_nr) {
+ 	case TWO_CHANNEL_SUPPORT:
+ 		break;
+@@ -514,59 +424,25 @@ static int i2s_hw_params(struct snd_pcm_substream *substream,
+ 	i2s_write_reg(i2s_drvdata->i2s_base, CCR, i2s_drvdata->ccr);
+ 	config->sample_rate = params_rate(params);
+ 	if (i2s_drvdata->capability & DW_I2S_MASTER) {
+-		if (!i2s_drvdata->eswin_plat) {
+-			vo_mclk_sel_regmap =
+-				syscon_regmap_lookup_by_phandle(node, "vo_mclk_sel,syscrg");
+-			if (IS_ERR(vo_mclk_sel_regmap)) {
+-				dev_err(i2s_drvdata->dev, "No vo_mclk_sel,syscrg phandle specified\n");
+-				return PTR_ERR(vo_mclk_sel_regmap);
+-			}
+-			ret = of_property_read_u32_index(node, "vo_mclk_sel,syscrg", 1,
+-							&vo_mclk_sel_reg);
+-			if (ret) {
+-				dev_err(i2s_drvdata->dev, "can't get vo_mclk_sel_reg offset (%d)\n", ret);
+-				return ret;
+-			}
+-			regmap_read(vo_mclk_sel_regmap, vo_mclk_sel_reg, &vo_mclk_sel);
+-			vo_mclk_sel &= ~VO_MCLK_DIVSOR_MASK;
+-
+-			switch (config->sample_rate) {
+-			case 96000:
+-				vo_mclk_sel |= (0x10 << VO_MCLK_DIVSOR_OFFSET);
+-				break;
+-			case 48000:
+-				vo_mclk_sel |= (0x12 << VO_MCLK_DIVSOR_OFFSET);
+-				break;
+-			case 44100:
+-				vo_mclk_sel |= (0x11 << VO_MCLK_DIVSOR_OFFSET);
+-				break;
+-			default:
+-				dev_err(i2s_drvdata->dev, "Can't support sample rate: %d\n",
+-						config->sample_rate);
++		if (MAX_SAMPLE_RATE_SUPPORT % config->sample_rate != 0) {
++			dev_err(i2s_drvdata->dev, "Not support sample rate: %d\n", config->sample_rate);
++			return -EINVAL;
++		}
++
++		div_num = MAX_SAMPLE_RATE_SUPPORT / config->sample_rate - 1;
++
++		if (i2s_drvdata->active) {
++			if (i2s_drvdata->i2s_div_num != div_num) {
++				dev_err(i2s_drvdata->dev, "Not support the playback and capture clocks are different\n");
+ 				return -EINVAL;
+ 			}
+-			regmap_write(vo_mclk_sel_regmap, vo_mclk_sel_reg, vo_mclk_sel);
+ 		} else {
+-			if (MAX_SAMPLE_RATE_SUPPORT % config->sample_rate != 0) {
+-				dev_err(i2s_drvdata->dev, "Not support sample rate: %d\n", config->sample_rate);
+-				return -EINVAL;
+-			}
+-
+-			div_num = MAX_SAMPLE_RATE_SUPPORT / config->sample_rate - 1;
++			div_num_reg = i2s_read_reg(i2s_drvdata->i2s_div_base, 0) & ~DIV_NUM_MASK;
++			div_num_reg |= div_num;
+ 
+-			if (i2s_drvdata->active) {
+-				if (i2s_drvdata->i2s_div_num != div_num) {
+-					dev_err(i2s_drvdata->dev, "Not support the playback and capture clocks are different\n");
+-					return -EINVAL;
+-				}
+-			} else {
+-				div_num_reg = i2s_read_reg(i2s_drvdata->i2s_div_base, 0) & ~DIV_NUM_MASK;
+-				div_num_reg |= div_num;
+-
+-				dev_info(i2s_drvdata->dev, "div num:0x%x\n", div_num);
+-				i2s_drvdata->i2s_div_num = div_num;
+-				i2s_write_reg(i2s_drvdata->i2s_div_base, 0, div_num_reg);
+-			}
++			dev_dbg(i2s_drvdata->dev, "div num:0x%x\n", div_num);
++			i2s_drvdata->i2s_div_num = div_num;
++			i2s_write_reg(i2s_drvdata->i2s_div_base, 0, div_num_reg);
+ 		}
+ 	}
+ 
+@@ -622,17 +498,17 @@ static int i2s_trigger(struct snd_pcm_substream *substream,
+ 
+ static int i2s_set_fmt(struct snd_soc_dai *cpu_dai, unsigned int fmt)
+ {
+-	struct i2s_dev *i2s_drvdata = snd_soc_dai_get_drvdata(cpu_dai);
++	struct i2s_dev *dev = snd_soc_dai_get_drvdata(cpu_dai);
+ 	int ret = 0;
+ 	switch (fmt & SND_SOC_DAIFMT_CLOCK_PROVIDER_MASK) {
+ 	case SND_SOC_DAIFMT_BC_FC:
+-		if (i2s_drvdata->capability & DW_I2S_SLAVE)
++		if (dev->capability & DW_I2S_SLAVE)
+ 			ret = 0;
+ 		else
+ 			ret = -EINVAL;
+ 		break;
+ 	case SND_SOC_DAIFMT_BP_FP:
+-		if (i2s_drvdata->capability & DW_I2S_MASTER)
++		if (dev->capability & DW_I2S_MASTER)
+ 			ret = 0;
+ 		else
+ 			ret = -EINVAL;
+@@ -642,7 +518,7 @@ static int i2s_set_fmt(struct snd_soc_dai *cpu_dai, unsigned int fmt)
+ 		ret = -EINVAL;
+ 		break;
+ 	default:
+-		dev_dbg(i2s_drvdata->dev, "dwc : Invalid master/slave format\n");
++		dev_dbg(dev->dev, "dwc : Invalid clock provider format\n");
+ 		ret = -EINVAL;
+ 		break;
+ 	}
+@@ -651,27 +527,29 @@ static int i2s_set_fmt(struct snd_soc_dai *cpu_dai, unsigned int fmt)
+ 
+ static int i2s_pcm_dai_probe(struct snd_soc_dai *dai)
+ {
+-       struct i2s_dev *i2s_drvdata = snd_soc_dai_get_drvdata(dai);
+-       snd_soc_dai_init_dma_data(dai, &i2s_drvdata->play_dma_data, &i2s_drvdata->capture_dma_data);
++	struct i2s_dev *i2s_drvdata = snd_soc_dai_get_drvdata(dai);
+ 
+-       return 0;
++	snd_soc_dai_init_dma_data(dai, &i2s_drvdata->play_dma_data, &i2s_drvdata->capture_dma_data);
++	return 0;
+ }
+ 
+ static const struct snd_soc_dai_ops i2s_dai_ops = {
++	.probe		= i2s_pcm_dai_probe,
+ 	.startup	= i2s_startup,
+ 	.hw_params	= i2s_hw_params,
+ 	.prepare	= i2s_prepare,
+ 	.trigger	= i2s_trigger,
+ 	.set_fmt	= i2s_set_fmt,
+-	.probe          = i2s_pcm_dai_probe,
+ };
+ 
+ #ifdef CONFIG_PM
+ static int i2s_runtime_suspend(struct device *dev)
+ {
+ 	struct i2s_dev *i2s_drvdata = dev_get_drvdata(dev);
+-	if (i2s_drvdata->capability & DW_I2S_MASTER)
+-		clk_disable(i2s_drvdata->clk);
++
++	dev_dbg(i2s_drvdata->dev, "%s\n", __func__);
++
++	clk_disable(g_mclk);
+ 
+ 	return 0;
+ }
+@@ -679,8 +557,9 @@ static int i2s_runtime_suspend(struct device *dev)
+ static int i2s_runtime_resume(struct device *dev)
+ {
+ 	struct i2s_dev *i2s_drvdata = dev_get_drvdata(dev);
+-	if (i2s_drvdata->capability & DW_I2S_MASTER)
+-		clk_enable(i2s_drvdata->clk);
++
++	dev_dbg(i2s_drvdata->dev, "%s\n", __func__);
++	clk_enable(g_mclk);
+ 
+ 	return 0;
+ }
+@@ -688,9 +567,13 @@ static int i2s_runtime_resume(struct device *dev)
+ static int i2s_suspend(struct snd_soc_component *component)
+ {
+ 	struct i2s_dev *i2s_drvdata = snd_soc_component_get_drvdata(component);
+-	if (i2s_drvdata->capability & DW_I2S_MASTER) {
+-		clk_disable(i2s_drvdata->clk);
++
++	dev_dbg(i2s_drvdata->dev, "%s\n", __func__);
++	if(!pm_runtime_suspended(i2s_drvdata->dev)) {
++		dev_dbg(i2s_drvdata->dev, "disable clk\n");
++		clk_disable(g_mclk);
+ 	}
++
+ 	return 0;
+ }
+ 
+@@ -700,20 +583,22 @@ static int i2s_resume(struct snd_soc_component *component)
+ 	struct snd_soc_dai *dai = NULL;
+ 	int stream;
+ 
+-	if (i2s_drvdata->capability & DW_I2S_MASTER)
+-		clk_enable(i2s_drvdata->clk);
+-
+-	for_each_component_dais(component, dai) {
+-		for_each_pcm_streams(stream)
+-			if (snd_soc_dai_stream_active(dai, stream))
+-				i2s_config(i2s_drvdata, stream);
++	dev_dbg(i2s_drvdata->dev, "%s\n", __func__);
++	if(!pm_runtime_suspended(i2s_drvdata->dev)) {
++		dev_dbg(i2s_drvdata->dev, "enable clk\n");
++		clk_enable(g_mclk);
++		for_each_component_dais(component, dai) {
++			for_each_pcm_streams(stream)
++				if (snd_soc_dai_stream_active(dai, stream))
++					i2s_config(i2s_drvdata, stream);
++		}
+ 	}
++
+ 	return 0;
+ }
+-
+ #else
+-#define i2s_suspend	NULL
+-#define i2s_resume	NULL
++#define i2s_suspend NULL
++#define i2s_resume NULL
+ #endif
+ 
+ static int i2s_reset(struct platform_device *pdev, struct i2s_dev *i2s)
+@@ -751,14 +636,6 @@ static int i2s_reset(struct platform_device *pdev, struct i2s_dev *i2s)
+ 
+ 	return 0;
+ }
+-struct snd_kcontrol_new snd_dump_controls[] = {
+-	{
+-		.iface = SNDRV_CTL_ELEM_IFACE_CARD,
+-		.name = "Audio Dump Control",
+-		.index = 0,
+-		.access = SNDRV_CTL_ELEM_ACCESS_READWRITE,
+-	}
+-};
+ 
+ static int i2s_open(struct snd_soc_component *component,
+ 			      struct snd_pcm_substream *substream)
+@@ -770,22 +647,15 @@ static int i2s_open(struct snd_soc_component *component,
+ 		dev_err(i2s_drvdata->dev, "i2s is busying\n");
+ 		return -EBUSY;
+ 	}
++
+ 	return 0;
+ }
+ 
+-static const struct snd_soc_component_driver i2s0_component = {
++static const struct snd_soc_component_driver i2s_component = {
+ 	.name         = "i2s0",
+ 	.open         = i2s_open,
+ 	.suspend      = i2s_suspend,
+ 	.resume       = i2s_resume,
+-	.controls     = snd_dump_controls,
+-	.num_controls = ARRAY_SIZE(snd_dump_controls),
+-};
+-
+-static const struct snd_soc_component_driver i2s_component = {
+-	.name         = "i2s",
+-	.suspend      = i2s_suspend,
+-	.resume       = i2s_resume,
+ };
+ 
+ static struct snd_soc_dai_driver i2s_dai[4] = {
+@@ -795,15 +665,15 @@ static struct snd_soc_dai_driver i2s_dai[4] = {
+ 		.ops = &i2s_dai_ops,
+ 		.playback = {
+ 			.stream_name = "Playback",
+-			.channels_min = 2,
+-			.channels_max = 2,
++			.channels_min = MIN_CHANNEL_NUM,
++			.channels_max = MAX_CHANNEL_NUM,
+ 			.rates = ESW_I2S_RATES,
+ 			.formats = ESW_I2S_FORMATS,
+ 		},
+ 		.capture = {
+ 			.stream_name = "Capture",
+-			.channels_min = 2,
+-			.channels_max = 2,
++			.channels_min = MIN_CHANNEL_NUM,
++			.channels_max = MAX_CHANNEL_NUM,
+ 			.rates = ESW_I2S_RATES,
+ 			.formats = ESW_I2S_FORMATS,
+ 		},
+@@ -814,15 +684,15 @@ static struct snd_soc_dai_driver i2s_dai[4] = {
+ 		.ops = &i2s_dai_ops,
+ 		.playback = {
+ 			.stream_name = "Playback",
+-			.channels_min = 2,
+-			.channels_max = 2,
++			.channels_min = MIN_CHANNEL_NUM,
++			.channels_max = MAX_CHANNEL_NUM,
+ 			.rates = ESW_I2S_RATES,
+ 			.formats = ESW_I2S_FORMATS,
+ 		},
+ 		.capture = {
+ 			.stream_name = "Capture",
+-			.channels_min = 2,
+-			.channels_max = 2,
++			.channels_min = MIN_CHANNEL_NUM,
++			.channels_max = MAX_CHANNEL_NUM,
+ 			.rates = ESW_I2S_RATES,
+ 			.formats = ESW_I2S_FORMATS,
+ 		},
+@@ -833,15 +703,15 @@ static struct snd_soc_dai_driver i2s_dai[4] = {
+ 		.ops = &i2s_dai_ops,
+ 		.playback = {
+ 			.stream_name = "Playback",
+-			.channels_min = 2,
+-			.channels_max = 2,
++			.channels_min = MIN_CHANNEL_NUM,
++			.channels_max = MAX_CHANNEL_NUM,
+ 			.rates = ESW_I2S_RATES,
+ 			.formats = ESW_I2S_FORMATS,
+ 		},
+ 		.capture = {
+ 			.stream_name = "Capture",
+-			.channels_min = 2,
+-			.channels_max = 2,
++			.channels_min = MIN_CHANNEL_NUM,
++			.channels_max = MAX_CHANNEL_NUM,
+ 			.rates = ESW_I2S_RATES,
+ 			.formats = ESW_I2S_FORMATS,
+ 		},
+@@ -852,15 +722,15 @@ static struct snd_soc_dai_driver i2s_dai[4] = {
+ 		.ops = &i2s_dai_ops,
+ 		.playback = {
+ 			.stream_name = "Playback",
+-			.channels_min = 2,
+-			.channels_max = 2,
++			.channels_min = MIN_CHANNEL_NUM,
++			.channels_max = MAX_CHANNEL_NUM,
+ 			.rates = ESW_I2S_RATES,
+ 			.formats = ESW_I2S_FORMATS,
+ 		},
+ 		.capture = {
+ 			.stream_name = "Capture",
+-			.channels_min = 2,
+-			.channels_max = 2,
++			.channels_min = MIN_CHANNEL_NUM,
++			.channels_max = MAX_CHANNEL_NUM,
+ 			.rates = ESW_I2S_RATES,
+ 			.formats = ESW_I2S_FORMATS,
+ 		},
+@@ -871,9 +741,11 @@ static int i2s_probe(struct platform_device *pdev)
+ {
+ 	struct i2s_dev *i2s_drvdata;
+ 	struct resource *res;
+-	int ret, irq;
++	int ret;
+ 	const char *clk_id;
+ 	struct snd_dmaengine_pcm_config *config;
++	void __iomem *i2s0_io_base;
++	int reg_val;
+ 
+ 	dev_info(&pdev->dev, "dev name:%s\n", pdev->dev.of_node->name);
+ 	i2s_drvdata = devm_kzalloc(&pdev->dev, sizeof(*i2s_drvdata), GFP_KERNEL);
+@@ -896,15 +768,16 @@ static int i2s_probe(struct platform_device *pdev)
+ 	}
+ 	i2s_drvdata->dev = &pdev->dev;
+ 
+-	clk_id = "mclk";
+ 	if (of_node_name_prefix(pdev->dev.of_node, "i2s0")) {
+-		i2s_drvdata->clk = devm_clk_get(&pdev->dev, clk_id);
+-		if (IS_ERR(i2s_drvdata->clk))
+-			return PTR_ERR(i2s_drvdata->clk);
+-		ret = clk_prepare_enable(i2s_drvdata->clk);
++		clk_id = "mclk";
++		g_mclk = devm_clk_get(&pdev->dev, clk_id);
++		if (IS_ERR(g_mclk))
++			return PTR_ERR(g_mclk);
++		ret = clk_prepare_enable(g_mclk);
+ 		if (ret < 0)
+ 			return ret;
+-		ret = clk_set_rate(i2s_drvdata->clk, MAX_SAMPLE_RATE_CLK);
++		i2s_drvdata->clk = g_mclk;
++		ret = clk_set_rate(g_mclk, MAX_SAMPLE_RATE_CLK);
+ 		if (ret) {
+ 			dev_err(i2s_drvdata->dev, "Can't set I2S clock rate: %d\n", ret);
+ 		}
+@@ -914,31 +787,51 @@ static int i2s_probe(struct platform_device *pdev)
+ 			dev_err(&pdev->dev, "i2s_reset failed\n");
+ 			goto err_probe;
+ 		}
+-	}
+ 
+-	dev_set_drvdata(&pdev->dev, i2s_drvdata);
+-	irq = platform_get_irq(pdev,0);
+-	if (irq >= 0) {
+-		ret = devm_request_irq(&pdev->dev, irq, i2s_irq_handler, 0, pdev->name, i2s_drvdata);
+-		if (ret < 0) {
+-			dev_err(&pdev->dev, "failed to request irq\n");
+-			return ret;
++		if (!of_property_read_bool(pdev->dev.of_node, "io_reuse_enable")) {
++			i2s0_io_base = devm_ioremap(&pdev->dev, I2S0_IO_ADDR, 12);
++			if (!i2s0_io_base) {
++				dev_err(i2s_drvdata->dev, "failed to remap i2s0 io ctl\n");
++				return -ENOMEM;
++			}
++
++			/* set the i2s0 WCLK io to GPIO func */
++			reg_val = readl((char *)i2s0_io_base);
++			reg_val &= 0xfff8ffff;
++			reg_val |= 0x20000;
++			writel(reg_val, (char *)i2s0_io_base);
++
++			/* set the i2s0 SDI io to GPIO func */
++			reg_val = readl((char *)i2s0_io_base + 4);
++			reg_val &= 0xfff8ffff;
++			reg_val |= 0x20000;
++			writel(reg_val, (char *)i2s0_io_base + 4);
++
++			/* set the i2s0 SDO io to GPIO func */
++			reg_val = readl((char *)i2s0_io_base + 8);
++			reg_val &= 0xfff8ffff;
++			reg_val |= 0x20000;
++			writel(reg_val, (char *)i2s0_io_base + 8);
+ 		}
+ 	}
+ 
++	dev_set_drvdata(&pdev->dev, i2s_drvdata);
++
+ 	if (of_node_name_prefix(pdev->dev.of_node, "i2s0")) {
+ 		i2s_drvdata->i2s_div_base = devm_ioremap(i2s_drvdata->dev, VO_TOP_CSR + VO_I2S0_DIV_NUM, 4);
+ 		if (!i2s_drvdata->i2s_div_base) {
+ 			dev_err(&pdev->dev, "failed to remap i2s0 div config\n");
+-			return -ENOMEM;
++			ret = -ENOMEM;
++			goto err_probe;
+ 		}
+-		ret = devm_snd_soc_register_component(&pdev->dev, &i2s0_component,
++		ret = devm_snd_soc_register_component(&pdev->dev, &i2s_component,
+ 					&i2s_dai[0], 2);
+ 	} else if (of_node_name_prefix(pdev->dev.of_node, "i2s1")) {
+ 		i2s_drvdata->i2s_div_base = devm_ioremap(i2s_drvdata->dev, VO_TOP_CSR + VO_I2S1_DIV_NUM, 4);
+ 		if (!i2s_drvdata->i2s_div_base) {
+ 			dev_err(&pdev->dev, "failed to remap i2s1 div config\n");
+-			return -ENOMEM;
++			ret = -ENOMEM;
++			goto err_probe;
+ 		}
+ 		ret = devm_snd_soc_register_component(&pdev->dev, &i2s_component,
+ 					&i2s_dai[2], 1);
+@@ -946,7 +839,8 @@ static int i2s_probe(struct platform_device *pdev)
+ 		i2s_drvdata->i2s_div_base = devm_ioremap(i2s_drvdata->dev, VO_TOP_CSR + VO_I2S2_DIV_NUM, 4);
+ 		if (!i2s_drvdata->i2s_div_base) {
+ 			dev_err(&pdev->dev, "failed to remap i2s2 div config\n");
+-			return -ENOMEM;
++			ret = -ENOMEM;
++			goto err_probe;
+ 		}
+ 		ret = devm_snd_soc_register_component(&pdev->dev, &i2s_component,
+ 					&i2s_dai[3], 1);
+@@ -956,13 +850,8 @@ static int i2s_probe(struct platform_device *pdev)
+ 		goto err_probe;
+ 	}
+ 
+-	if (irq >= 0) {
+-		ret = i2s_pcm_register(pdev);
+-		i2s_drvdata->use_pio = true;
+-	} else {
+-		ret = devm_snd_dmaengine_pcm_register(&pdev->dev, config, 0);
+-		i2s_drvdata->use_pio = false;
+-	}
++	i2s_drvdata->use_pio = false;
++	ret = devm_snd_dmaengine_pcm_register(&pdev->dev, config, 0);
+ 	if (ret) {
+ 		dev_err(&pdev->dev, "could not register pcm: %d\n", ret);
+ 		goto err_probe;
+@@ -970,39 +859,36 @@ static int i2s_probe(struct platform_device *pdev)
+ 
+ 	i2s_drvdata->i2s_reg_comp1 = I2S_COMP_PARAM_1;
+ 	i2s_drvdata->i2s_reg_comp2 = I2S_COMP_PARAM_2;
+-	ret = i2s_configure_dai_by_dt(i2s_drvdata, &i2s_dai[0], res);
++	ret = i2s_configure_res_by_dt(i2s_drvdata, res);
+ 	if (ret < 0) {
+-		dev_err(&pdev->dev, "i2s_configure_dai_by_dt failed\n");
+-		return ret;
++		dev_err(&pdev->dev, "i2s_configure_res_by_dt failed\n");
++		goto err_probe;
+ 	}
+ 
+-	ret = device_property_read_u32(&pdev->dev, "eswin-plat", &i2s_drvdata->eswin_plat);
+-    if (0 != ret) {
+-        dev_warn(&pdev->dev, "Failed to get eswin platform\n");
+-        i2s_drvdata->eswin_plat = 0;
+-    }
+-    dev_info(&pdev->dev, "eswin platform:%d\n", i2s_drvdata->eswin_plat);
+-
+ 	pm_runtime_enable(&pdev->dev);
+ 
+ 	audio_proc_module_init();
+ 
++#ifdef CONFIG_PM
++	clk_disable(i2s_drvdata->clk);
++#endif
+ 	return 0;
+ err_probe:
+-	if (i2s_drvdata->capability & DW_I2S_MASTER)
+-		clk_disable_unprepare(i2s_drvdata->clk);
++	clk_disable_unprepare(i2s_drvdata->clk);
++
+ 	return ret;
+ }
+ 
+ static int i2s_remove(struct platform_device *pdev)
+ {
+ 	struct i2s_dev *i2s_drvdata = dev_get_drvdata(&pdev->dev);
+-	if (i2s_drvdata->capability & DW_I2S_MASTER)
+-		clk_disable_unprepare(i2s_drvdata->clk);
++
++	clk_disable_unprepare(i2s_drvdata->clk);
+ 
+ 	pm_runtime_disable(&pdev->dev);
+ 
+ 	audio_proc_module_exit();
++
+ 	return 0;
+ }
+ 
+diff --git a/sound/soc/eswin/i2s.h b/sound/soc/eswin/esw-i2s.h
+similarity index 76%
+rename from sound/soc/eswin/i2s.h
+rename to sound/soc/eswin/esw-i2s.h
+index 6a59a7d335e6..6c1a243223a4 100644
+--- a/sound/soc/eswin/i2s.h
++++ b/sound/soc/eswin/esw-i2s.h
+@@ -1,3 +1,11 @@
++/*
++ * Copyright (ST) 2012 Rajeev Kumar (rajeevkumar.linux@gmail.com)
++ *
++ * This file is licensed under the terms of the GNU General Public
++ * License version 2. This program is licensed "as is" without any
++ * warranty of any kind, whether express or implied.
++ */
++
+ /*
+  *
+  * Copyright (C) 2021 ESWIN, Inc. All rights reserved.
+@@ -27,18 +35,6 @@
+ #include <sound/dmaengine_pcm.h>
+ #include <sound/designware_i2s.h>
+ 
+-/* defaults */
+-#define MAX_BUFFER_SIZE		(64*1024)
+-#define MIN_PERIOD_SIZE		64
+-#define MAX_PERIOD_SIZE		MAX_BUFFER_SIZE
+-#define USE_FORMATS 		(SNDRV_PCM_FMTBIT_S16_LE | SNDRV_PCM_FMTBIT_S24_LE | SNDRV_PCM_FMTBIT_S32_LE)
+-#define USE_RATE		SNDRV_PCM_RATE_CONTINUOUS | SNDRV_PCM_RATE_8000_48000
+-#define USE_RATE_MIN		5500
+-#define USE_RATE_MAX		48000
+-#define USE_CHANNELS_MIN 	1
+-#define USE_CHANNELS_MAX 	2
+-#define USE_PERIODS_MIN 	1
+-#define USE_PERIODS_MAX 	1024
+ 
+ /* common register for all channel */
+ #define IER		0x000
+@@ -118,7 +114,7 @@
+ /* Number of entries in WORDSIZE and DATA_WIDTH parameter registers */
+ #define	COMP_MAX_WORDSIZE	(1 << 3)
+ #define	COMP_MAX_DATA_WIDTH	(1 << 2)
+-#define MAX_CHANNEL_NUM		8
++#define MAX_CHANNEL_NUM		2
+ #define MIN_CHANNEL_NUM		2
+ #define STEREO		0
+ #define TDM		1
+@@ -179,38 +175,6 @@ struct i2s_dev {
+ 	u32 i2s_div_num;
+ 	bool playback_active;
+ 	bool capture_active;
+-	u32 eswin_plat;
+-};
+-
+-static const struct snd_pcm_hardware pcm_hardware = {
+-	.info =			(SNDRV_PCM_INFO_MMAP |
+-				 SNDRV_PCM_INFO_INTERLEAVED |
+-				 SNDRV_PCM_INFO_RESUME |
+-				 SNDRV_PCM_INFO_MMAP_VALID),
+-	.formats =		USE_FORMATS,
+-	.rates =		USE_RATE,
+-	.rate_min =		USE_RATE_MIN,
+-	.rate_max =		USE_RATE_MAX,
+-	.channels_min =		USE_CHANNELS_MIN,
+-	.channels_max =		USE_CHANNELS_MAX,
+-	.buffer_bytes_max =	MAX_BUFFER_SIZE,
+-	.period_bytes_min =	MIN_PERIOD_SIZE,
+-	.period_bytes_max =	MAX_PERIOD_SIZE,
+-	.periods_min =		USE_PERIODS_MIN,
+-	.periods_max =		USE_PERIODS_MAX,
+-	.fifo_size =		0,
+ };
+ 
+-#if IS_ENABLED(CONFIG_SND_ESWIN_DW_PCM)
+-void i2s_pcm_push_tx(struct i2s_dev *i2s_drvdata,int type);
+-void i2s_pcm_pop_rx(struct i2s_dev *i2s_drvdata,int type);
+-int i2s_pcm_register(struct platform_device *pdev);
+-#else
+-static inline void i2s_pcm_push_tx(struct i2s_dev *i2s_drvdata,int type) { }
+-static inline void i2s_pcm_pop_rx(struct i2s_dev *i2s_drvdata,int type) { }
+-static inline int i2s_pcm_register(struct platform_device *pdev)
+-{
+-	return -EINVAL;
+-}
+-#endif
+ #endif /* __I2S_H */
+diff --git a/sound/soc/generic/audio-graph-card.c b/sound/soc/generic/audio-graph-card.c
+index 5e4ab738d4c9..844a2ef15948 100644
+--- a/sound/soc/generic/audio-graph-card.c
++++ b/sound/soc/generic/audio-graph-card.c
+@@ -161,9 +161,6 @@ static int graph_link_init(struct asoc_simple_priv *priv,
+ 	if (priv->ops)
+ 		dai_link->ops	= priv->ops;
+ 
+-#ifdef CONFIG_SOC_SIFIVE_EIC7700
+-	dai_link->trigger_stop = SND_SOC_TRIGGER_ORDER_LDC;
+-#endif
+ 	return asoc_simple_set_dailink_name(dev, dai_link, name);
+ }
+ 
+diff --git a/sound/soc/soc-generic-dmaengine-pcm.c b/sound/soc/soc-generic-dmaengine-pcm.c
+index ec63fae62bcd..30bb1b018aa8 100644
+--- a/sound/soc/soc-generic-dmaengine-pcm.c
++++ b/sound/soc/soc-generic-dmaengine-pcm.c
+@@ -15,12 +15,7 @@
+ 
+ #include <sound/dmaengine_pcm.h>
+ 
+-#ifdef CONFIG_SOC_SIFIVE_EIC7700
+-static unsigned int prealloc_buffer_size_kbytes = 1024;
+-#else
+ static unsigned int prealloc_buffer_size_kbytes = 512;
+-#endif
+-
+ module_param(prealloc_buffer_size_kbytes, uint, 0444);
+ MODULE_PARM_DESC(prealloc_buffer_size_kbytes, "Preallocate DMA buffer size (KB).");
+ 
+@@ -157,13 +152,6 @@ static int dmaengine_pcm_open(struct snd_soc_component *component,
+ 	struct dma_chan *chan = pcm->chan[substream->stream];
+ 	int ret;
+ 
+-#ifdef CONFIG_SOC_SIFIVE_EIC7700
+-	pcm->tmp_buf[substream->stream] =
+-		kzalloc(prealloc_buffer_size_kbytes * 1024, GFP_KERNEL);
+-	if (!pcm->tmp_buf[substream->stream]) {
+-		return -ENOMEM;
+-	}
+-#endif
+ 	ret = dmaengine_pcm_set_runtime_hwparams(component, substream);
+ 	if (ret)
+ 		return ret;
+@@ -174,13 +162,6 @@ static int dmaengine_pcm_open(struct snd_soc_component *component,
+ static int dmaengine_pcm_close(struct snd_soc_component *component,
+ 			       struct snd_pcm_substream *substream)
+ {
+-#ifdef CONFIG_SOC_SIFIVE_EIC7700
+-	struct dmaengine_pcm *pcm = soc_component_to_pcm(component);
+-
+-	if (pcm->tmp_buf[substream->stream]) {
+-		kfree(pcm->tmp_buf[substream->stream]);
+-	}
+-#endif
+ 	return snd_dmaengine_pcm_close(substream);
+ }
+ 
+@@ -306,72 +287,6 @@ static snd_pcm_uframes_t dmaengine_pcm_pointer(
+ 		return snd_dmaengine_pcm_pointer(substream);
+ }
+ 
+-#ifdef CONFIG_SOC_SIFIVE_EIC7700
+-static int dmaengine_pcm_process(struct snd_soc_component *component,
+-			       struct snd_pcm_substream *substream,
+-			       int channel, unsigned long hwoff,
+-			       struct iov_iter *buf, unsigned long bytes)
+-{
+-	struct snd_pcm_runtime *runtime = substream->runtime;
+-	struct dmaengine_pcm *pcm = soc_component_to_pcm(component);
+-	bool is_playback = substream->stream == SNDRV_PCM_STREAM_PLAYBACK;
+-	char *dma_ptr = (char *)runtime->dma_area + hwoff * 64 / runtime->frame_bits +
+-			channel * (runtime->dma_bytes / runtime->channels);
+-	snd_pcm_uframes_t frames;
+-	unsigned int lc_size = runtime->frame_bits / 8 / 2;
+-	unsigned int rc_size = runtime->frame_bits / 8 / 2;
+-	char *tb_ptr;
+-
+-	if (is_playback) {
+-		if (runtime->sample_bits != 32) {
+-			if (copy_from_iter(pcm->tmp_buf[0], bytes, buf) != bytes) {
+-				return -EFAULT;
+-			}
+-
+-			frames = bytes_to_frames(runtime, bytes);
+-			tb_ptr = pcm->tmp_buf[0];
+-			while (frames) {
+-				memcpy(dma_ptr, tb_ptr, lc_size);
+-				memset(dma_ptr + lc_size, 0, (4 - lc_size));
+-				dma_ptr += 4;
+-				tb_ptr += lc_size;
+-				memcpy(dma_ptr, tb_ptr, rc_size);
+-				memset(dma_ptr + rc_size, 0, (4 - rc_size));
+-				dma_ptr += 4;
+-				tb_ptr += rc_size;
+-				frames--;
+-			}
+-		} else {
+-			if (copy_from_iter(dma_ptr, bytes, buf) != bytes) {
+-				return -EFAULT;
+-			}
+-		}
+-	} else {
+-		if (runtime->sample_bits != 32) {
+-			frames = bytes_to_frames(runtime, bytes);
+-			tb_ptr = pcm->tmp_buf[1];
+-			while (frames) {
+-				memcpy(tb_ptr, dma_ptr, lc_size);
+-				tb_ptr += lc_size;
+-				dma_ptr += 4;
+-				memcpy(tb_ptr, dma_ptr, rc_size);
+-				tb_ptr += rc_size;
+-				dma_ptr += 4;
+-				frames--;
+-			}
+-			if (copy_to_iter(pcm->tmp_buf[1], bytes, buf) != bytes) {
+-				return -EFAULT;
+-			}
+-		} else {
+-			if (copy_to_iter(dma_ptr, bytes, buf) != bytes) {
+-				return -EFAULT;
+-			}
+-		}
+-	}
+-	return 0;
+-}
+-#endif
+-
+ static int dmaengine_copy(struct snd_soc_component *component,
+ 			  struct snd_pcm_substream *substream,
+ 			  int channel, unsigned long hwoff,
+@@ -417,9 +332,6 @@ static const struct snd_soc_component_driver dmaengine_pcm_component = {
+ 	.hw_params	= dmaengine_pcm_hw_params,
+ 	.trigger	= dmaengine_pcm_trigger,
+ 	.pointer	= dmaengine_pcm_pointer,
+-#ifdef CONFIG_SOC_SIFIVE_EIC7700
+-	.copy	        = dmaengine_pcm_process,
+-#endif
+ 	.pcm_construct	= dmaengine_pcm_new,
+ 	.sync_stop	= dmaengine_pcm_sync_stop,
+ };
+-- 
+2.47.0
+

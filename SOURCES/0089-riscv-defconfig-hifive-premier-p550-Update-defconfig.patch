@@ -1,0 +1,40 @@
+From 520d4a70cb2de5f9b32b3b8e001b3476a7e3b5f7 Mon Sep 17 00:00:00 2001
+From: Pinkesh Vaghela <pinkesh.vaghela@einfochips.com>
+Date: Wed, 9 Oct 2024 19:27:17 +0530
+Subject: [PATCH 089/114] riscv: defconfig: hifive-premier-p550: Update
+ defconfig
+
+Removed "CONFIG_DM_RAID" and "CONFIG_DM_INTEGRITY" to disable all
+drivers under "async_tx" for resolving I2S crash in ubuntu image
+
+Signed-off-by: Pinkesh Vaghela <pinkesh.vaghela@einfochips.com>
+Signed-off-by: Darshan Prajapati <darshan.prajapati@einfochips.com>
+---
+ arch/riscv/configs/hifive-premier-p550_defconfig | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/arch/riscv/configs/hifive-premier-p550_defconfig b/arch/riscv/configs/hifive-premier-p550_defconfig
+index ebe937db850a..6ab711419720 100644
+--- a/arch/riscv/configs/hifive-premier-p550_defconfig
++++ b/arch/riscv/configs/hifive-premier-p550_defconfig
+@@ -1091,7 +1091,6 @@ CONFIG_DM_ERA=m
+ CONFIG_DM_CLONE=m
+ CONFIG_DM_MIRROR=m
+ CONFIG_DM_LOG_USERSPACE=m
+-CONFIG_DM_RAID=m
+ CONFIG_DM_ZERO=m
+ CONFIG_DM_MULTIPATH=m
+ CONFIG_DM_MULTIPATH_QL=m
+@@ -1106,8 +1105,8 @@ CONFIG_DM_VERITY=m
+ CONFIG_DM_VERITY_VERIFY_ROOTHASH_SIG=y
+ CONFIG_DM_SWITCH=m
+ CONFIG_DM_LOG_WRITES=m
+-CONFIG_DM_INTEGRITY=m
+ CONFIG_DM_ZONED=m
++CONFIG_DM_AUDIT=y
+ CONFIG_TARGET_CORE=m
+ CONFIG_TCM_IBLOCK=m
+ CONFIG_TCM_FILEIO=m
+-- 
+2.47.0
+

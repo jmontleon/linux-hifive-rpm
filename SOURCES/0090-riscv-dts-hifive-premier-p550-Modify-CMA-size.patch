@@ -1,0 +1,38 @@
+From d81a6029d3f407f079a841ed3ae85ddb7d61049c Mon Sep 17 00:00:00 2001
+From: Pritesh Patel <pritesh.patel@einfochips.com>
+Date: Thu, 10 Oct 2024 14:25:45 +0530
+Subject: [PATCH 090/114] riscv: dts: hifive-premier-p550: Modify CMA size
+
+This change is added to resolve issue with some display
+
+Signed-off-by: Pritesh Patel <pritesh.patel@einfochips.com>
+Signed-off-by: Pinkesh Vaghela <pinkesh.vaghela@einfochips.com>
+---
+ arch/riscv/boot/dts/eswin/eic7700-hifive-premier-p550.dts | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/arch/riscv/boot/dts/eswin/eic7700-hifive-premier-p550.dts b/arch/riscv/boot/dts/eswin/eic7700-hifive-premier-p550.dts
+index 1113af92df6e..a8ebe0ce9e8c 100644
+--- a/arch/riscv/boot/dts/eswin/eic7700-hifive-premier-p550.dts
++++ b/arch/riscv/boot/dts/eswin/eic7700-hifive-premier-p550.dts
+@@ -28,7 +28,7 @@
+  */
+ #define MEMORY_SIZE_H		0x4
+ #define MEMORY_SIZE_L		0x0
+-#define CMA_SIZE		0x10000000
++#define CMA_SIZE		0x20000000
+ 
+ #include "eic7700.dtsi"
+ #include "hifive-premier-p550-pinctrl.dtsi"
+@@ -242,7 +242,7 @@ &dc_test {
+ };
+ 
+ &virtual_display {
+-    status = "okay";
++    status = "disabled";
+ };
+ 
+ &dsi_output {
+-- 
+2.47.0
+

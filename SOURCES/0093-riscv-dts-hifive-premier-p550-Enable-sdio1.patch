@@ -1,0 +1,29 @@
+From 9226500525b06196a4314dc3d5ac46dad5cf96b6 Mon Sep 17 00:00:00 2001
+From: Pritesh Patel <pritesh.patel@einfochips.com>
+Date: Fri, 18 Oct 2024 15:48:59 +0530
+Subject: [PATCH 093/114] riscv: dts: hifive-premier-p550: Enable sdio1
+
+- Enabled sdio1 for connecting WiFi modules to M.2 Key-E connector.
+
+Signed-off-by: Pinkesh Vaghela <pinkesh.vaghela@einfochips.com>
+Signed-off-by: Pritesh Patel <pritesh.patel@einfochips.com>
+---
+ arch/riscv/boot/dts/eswin/eic7700-hifive-premier-p550.dts | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/arch/riscv/boot/dts/eswin/eic7700-hifive-premier-p550.dts b/arch/riscv/boot/dts/eswin/eic7700-hifive-premier-p550.dts
+index a8ebe0ce9e8c..8cdc9fdc9e34 100644
+--- a/arch/riscv/boot/dts/eswin/eic7700-hifive-premier-p550.dts
++++ b/arch/riscv/boot/dts/eswin/eic7700-hifive-premier-p550.dts
+@@ -373,7 +373,7 @@ &sdio0 {
+ 
+ &sdio1 {
+ 	/* wifi module */
+-	status = "disabled";
++	status = "okay";
+ 	delay_code = <0x29>;
+ 	drive-impedance-ohm = <33>;
+ 	enable-cmd-pullup;
+-- 
+2.47.0
+

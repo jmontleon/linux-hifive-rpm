@@ -1,0 +1,80 @@
+From 384ed1371050c23f0cf4386ae260eedc60099a41 Mon Sep 17 00:00:00 2001
+From: Lifei Fang <fanglifei@eswincomputing.com>
+Date: Fri, 8 Nov 2024 14:11:49 +0530
+Subject: [PATCH 111/114] drivers: net: ethernet: eic7700: Replace CSR clock
+
+- Replaced CSR clock with stmmaceth clock in dtsi
+- Removed enabling and disabling of stmmaceth clock
+
+Signed-off-by: Lifei Fang <fanglifei@eswincomputing.com>
+Signed-off-by: Pritesh Patel <pritesh.patel@einfochips.com>
+---
+ arch/riscv/boot/dts/eswin/eic7700.dtsi            |  4 ++--
+ .../net/ethernet/stmicro/stmmac/dwmac-eic7700.c   | 15 ---------------
+ 2 files changed, 2 insertions(+), 17 deletions(-)
+
+diff --git a/arch/riscv/boot/dts/eswin/eic7700.dtsi b/arch/riscv/boot/dts/eswin/eic7700.dtsi
+index 96bdd4379205..d337d99ca31c 100644
+--- a/arch/riscv/boot/dts/eswin/eic7700.dtsi
++++ b/arch/riscv/boot/dts/eswin/eic7700.dtsi
+@@ -394,7 +394,7 @@ d0_gmac0: ethernet@50400000 {
+ 			clocks = <&d0_clock EIC7700_CLK_HSP_ETH_APP_CLK>,
+ 					 <&d0_clock EIC7700_CLK_HSP_ETH_CSR_CLK>,
+ 					 <&d0_clock EIC7700_CLK_HSP_ETH0_CORE_CLK>;
+-			clock-names = "app", "csr","tx";
++			clock-names = "app", "stmmaceth","tx";
+ 			resets = <&d0_reset HSPDMA_RST_CTRL SW_HSP_ETH0_ARSTN>;
+ 			reset-names = "ethrst";
+ 			tbus = <EIC7700_TBUID_ETH>;
+@@ -422,7 +422,7 @@ d0_gmac1: ethernet@50410000 {
+ 			clocks = <&d0_clock EIC7700_CLK_HSP_ETH_APP_CLK>,
+ 					 <&d0_clock EIC7700_CLK_HSP_ETH_CSR_CLK>,
+ 					 <&d0_clock EIC7700_CLK_HSP_ETH1_CORE_CLK>;
+-			clock-names = "app", "csr","tx";
++			clock-names = "app", "stmmaceth","tx";
+ 			resets = <&d0_reset HSPDMA_RST_CTRL SW_HSP_ETH1_ARSTN>;
+ 			reset-names = "ethrst";
+ 			tbus = <EIC7700_TBUID_ETH>;
+diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-eic7700.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-eic7700.c
+index 1e8ce3a13d17..9e595c2757db 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/dwmac-eic7700.c
++++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-eic7700.c
+@@ -61,7 +61,6 @@ struct dwc_qos_priv {
+ 	struct regmap *hsp_regmap;
+ 	struct reset_control *rst;
+ 	struct clk *clk_app;
+-	struct clk *clk_csr;
+ 	struct clk *clk_tx;
+ 	struct regmap *rgmii_sel;
+ 	struct gpio_desc *phy_reset;
+@@ -408,19 +407,6 @@ static int dwc_qos_probe(struct platform_device *pdev,
+ 		return err;
+ 	}
+ 
+-	dwc_priv->clk_csr = devm_clk_get(&pdev->dev, "csr");
+-	if (IS_ERR(dwc_priv->clk_csr)) {
+-		dev_err(&pdev->dev, "csr clock not found.\n");
+-		return PTR_ERR(dwc_priv->clk_csr);
+-	}
+-
+-	err = clk_prepare_enable(dwc_priv->clk_csr);
+-	if (err < 0) {
+-		dev_err(&pdev->dev, "failed to enable csr clock: %d\n",
+-            err);
+-		return err;
+-	}
+-
+ 	dwc_priv->clk_tx = devm_clk_get(&pdev->dev, "tx");
+ 	if (IS_ERR(plat_dat->pclk)) {
+ 		dev_err(&pdev->dev, "tx clock not found.\n");
+@@ -469,7 +455,6 @@ static int dwc_qos_remove(struct platform_device *pdev)
+ 
+ 	reset_control_assert(dwc_priv->rst);
+ 	clk_disable_unprepare(dwc_priv->clk_tx);
+-	clk_disable_unprepare(dwc_priv->clk_csr);
+ 	clk_disable_unprepare(dwc_priv->clk_app);
+ 
+ 	devm_gpiod_put(&pdev->dev, dwc_priv->phy_reset);
+-- 
+2.47.0
+

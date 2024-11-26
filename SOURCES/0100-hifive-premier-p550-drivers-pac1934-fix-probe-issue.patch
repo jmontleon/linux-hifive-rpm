@@ -1,0 +1,31 @@
+From 3fac7baa696395e45f8114350b2aac6c827062c4 Mon Sep 17 00:00:00 2001
+From: Pritesh Patel <pritesh.patel@einfochips.com>
+Date: Tue, 22 Oct 2024 11:53:25 +0000
+Subject: [PATCH 100/114] hifive-premier-p550: drivers: pac1934: fix probe
+ issue
+
+error:
+======
+pac193x 4-0010: can not get sense_resistances:-22
+
+Signed-off-by: Pritesh Patel <pritesh.patel@einfochips.com>
+---
+ drivers/hwmon/pac193x.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/hwmon/pac193x.c b/drivers/hwmon/pac193x.c
+index 8a9ca9ec07b5..6a7c7ad93b91 100644
+--- a/drivers/hwmon/pac193x.c
++++ b/drivers/hwmon/pac193x.c
+@@ -761,7 +761,7 @@ static int pac193x_probe(struct i2c_client *client)
+ 		dev_err(dev, "can not get energy_acc_count:%d\n", ret);
+ 		data->energy_acc_count = 0;
+ 	}
+-	ret = of_property_read_u32_array(dev->of_node, "sense_resistances",
++	ret = of_property_read_u32_array(dev->of_node, "shunt_resistors",
+ 					 data->sense_resistances,
+ 					 PAC193X_MAX_CHAN_CNT);
+ 	if (0 != ret) {
+-- 
+2.47.0
+

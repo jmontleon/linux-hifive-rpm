@@ -1,0 +1,42 @@
+From aa1199cfcda05152ab4e39a085930ad6f5ff3e43 Mon Sep 17 00:00:00 2001
+From: Dimitri John Ledkov <dimitri.ledkov@canonical.com>
+Date: Wed, 9 Mar 2022 14:02:12 +0000
+Subject: [PATCH 079/114] UBUNTU: SAUCE: scripts/Makefile.modinst
+ discard-locals from modules
+
+On riscv, it appears that all kernel modules are generated with an
+excesive amount of local symbols and assembly automatic generated
+symbols increasing the size of stripped .ko modules multiple times
+over similar ones on other architectures. When stripping .ko on riscv,
+discard these local symbols too, which should make our module sizes
+somewhat more reasonable.
+
+BugLink: https://bugs.launchpad.net/bugs/1964335
+
+Signed-off-by: Andy Whitcroft <apw@canonical.com>
+Signed-off-by: Dimitri John Ledkov <dimitri.ledkov@canonical.com>
+Acked-by: Andrea Righi <andrea.righi@canonical.com>
+Signed-off-by: Emil Renner Berthing <emil.renner.berthing@canonical.com>
+---
+ scripts/Makefile.modinst | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/scripts/Makefile.modinst b/scripts/Makefile.modinst
+index 0afd75472679..89b57740ef09 100644
+--- a/scripts/Makefile.modinst
++++ b/scripts/Makefile.modinst
+@@ -76,7 +76,11 @@ quiet_cmd_install = INSTALL $@
+ ifdef INSTALL_MOD_STRIP
+ 
+ ifeq ($(INSTALL_MOD_STRIP),1)
++ifeq ($(ARCH),riscv)
++strip-option := --strip-debug --discard-locals
++else
+ strip-option := --strip-debug
++endif
+ else
+ strip-option := $(INSTALL_MOD_STRIP)
+ endif
+-- 
+2.47.0
+

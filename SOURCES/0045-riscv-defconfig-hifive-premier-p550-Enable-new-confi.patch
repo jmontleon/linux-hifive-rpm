@@ -1,0 +1,30 @@
+From a497dfaf17ce88c293be75d23790b50efce0c583 Mon Sep 17 00:00:00 2001
+From: Pritesh Patel <pritesh.patel@einfochips.com>
+Date: Thu, 12 Sep 2024 07:54:34 +0000
+Subject: [PATCH 045/114] riscv: defconfig: hifive-premier-p550: Enable new
+ configs
+
+Enabled kernel debug configs
+
+Signed-off-by: Pritesh Patel <pritesh.patel@einfochips.com>
+---
+ arch/riscv/configs/hifive-premier-p550_defconfig | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/arch/riscv/configs/hifive-premier-p550_defconfig b/arch/riscv/configs/hifive-premier-p550_defconfig
+index a7db5c12908f..11a739988123 100644
+--- a/arch/riscv/configs/hifive-premier-p550_defconfig
++++ b/arch/riscv/configs/hifive-premier-p550_defconfig
+@@ -852,6 +852,9 @@ CONFIG_CONSOLE_LOGLEVEL_DEFAULT=15
+ CONFIG_CONSOLE_LOGLEVEL_QUIET=15
+ CONFIG_MESSAGE_LOGLEVEL_DEFAULT=7
+ CONFIG_DYNAMIC_DEBUG=y
++CONFIG_DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT=y
++CONFIG_MAGIC_SYSRQ=y
++CONFIG_MAGIC_SYSRQ_DEFAULT_ENABLE=0x01b6
+ CONFIG_DEBUG_FS=y
+ CONFIG_DEBUG_PAGEALLOC=y
+ CONFIG_SCHED_STACK_END_CHECK=y
+-- 
+2.47.0
+

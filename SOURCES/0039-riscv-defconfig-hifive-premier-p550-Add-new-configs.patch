@@ -1,0 +1,29 @@
+From 7ef1cdb49b86ed5272326371958cfb13db881c1c Mon Sep 17 00:00:00 2001
+From: Pritesh Patel <pritesh.patel@einfochips.com>
+Date: Thu, 29 Aug 2024 15:39:54 +0530
+Subject: [PATCH 039/114] riscv: defconfig: hifive-premier-p550: Add new
+ configs
+
+Enabled HDMI sound related configs
+
+Signed-off-by: Pritesh Patel <pritesh.patel@einfochips.com>
+---
+ arch/riscv/configs/hifive-premier-p550_defconfig | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/arch/riscv/configs/hifive-premier-p550_defconfig b/arch/riscv/configs/hifive-premier-p550_defconfig
+index adf3bb1dcd3a..087d3a93fb3a 100644
+--- a/arch/riscv/configs/hifive-premier-p550_defconfig
++++ b/arch/riscv/configs/hifive-premier-p550_defconfig
+@@ -645,6 +645,8 @@ CONFIG_FB=y
+ CONFIG_BACKLIGHT_CLASS_DEVICE=y
+ CONFIG_SOUND=y
+ CONFIG_SND=y
++CONFIG_SND_HDA_INTEL=m
++CONFIG_SND_HDA_CODEC_HDMI=m
+ CONFIG_SND_SOC=y
+ CONFIG_SND_ESWIN_DW_I2S=y
+ CONFIG_ESWIN_SND_SOC_CODECS=y
+-- 
+2.47.0
+

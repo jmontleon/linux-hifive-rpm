@@ -1,0 +1,61 @@
+From bcd5946775cc3d477ad1051455e9b61ce40438e3 Mon Sep 17 00:00:00 2001
+From: Pritesh Patel <pritesh.patel@einfochips.com>
+Date: Tue, 3 Sep 2024 11:52:32 +0000
+Subject: [PATCH 041/114] riscv: dts: hifive-premier-p550: Update ISA extension
+ in dtsi
+
+Removed "riscv,isa" property since its deprecated and replace them
+with "riscv,isa-base" and "riscv,isa-extensions" properties.
+
+Signed-off-by: Pritesh Patel <pritesh.patel@einfochips.com>
+---
+ arch/riscv/boot/dts/eswin/eic7700-arch.dtsi | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
+
+diff --git a/arch/riscv/boot/dts/eswin/eic7700-arch.dtsi b/arch/riscv/boot/dts/eswin/eic7700-arch.dtsi
+index 0ffbfd21e8ec..c0d9f396a50c 100644
+--- a/arch/riscv/boot/dts/eswin/eic7700-arch.dtsi
++++ b/arch/riscv/boot/dts/eswin/eic7700-arch.dtsi
+@@ -62,7 +62,8 @@ L17: cpu@0 {
+ 			mmu-type = "riscv,sv48";
+ 			next-level-cache = <&L15>;
+ 			reg = <0x0>;
+-			riscv,isa = "rv64imafdc_h_zicsr_zifencei_zba_zbb_sscofpmf";
++			riscv,isa-base = "rv64i";
++			riscv,isa-extensions = "i", "m", "a", "f", "d", "c", "h", "zicsr", "zifencei", "zba", "zbb", "sscofpmf";
+ 			riscv,pmpgranularity = <4096>;
+ 			riscv,pmpregions = <8>;
+ 			sifive,buserror = <&L16>;
+@@ -126,7 +127,8 @@ L22: cpu@1 {
+ 			mmu-type = "riscv,sv48";
+ 			next-level-cache = <&L20>;
+ 			reg = <0x1>;
+-			riscv,isa = "rv64imafdc_h_zicsr_zifencei_zba_zbb_sscofpmf";
++			riscv,isa-base = "rv64i";
++			riscv,isa-extensions = "i", "m", "a", "f", "d", "c", "h", "zicsr", "zifencei", "zba", "zbb", "sscofpmf";
+ 			riscv,pmpgranularity = <4096>;
+ 			riscv,pmpregions = <8>;
+ 			sifive,buserror = <&L21>;
+@@ -190,7 +192,8 @@ L27: cpu@2 {
+ 			mmu-type = "riscv,sv48";
+ 			next-level-cache = <&L25>;
+ 			reg = <0x2>;
+-			riscv,isa = "rv64imafdc_h_zicsr_zifencei_zba_zbb_sscofpmf";
++			riscv,isa-base = "rv64i";
++			riscv,isa-extensions = "i", "m", "a", "f", "d", "c", "h", "zicsr", "zifencei", "zba", "zbb", "sscofpmf";
+ 			riscv,pmpgranularity = <4096>;
+ 			riscv,pmpregions = <8>;
+ 			sifive,buserror = <&L26>;
+@@ -254,7 +257,8 @@ L32: cpu@3 {
+ 			mmu-type = "riscv,sv48";
+ 			next-level-cache = <&L30>;
+ 			reg = <0x3>;
+-			riscv,isa = "rv64imafdc_h_zicsr_zifencei_zba_zbb_sscofpmf";
++			riscv,isa-base = "rv64i";
++			riscv,isa-extensions = "i", "m", "a", "f", "d", "c", "h", "zicsr", "zifencei", "zba", "zbb", "sscofpmf";
+ 			riscv,pmpgranularity = <4096>;
+ 			riscv,pmpregions = <8>;
+ 			sifive,buserror = <&L31>;
+-- 
+2.47.0
+

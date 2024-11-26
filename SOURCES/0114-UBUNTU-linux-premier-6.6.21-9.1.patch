@@ -1,0 +1,32 @@
+From a095689c28541f05b3fdc80d482d727d6c678acc Mon Sep 17 00:00:00 2001
+From: Pinkesh Vaghela <pinkesh.vaghela@einfochips.com>
+Date: Fri, 8 Nov 2024 14:06:40 +0000
+Subject: [PATCH 114/114] UBUNTU: linux-premier-6.6.21-9.1
+
+Signed-off-by: Pinkesh Vaghela <pinkesh.vaghela@einfochips.com>
+---
+ debian/changelog | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+
+diff --git a/debian/changelog b/debian/changelog
+index 96658566d266..4880f7613019 100644
+--- a/debian/changelog
++++ b/debian/changelog
+@@ -1,3 +1,14 @@
++linux-premier (6.6.21-9.1) noble; urgency=medium
++
++  * Disabled NUMA and optimized DRM configs
++  * Fixed MMC crash in fwupd
++  * Optimize ELF relocation function
++  * Fixed i2s_probe crash
++  * Fixed vblank_timeout warning dump on boot up
++  * Fixed CSR clock error on boot up
++
++ -- Pinkesh Vaghela <pinkesh.vaghela@einfochips.com>  Fri, 08 Nov 2024 13:58:43 +0000
++
+ linux-premier (6.6.21-8.1) noble; urgency=medium
+ 
+   * Disabled kernel debug configs 
+-- 
+2.47.0
+

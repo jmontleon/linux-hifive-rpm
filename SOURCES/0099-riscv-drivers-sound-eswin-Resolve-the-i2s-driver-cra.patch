@@ -1,0 +1,78 @@
+From 5bb7b9da92af6160feb74f277970235c6f5d9c57 Mon Sep 17 00:00:00 2001
+From: Lei Deng <denglei@eswincomputing.com>
+Date: Tue, 22 Oct 2024 10:00:19 +0000
+Subject: [PATCH 099/114] riscv: drivers: sound: eswin: Resolve the i2s driver
+ crash issue
+
+When async_tx and async_tx_dma are enabled, the async module will
+occupy all DMA channels, causing i2s to fail in requesting for DMA
+channels
+
+Signed-off-by: Lei Deng <denglei@eswincomputing.com>
+---
+ .../dma/dw-axi-dmac/dw-axi-dmac-platform.c    |  4 +++
+ sound/soc/eswin/esw-i2s.c                     | 26 +++----------------
+ 2 files changed, 8 insertions(+), 22 deletions(-)
+
+diff --git a/drivers/dma/dw-axi-dmac/dw-axi-dmac-platform.c b/drivers/dma/dw-axi-dmac/dw-axi-dmac-platform.c
+index c0c8763ca453..9e20caed6b91 100644
+--- a/drivers/dma/dw-axi-dmac/dw-axi-dmac-platform.c
++++ b/drivers/dma/dw-axi-dmac/dw-axi-dmac-platform.c
+@@ -1676,6 +1676,10 @@ static int dw_probe(struct platform_device *pdev)
+ 	dma_cap_set(DMA_SLAVE, dw->dma.cap_mask);
+ 	dma_cap_set(DMA_CYCLIC, dw->dma.cap_mask);
+ 
++	if (of_node_name_prefix(chip->dev->of_node, "dma-controller-aon")) {
++		dma_cap_set(DMA_PRIVATE, dw->dma.cap_mask);
++	}
++
+ 	/* DMA capabilities */
+ #ifdef CONFIG_SOC_SIFIVE_EIC7700
+ 	dw->dma.chancnt = hdata->nr_channels;
+diff --git a/sound/soc/eswin/esw-i2s.c b/sound/soc/eswin/esw-i2s.c
+index 93823dff2bdf..d30bc41f5c6d 100755
+--- a/sound/soc/eswin/esw-i2s.c
++++ b/sound/soc/eswin/esw-i2s.c
+@@ -334,17 +334,8 @@ static int i2s_configure_res_by_dt(struct i2s_dev *dev,
+ 		dev->play_dma_data.addr_width = bus_widths[idx];
+ 		dev->play_dma_data.fifo_size = fifo_depth *
+ 			(fifo_width[idx2]) >> 3;
+-		if (of_node_name_prefix(pcm->chan[SNDRV_PCM_STREAM_PLAYBACK]->device->dev->of_node,
+-								"dma-controller-hsp")) {
+-			dev->play_dma_data.addr = dma_map_resource(
+-						pcm->chan[SNDRV_PCM_STREAM_PLAYBACK]->device->dev,
+-						res->start + TXDMA_CH(0),
+-						dev->play_dma_data.fifo_size,
+-						DMA_BIDIRECTIONAL,
+-						DMA_ATTR_SKIP_CPU_SYNC);
+-		} else {
+-			dev->play_dma_data.addr = res->start + TXDMA_CH(0);
+-		}
++
++		dev->play_dma_data.addr = res->start + TXDMA_CH(0);
+ 		dev->play_dma_data.maxburst = 16;
+ 	}
+ 	if (COMP1_RX_ENABLED(comp1)) {
+@@ -354,17 +345,8 @@ static int i2s_configure_res_by_dt(struct i2s_dev *dev,
+ 		dev->capture_dma_data.addr_width = bus_widths[idx];
+ 		dev->capture_dma_data.fifo_size = fifo_depth *
+ 			(fifo_width[idx2]) >> 3;
+-		if (of_node_name_prefix(pcm->chan[SNDRV_PCM_STREAM_CAPTURE]->device->dev->of_node,
+-								"dma-controller-hsp")) {
+-			dev->capture_dma_data.addr = dma_map_resource(
+-						pcm->chan[SNDRV_PCM_STREAM_CAPTURE]->device->dev,
+-						res->start + RXDMA_CH(0),
+-						dev->capture_dma_data.fifo_size,
+-						DMA_BIDIRECTIONAL,
+-						DMA_ATTR_SKIP_CPU_SYNC);
+-		} else {
+-			dev->capture_dma_data.addr = res->start + RXDMA_CH(0);
+-		}
++
++		dev->capture_dma_data.addr = res->start + RXDMA_CH(0);
+ 		dev->capture_dma_data.maxburst = 16;
+ 	}
+ 	return 0;
+-- 
+2.47.0
+

@@ -1,0 +1,36 @@
+From 6187b2d94708c8d63c77af4a3ac2308e5400c21a Mon Sep 17 00:00:00 2001
+From: Yu Ning <ningyu@eswincomputing.com>
+Date: Thu, 7 Nov 2024 13:37:34 +0000
+Subject: [PATCH 110/114] drivers: pcie: eswin: Disable MSI-X
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Disable MSI-X capability of PCI as it consumes a large amount of
+CPU resources, causing delays in handling the VO’s vblank interrupt
+This patch fixes vblank timeout warning dump on bootup
+
+Signed-off-by: Yu Ning <ningyu@eswincomputing.com>
+---
+ drivers/pci/controller/dwc/pcie-eswin.c | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/drivers/pci/controller/dwc/pcie-eswin.c b/drivers/pci/controller/dwc/pcie-eswin.c
+index 6d142f2287d3..0fc6b8a21d03 100644
+--- a/drivers/pci/controller/dwc/pcie-eswin.c
++++ b/drivers/pci/controller/dwc/pcie-eswin.c
+@@ -319,6 +319,11 @@ static int eswin_pcie_host_init(struct dw_pcie_rp *pp)
+ 	/*  config support 32 msi vectors */
+ 	dw_pcie_writel_dbi(pci, 0x50, 0x018a7005);
+ 
++	/* disable msix cap */
++	val = dw_pcie_readl_dbi(pci, 0x70);
++	val &= 0xffff00ff;
++	dw_pcie_writel_dbi(pci, 0x70, val);
++
+ 	return 0;
+ }
+ 
+-- 
+2.47.0
+

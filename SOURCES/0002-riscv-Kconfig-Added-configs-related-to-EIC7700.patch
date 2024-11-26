@@ -1,0 +1,165 @@
+From 84028638b4e8e49adad9285759ad7dec6854404f Mon Sep 17 00:00:00 2001
+From: Min Lin <linmin@eswincomputing.com>
+Date: Mon, 29 Jul 2024 16:49:31 +0530
+Subject: [PATCH 002/114] riscv: Kconfig: Added configs related to EIC7700
+
+Signed-off-by: Min Lin <linmin@eswincomputing.com>
+Signed-off-by: Darshan Prajapati <darshan.prajapati@einfochips.com>
+Signed-off-by: Pinkesh Vaghela <pinkesh.vaghela@einfochips.com>
+---
+ arch/riscv/Kconfig      | 73 +++++++++++++++++++++++++++++++++++++++--
+ arch/riscv/Kconfig.socs |  7 ++++
+ 2 files changed, 78 insertions(+), 2 deletions(-)
+
+diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
+index 1304992232ad..dcab459e4c4e 100644
+--- a/arch/riscv/Kconfig
++++ b/arch/riscv/Kconfig
+@@ -14,7 +14,7 @@ config RISCV
+ 	def_bool y
+ 	select ACPI_GENERIC_GSI if ACPI
+ 	select ACPI_REDUCED_HARDWARE_ONLY if ACPI
+-	select ARCH_DMA_DEFAULT_COHERENT
++	select ARCH_DMA_DEFAULT_COHERENT if !SOC_SIFIVE_EIC7700
+ 	select ARCH_ENABLE_HUGEPAGE_MIGRATION if HUGETLB_PAGE && MIGRATION
+ 	select ARCH_ENABLE_SPLIT_PMD_PTLOCK if PGTABLE_LEVELS > 2
+ 	select ARCH_ENABLE_THP_MIGRATION if TRANSPARENT_HUGEPAGE
+@@ -37,9 +37,11 @@ config RISCV
+ 	select ARCH_HAS_STRICT_KERNEL_RWX if MMU && !XIP_KERNEL
+ 	select ARCH_HAS_STRICT_MODULE_RWX if MMU && !XIP_KERNEL
+ 	select ARCH_HAS_SYSCALL_WRAPPER
++	select ARCH_HAS_TEARDOWN_DMA_OPS if IOMMU_SUPPORT && SOC_SIFIVE_EIC7700
+ 	select ARCH_HAS_TICK_BROADCAST if GENERIC_CLOCKEVENTS_BROADCAST
+ 	select ARCH_HAS_UBSAN_SANITIZE_ALL
+ 	select ARCH_HAS_VDSO_DATA
++	select ARCH_KEEP_MEMBLOCK
+ 	select ARCH_OPTIONAL_KERNEL_RWX if ARCH_HAS_STRICT_KERNEL_RWX
+ 	select ARCH_OPTIONAL_KERNEL_RWX_DEFAULT
+ 	select ARCH_STACKWALK
+@@ -65,6 +67,7 @@ config RISCV
+ 	select CLONE_BACKWARDS
+ 	select COMMON_CLK
+ 	select CPU_PM if CPU_IDLE || HIBERNATION
++	select DMA_DIRECT_REMAP if SOC_SIFIVE_EIC7700
+ 	select EDAC_SUPPORT
+ 	select FRAME_POINTER if PERF_EVENTS || (FUNCTION_TRACER && !DYNAMIC_FTRACE)
+ 	select GENERIC_ARCH_TOPOLOGY
+@@ -142,6 +145,7 @@ config RISCV
+ 	select HAVE_STACKPROTECTOR
+ 	select HAVE_SYSCALL_TRACEPOINTS
+ 	select HOTPLUG_CORE_SYNC_DEAD if HOTPLUG_CPU
++	select IOMMU_DMA if IOMMU_SUPPORT && SOC_SIFIVE_EIC7700
+ 	select IRQ_DOMAIN
+ 	select IRQ_FORCED_THREADING
+ 	select KASAN_VMALLOC if KASAN
+@@ -274,12 +278,77 @@ config LOCKDEP_SUPPORT
+ 
+ config RISCV_DMA_NONCOHERENT
+ 	bool
++	select ARCH_HAS_DMA_CLEAR_UNCACHED if SOC_SIFIVE_EIC7700
+ 	select ARCH_HAS_DMA_PREP_COHERENT
++	select ARCH_HAS_DMA_SET_UNCACHED if SOC_SIFIVE_EIC7700
+ 	select ARCH_HAS_SETUP_DMA_OPS
+ 	select ARCH_HAS_SYNC_DMA_FOR_CPU
+ 	select ARCH_HAS_SYNC_DMA_FOR_DEVICE
+ 	select DMA_BOUNCE_UNALIGNED_KMALLOC if SWIOTLB
+ 
++config RISCV_DIE0_CACHED_OFFSET
++	hex "DIE0 memory port addr of U84"
++	depends on RISCV && ARCH_HAS_DMA_SET_UNCACHED
++	default 0x80000000
++	help
++	  Access to DDR memory through U84 memory port is cached.
++
++config RISCV_DIE0_MEM_MAX_SIZE
++	hex "DIE0 memory size, default 32GB"
++	depends on RISCV && ARCH_HAS_DMA_SET_UNCACHED
++	default 0x800000000
++
++config RISCV_DIE0_UNCACHED_OFFSET
++	hex "DIE0 system port addr of U84"
++	depends on RISCV && ARCH_HAS_DMA_SET_UNCACHED
++	default 0xc000000000
++	help
++	  Access to DDR memory through U84 system port is uncached.
++	  Add this offset when allocating  memory from memory port(0x80000000~),
++	  then memremap to virtual address.
++
++config RISCV_DIE1_CACHED_OFFSET
++	hex "DIE1 memory port addr of U84"
++	depends on RISCV && ARCH_HAS_DMA_SET_UNCACHED
++	default 0x2000000000
++	help
++	  Access to DIE1 DDR memory through U84 memory port is cached.
++
++config RISCV_DIE1_MEM_MAX_SIZE
++	hex "DIE1 memory size, default 32GB"
++	depends on RISCV && ARCH_HAS_DMA_SET_UNCACHED
++	default 0x800000000
++
++config RISCV_DIE1_UNCACHED_OFFSET
++	hex "DIE1 system port addr of U84"
++	depends on RISCV && ARCH_HAS_DMA_SET_UNCACHED
++	default 0xe000000000
++	help
++	  Access to DIE1 DDR memory through U84 system port is uncached.
++	  Add this offset when allocating  memory from memory port(0x2000000000~),
++	  then memremap to virtual address.
++
++config RISCV_INTERLEAVE_CACHED_OFFSET
++	hex "memory port addr of interleave"
++	depends on RISCV && ARCH_HAS_DMA_SET_UNCACHED
++	default 0x4000000000
++	help
++	  Access to DDR memory through U84 memory port with interleave is cached.
++
++config RISCV_INTERLEAVE_MEM_MAX_SIZE
++	hex "Interleaving memory size, default 64GB"
++	depends on RISCV && ARCH_HAS_DMA_SET_UNCACHED
++	default 0x1000000000
++
++config RISCV_INTERLEAVE_UNCACHED_OFFSET
++	hex "system port addr of interleave"
++	depends on RISCV && ARCH_HAS_DMA_SET_UNCACHED
++	default 0x10000000000
++	help
++	  Access to DDR memory through U84 system port with interleave is uncached.
++	  Add this offset when allocating  memory from memory port(0x4000000000~),
++	  then memremap to virtual address.
++
+ config RISCV_NONSTANDARD_CACHE_OPS
+ 	bool
+ 	help
+@@ -334,7 +403,7 @@ config ARCH_RV64I
+ 	bool "RV64I"
+ 	select 64BIT
+ 	select ARCH_SUPPORTS_INT128 if CC_HAS_INT128
+-	select SWIOTLB if MMU
++	select SWIOTLB if MMU && !SOC_SIFIVE_EIC7700
+ 
+ endchoice
+ 
+diff --git a/arch/riscv/Kconfig.socs b/arch/riscv/Kconfig.socs
+index 30fd6a512828..bad861ecdcd3 100644
+--- a/arch/riscv/Kconfig.socs
++++ b/arch/riscv/Kconfig.socs
+@@ -16,9 +16,16 @@ config ARCH_RENESAS
+ config ARCH_SIFIVE
+ 	def_bool SOC_SIFIVE
+ 
++config SOC_SIFIVE_EIC7700
++	bool "SiFive eic7700 SoC"
++	select RISCV_NONSTANDARD_CACHE_OPS
++	help
++	  This enables support for SiFive EIC7700 platform hardware.
++
+ config SOC_SIFIVE
+ 	bool "SiFive SoCs"
+ 	select ERRATA_SIFIVE if !XIP_KERNEL
++	select RISCV_DMA_NONCOHERENT if SOC_SIFIVE_EIC7700
+ 	help
+ 	  This enables support for SiFive SoC platform hardware.
+ 
+-- 
+2.47.0
+

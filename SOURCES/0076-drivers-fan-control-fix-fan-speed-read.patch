@@ -1,0 +1,31 @@
+From 2ecc055d6c9e6776b98f02114ff82cd4797a9f10 Mon Sep 17 00:00:00 2001
+From: Wei Yang <yangwei1@eswincomputing.com>
+Date: Tue, 1 Oct 2024 18:14:50 +0530
+Subject: [PATCH 076/114] drivers: fan-control: fix fan speed read
+
+Fixed timeout issue when reading fan speed
+
+Signed-off-by: Wei Yang <yangwei1@eswincomputing.com>
+Signed-off-by: Pinkesh Vaghela <pinkesh.vaghela@einfochips.com>
+---
+ drivers/hwmon/eswin-fan-control.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
+
+diff --git a/drivers/hwmon/eswin-fan-control.c b/drivers/hwmon/eswin-fan-control.c
+index 5b7311cc9d6d..c537807d2eb7 100644
+--- a/drivers/hwmon/eswin-fan-control.c
++++ b/drivers/hwmon/eswin-fan-control.c
+@@ -152,9 +152,7 @@ static long eswin_fan_control_get_fan_rpm(struct eswin_fan_control_data *ctl)
+ 
+ 	ctl->wait_flag = false;
+ 	period = pwm_get_period(ctl->pwm);
+-	timeout = TIMEOUT(period);
+-	if(!timeout)
+-		timeout = TIMEOUT(ctl->min_period);
++	timeout = msecs_to_jiffies(1500);
+ 
+ 	val = fan_ioread(REG_FAN_INT, ctl);
+ 	val = val | 0x1;
+-- 
+2.47.0
+

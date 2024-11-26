@@ -1,0 +1,54 @@
+From 14352486b87bb8462a28a61d12a125e05e934958 Mon Sep 17 00:00:00 2001
+From: Pritesh Patel <pritesh.patel@einfochips.com>
+Date: Thu, 19 Sep 2024 10:34:14 +0000
+Subject: [PATCH 071/114] riscv: defconfig: hifive-premier-p550: Remove
+ CONFIG_FRAME_WARN
+
+- Removed "CONFIG_FRAME_WARN=1024" due to warnings in kernel
+  compilation.
+
+Warnings:
+---------
+drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c: In function 'arm_smmu_atc_inv_master.isra':
+drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:1855:1: warning: the frame size of 1072 bytes is larger than 1024 bytes [-Wframe-larger-than=]
+1855 | }
+      | ^
+  CC [M]  fs/dlm/lockspace.o
+  CC      drivers/pci/iov.o
+  CC [M]  drivers/gpio/gpio-pisosr.o
+  CC [M]  net/dsa/tag_rtl8_4.o
+drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c: In function '__arm_smmu_tlb_inv_range':
+drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:1998:1: warning: the frame size of 1040 bytes is larger than 1024 bytes [-Wframe-larger-than=]
+1998 | }
+      | ^
+  CC      drivers/regulator/fixed.o
+drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c: In function 'arm_smmu_sync_cd':
+drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:1018:1: warning: the frame size of 1072 bytes is larger than 1024 bytes [-Wframe-larger-than=]
+1018 | }
+      | ^
+
+drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c: In function 'arm_smmu_atc_inv_domain':
+  CC      net/handshake/netlink.o
+drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:1903:1: warning: the frame size of 1072 bytes is larger than 1024 bytes [-Wframe-larger-than=]
+1903 | }
+
+Signed-off-by: Pritesh Patel <pritesh.patel@einfochips.com>
+---
+ arch/riscv/configs/hifive-premier-p550_defconfig | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/arch/riscv/configs/hifive-premier-p550_defconfig b/arch/riscv/configs/hifive-premier-p550_defconfig
+index c3c118eaa003..0e911550626a 100644
+--- a/arch/riscv/configs/hifive-premier-p550_defconfig
++++ b/arch/riscv/configs/hifive-premier-p550_defconfig
+@@ -5897,7 +5897,6 @@ CONFIG_BOOT_PRINTK_DELAY=y
+ CONFIG_DYNAMIC_DEBUG=y
+ CONFIG_DEBUG_INFO_DWARF5=y
+ CONFIG_GDB_SCRIPTS=y
+-CONFIG_FRAME_WARN=1024
+ CONFIG_VMLINUX_MAP=y
+ CONFIG_MAGIC_SYSRQ_DEFAULT_ENABLE=0x01b6
+ CONFIG_KGDB=y
+-- 
+2.47.0
+

@@ -1,0 +1,31 @@
+From f95194b08c3dc439a8a233d926ef445ce2ee5aca Mon Sep 17 00:00:00 2001
+From: Darshan Prajapati <darshan.prajapati@einfochips.com>
+Date: Wed, 9 Oct 2024 18:48:07 +0530
+Subject: [PATCH 088/114] riscv: defconfig: hifive-premier-p550: Update
+ defconfig
+
+Removed "CONFIG_INIT_ON_ALLOC_DEFAULT_ON" from
+hifive-premier-p550_defconfig to resolve desktop freeze issue in
+ubuntu image
+
+Signed-off-by: Pinkesh Vaghela <pinkesh.vaghela@einfochips.com>
+Signed-off-by: Darshan Prajapati <darshan.prajapati@einfochips.com>
+---
+ arch/riscv/configs/hifive-premier-p550_defconfig | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/arch/riscv/configs/hifive-premier-p550_defconfig b/arch/riscv/configs/hifive-premier-p550_defconfig
+index 0e911550626a..ebe937db850a 100644
+--- a/arch/riscv/configs/hifive-premier-p550_defconfig
++++ b/arch/riscv/configs/hifive-premier-p550_defconfig
+@@ -5812,7 +5812,6 @@ CONFIG_EVM_EXTRA_SMACK_XATTRS=y
+ CONFIG_EVM_ADD_XATTRS=y
+ CONFIG_DEFAULT_SECURITY_APPARMOR=y
+ CONFIG_LSM="landlock,lockdown,yama,integrity,apparmor"
+-CONFIG_INIT_ON_ALLOC_DEFAULT_ON=y
+ CONFIG_ZERO_CALL_USED_REGS=y
+ CONFIG_CRYPTO_USER=m
+ CONFIG_CRYPTO_PCRYPT=m
+-- 
+2.47.0
+

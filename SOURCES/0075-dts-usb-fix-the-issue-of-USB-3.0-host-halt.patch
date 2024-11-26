@@ -1,0 +1,45 @@
+From 1fdd83deb3c7954689a814a5ba6075ebee698d28 Mon Sep 17 00:00:00 2001
+From: Shuang Liang <liangshuang@eswincomputing.com>
+Date: Sun, 29 Sep 2024 20:38:09 +0530
+Subject: [PATCH 075/114] dts: usb: fix the issue of USB 3.0 host halt
+
+Disable parkmod to fix the issue of failure while copying
+large files with USB 3.0.
+
+Signed-off-by: Shuang Liang <liangshuang@eswincomputing.com>
+Signed-off-by: Pinkesh Vaghela <pinkesh.vaghela@einfochips.com>
+---
+ arch/riscv/boot/dts/eswin/eic7700.dtsi | 10 ++--------
+ 1 file changed, 2 insertions(+), 8 deletions(-)
+
+diff --git a/arch/riscv/boot/dts/eswin/eic7700.dtsi b/arch/riscv/boot/dts/eswin/eic7700.dtsi
+index d144f66ac882..96bdd4379205 100644
+--- a/arch/riscv/boot/dts/eswin/eic7700.dtsi
++++ b/arch/riscv/boot/dts/eswin/eic7700.dtsi
+@@ -1847,10 +1847,7 @@ d0_usbdrd_dwc3_0: dwc3@50480000 {
+ 				snps,dis-u2-freeclk-exists-quirk;
+ 				snps,dis_u2_susphy_quirk;
+ 				snps,dis-del-phy-power-chg-quirk;
+-				snps,tx-ipgap-linecheck-dis-quirk;
+-				snps,xhci-slow-suspend-quirk;
+-				snps,xhci-trb-ent-quirk;
+-				snps,usb3-warm-reset-on-resume-quirk;
++				snps,parkmode-disable-ss-quirk;
+ 				status = "disabled";
+ 				numa-node-id = <0>;
+ 				tbus = <EIC7700_TBUID_USB>;
+@@ -1886,10 +1883,7 @@ d0_usbdrd_dwc3_1: dwc3@50490000 {
+ 				snps,dis-u2-freeclk-exists-quirk;
+ 				snps,dis_u2_susphy_quirk;
+ 				snps,dis-del-phy-power-chg-quirk;
+-				snps,tx-ipgap-linecheck-dis-quirk;
+-				snps,xhci-slow-suspend-quirk;
+-				snps,xhci-trb-ent-quirk;
+-				snps,usb3-warm-reset-on-resume-quirk;
++				snps,parkmode-disable-ss-quirk;
+ 				status = "disabled";
+ 				numa-node-id = <0>;
+ 				tbus = <EIC7700_TBUID_USB>;
+-- 
+2.47.0
+
