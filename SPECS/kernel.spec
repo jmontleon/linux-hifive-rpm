@@ -1109,6 +1109,7 @@ Patch0211: 0111-drivers-net-ethernet-eic7700-Replace-CSR-clock.patch
 Patch0212: 0112-drivers-gpu-img-Cleanup-debug-prints.patch
 Patch0213: 0113-UBUNTU-Config-Disable-NUMA-and-optimize-configs.patch
 Patch0214: 0114-UBUNTU-linux-premier-6.6.21-9.1.patch
+Patch0215: 0115-update-pwm_apply_state-to-pwm_apply_might_sleep.patch
 
 
 
@@ -1980,6 +1981,7 @@ ApplyOptionalPatch 0111-drivers-net-ethernet-eic7700-Replace-CSR-clock.patch
 ApplyOptionalPatch 0112-drivers-gpu-img-Cleanup-debug-prints.patch
 ApplyOptionalPatch 0113-UBUNTU-Config-Disable-NUMA-and-optimize-configs.patch
 ApplyOptionalPatch 0114-UBUNTU-linux-premier-6.6.21-9.1.patch 
+ApplyOptionalPatch 0115-update-pwm_apply_state-to-pwm_apply_might_sleep.patch
 
 
 
