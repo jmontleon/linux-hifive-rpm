@@ -1,7 +1,7 @@
-From 2ac196f1d803f612ca676737c7d0d0d7399fbf42 Mon Sep 17 00:00:00 2001
+From 31255ae10f9e95c8636e6d2317dc50fac247aaea Mon Sep 17 00:00:00 2001
 From: Yifeng Huang <huangyifeng@eswincomputing.com>
 Date: Tue, 30 Jul 2024 15:18:03 +0000
-Subject: [PATCH 028/114] drivers: spi: Add bootspi flash driver for EIC7700
+Subject: [PATCH 028/127] drivers: spi: Add bootspi flash driver for EIC7700
 
 Signed-off-by: Yifeng Huang <huangyifeng@eswincomputing.com>
 Signed-off-by: Pritesh Patel <pritesh.patel@einfochips.com>

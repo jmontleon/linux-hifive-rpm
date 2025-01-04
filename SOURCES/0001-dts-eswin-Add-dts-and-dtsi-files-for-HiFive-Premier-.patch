@@ -1,7 +1,7 @@
-From d9130d0fe15d42a095733602fec07b6e91388aed Mon Sep 17 00:00:00 2001
+From b3b94badf9bff72c37294448229b6c53068ce21f Mon Sep 17 00:00:00 2001
 From: Min Lin <linmin@eswincomputing.com>
 Date: Mon, 29 Jul 2024 16:22:35 +0530
-Subject: [PATCH 001/114] dts: eswin: Add dts and dtsi files for HiFive Premier
+Subject: [PATCH 001/127] dts: eswin: Add dts and dtsi files for HiFive Premier
  P550 board
 
 dts, dtsi and include files for HiFive Premier P550 boards

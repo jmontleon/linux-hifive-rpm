@@ -1,7 +1,7 @@
-From 520d4a70cb2de5f9b32b3b8e001b3476a7e3b5f7 Mon Sep 17 00:00:00 2001
+From cf02cba7455eceb3c4e7bdcef135b65edaedaa5d Mon Sep 17 00:00:00 2001
 From: Pinkesh Vaghela <pinkesh.vaghela@einfochips.com>
 Date: Wed, 9 Oct 2024 19:27:17 +0530
-Subject: [PATCH 089/114] riscv: defconfig: hifive-premier-p550: Update
+Subject: [PATCH 089/127] riscv: defconfig: hifive-premier-p550: Update
  defconfig
 
 Removed "CONFIG_DM_RAID" and "CONFIG_DM_INTEGRITY" to disable all

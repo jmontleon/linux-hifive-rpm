@@ -1,7 +1,7 @@
-From 696a7ce7ca7d7528e8e836a267f5b2bfa8a735b2 Mon Sep 17 00:00:00 2001
+From 3b806f5b8a92ce1502340558360bc9ae39ef2022 Mon Sep 17 00:00:00 2001
 From: Pritesh Patel <pritesh.patel@einfochips.com>
 Date: Fri, 23 Aug 2024 10:46:29 +0530
-Subject: [PATCH 036/114] riscv: defconfig: hifive-premier-p550: Update command
+Subject: [PATCH 036/127] riscv: defconfig: hifive-premier-p550: Update command
  line
 
 Updated kernel command line

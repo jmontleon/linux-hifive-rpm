@@ -1,7 +1,7 @@
-From e53c069f7ca857ed660eec8c5c240b794fc7105c Mon Sep 17 00:00:00 2001
+From 8b5dc078a69e6dcf5b253493b05e938258c23e96 Mon Sep 17 00:00:00 2001
 From: Emil Renner Berthing <emil.renner.berthing@canonical.com>
 Date: Sun, 18 Aug 2024 20:05:25 +0200
-Subject: [PATCH 080/114] UBUNTU: [Config] Updates from the Noble 6.8 riscv64
+Subject: [PATCH 080/127] UBUNTU: [Config] Updates from the Noble 6.8 riscv64
  kernel
 
 This also limits the annotations to the riscv64 architecture.

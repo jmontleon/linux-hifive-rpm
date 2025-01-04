@@ -1,7 +1,7 @@
-From 916bfd5e1fc945cd564fdc54009120b146bafb90 Mon Sep 17 00:00:00 2001
+From 01f4b55c4d5b851017c0a6d70030400d1066dbb8 Mon Sep 17 00:00:00 2001
 From: Yifeng Huang <huangyifeng@eswincomputing.com>
 Date: Tue, 30 Jul 2024 05:07:25 +0000
-Subject: [PATCH 013/114] driver: reset: Add eswin reset driver
+Subject: [PATCH 013/127] driver: reset: Add eswin reset driver
 
 Signed-off-by: Yifeng Huang <huangyifeng@eswincomputing.com>
 Signed-off-by: Darshan Prajapati <darshan.prajapati@einfochips.com>

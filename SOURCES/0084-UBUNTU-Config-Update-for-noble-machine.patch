@@ -1,7 +1,7 @@
-From 921d07f309d7af9af1f3ee6f0fcd697a7bee2efc Mon Sep 17 00:00:00 2001
+From c8e230f90bd7b77b85af3bdb25a07d936fbbf355 Mon Sep 17 00:00:00 2001
 From: Pinkesh Vaghela <pinkesh.vaghela@einfochips.com>
 Date: Fri, 27 Sep 2024 04:35:35 +0000
-Subject: [PATCH 084/114] UBUNTU: [Config] Update for noble machine
+Subject: [PATCH 084/127] UBUNTU: [Config] Update for noble machine
 
 To fix launchpad build errors
 Reverted configs CONFIG_AS_*, CONFIG_CC_*,

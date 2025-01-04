@@ -1,7 +1,7 @@
-From c325ae0183ef71c49420964bc6b05f7dec2d202b Mon Sep 17 00:00:00 2001
+From b3040e517ef340aa7de8fd8bc259befc6f5309fd Mon Sep 17 00:00:00 2001
 From: Guo Yi <yiguo@eswincomputing.com>
 Date: Thu, 6 Jun 2024 17:04:36 +0800
-Subject: [PATCH 051/114] fix:add enable/disable for hdcp1x
+Subject: [PATCH 051/127] fix:add enable/disable for hdcp1x
 
 Changelogs:
 1. add enable/disable for hdcp1x

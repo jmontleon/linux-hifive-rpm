@@ -1,7 +1,7 @@
-From 04eddf0cd85338d9239fec49c5d519574d55f825 Mon Sep 17 00:00:00 2001
+From fc4a02bae656a638a77d9c08aed3c4bb58c285da Mon Sep 17 00:00:00 2001
 From: Lifei Fang <fanglifei@eswincomputing.com>
 Date: Mon, 22 Jul 2024 17:31:42 +0800
-Subject: [PATCH 065/114] fix(vo): clk off after dc initialized
+Subject: [PATCH 065/127] fix(vo): clk off after dc initialized
 
 Changelogs:
 1. Close clks after dc initialized to fix clks_config

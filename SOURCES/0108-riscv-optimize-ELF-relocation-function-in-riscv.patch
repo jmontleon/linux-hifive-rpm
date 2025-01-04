@@ -1,7 +1,7 @@
-From d26e80452ea85d995d9c8d521eb78fe9799103cc Mon Sep 17 00:00:00 2001
+From 5abadfae199ade9beaced677a9b4db1c1124609b Mon Sep 17 00:00:00 2001
 From: Maxim Kochetkov <fido_max@inbox.ru>
 Date: Thu, 14 Dec 2023 09:39:06 +0300
-Subject: [PATCH 108/114] riscv: optimize ELF relocation function in riscv
+Subject: [PATCH 108/127] riscv: optimize ELF relocation function in riscv
 
 The patch can optimize the running times of insmod command by modify ELF
 relocation function.

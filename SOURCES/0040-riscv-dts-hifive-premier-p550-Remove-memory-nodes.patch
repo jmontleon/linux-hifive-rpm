@@ -1,7 +1,7 @@
-From 77d63f5ef8fe1e27649a902a96d94edb797b94a5 Mon Sep 17 00:00:00 2001
+From 38749cd946ed61aa3653aa1a011ef975f60bb276 Mon Sep 17 00:00:00 2001
 From: Pritesh Patel <pritesh.patel@einfochips.com>
 Date: Thu, 29 Aug 2024 15:42:10 +0530
-Subject: [PATCH 040/114] riscv: dts: hifive-premier-p550: Remove memory nodes
+Subject: [PATCH 040/127] riscv: dts: hifive-premier-p550: Remove memory nodes
 
 Memory size will be passed through kernel command line based on
 the RAM detected by U-Boot

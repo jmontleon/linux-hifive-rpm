@@ -1,0 +1,27 @@
+From afd43d1beb3366e604b6f9074ff6599e0693848f Mon Sep 17 00:00:00 2001
+From: Pinkesh Vaghela <pinkesh.vaghela@einfochips.com>
+Date: Wed, 4 Dec 2024 14:05:35 +0000
+Subject: [PATCH 120/127] UBUNTU: linux-premier-6.6.21-10.3
+
+Signed-off-by: Pinkesh Vaghela <pinkesh.vaghela@einfochips.com>
+---
+ debian/changelog | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/debian/changelog b/debian/changelog
+index 2889f43a390a..e4128f378d9c 100644
+--- a/debian/changelog
++++ b/debian/changelog
+@@ -1,3 +1,9 @@
++linux-premier (6.6.21-10.3) noble; urgency=medium
++
++  * Prevent older mesa and xorg for DDK 24.2
++
++ -- Pinkesh Vaghela <pinkesh.vaghela@einfochips.com>  Wed, 04 Dec 2024 14:04:10 +0000
++
+ linux-premier (6.6.21-10.2) noble; urgency=medium
+ 
+   * Add dependency of eswin-eic7x-gpu package version
+-- 
+2.47.0
+

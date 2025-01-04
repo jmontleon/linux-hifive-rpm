@@ -1,7 +1,7 @@
-From bcd5946775cc3d477ad1051455e9b61ce40438e3 Mon Sep 17 00:00:00 2001
+From 188715a4ced033eaea94ff620e81f365452fef77 Mon Sep 17 00:00:00 2001
 From: Pritesh Patel <pritesh.patel@einfochips.com>
 Date: Tue, 3 Sep 2024 11:52:32 +0000
-Subject: [PATCH 041/114] riscv: dts: hifive-premier-p550: Update ISA extension
+Subject: [PATCH 041/127] riscv: dts: hifive-premier-p550: Update ISA extension
  in dtsi
 
 Removed "riscv,isa" property since its deprecated and replace them

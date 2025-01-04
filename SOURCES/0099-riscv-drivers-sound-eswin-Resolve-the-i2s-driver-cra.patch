@@ -1,7 +1,7 @@
-From 5bb7b9da92af6160feb74f277970235c6f5d9c57 Mon Sep 17 00:00:00 2001
+From d1b06cdcde389884b383e7ccf46db8e8e79d33bd Mon Sep 17 00:00:00 2001
 From: Lei Deng <denglei@eswincomputing.com>
 Date: Tue, 22 Oct 2024 10:00:19 +0000
-Subject: [PATCH 099/114] riscv: drivers: sound: eswin: Resolve the i2s driver
+Subject: [PATCH 099/127] riscv: drivers: sound: eswin: Resolve the i2s driver
  crash issue
 
 When async_tx and async_tx_dma are enabled, the async module will

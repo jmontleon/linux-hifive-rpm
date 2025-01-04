@@ -1,7 +1,7 @@
-From 3fac7baa696395e45f8114350b2aac6c827062c4 Mon Sep 17 00:00:00 2001
+From 02e02640a9a3b752d832f3f69b763ce164ae422a Mon Sep 17 00:00:00 2001
 From: Pritesh Patel <pritesh.patel@einfochips.com>
 Date: Tue, 22 Oct 2024 11:53:25 +0000
-Subject: [PATCH 100/114] hifive-premier-p550: drivers: pac1934: fix probe
+Subject: [PATCH 100/127] hifive-premier-p550: drivers: pac1934: fix probe
  issue
 
 error:

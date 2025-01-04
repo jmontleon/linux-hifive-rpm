@@ -1,7 +1,7 @@
-From 1fdd83deb3c7954689a814a5ba6075ebee698d28 Mon Sep 17 00:00:00 2001
+From 010d850e09b6a7119e6efda88e49aa58cedd94e4 Mon Sep 17 00:00:00 2001
 From: Shuang Liang <liangshuang@eswincomputing.com>
 Date: Sun, 29 Sep 2024 20:38:09 +0530
-Subject: [PATCH 075/114] dts: usb: fix the issue of USB 3.0 host halt
+Subject: [PATCH 075/127] dts: usb: fix the issue of USB 3.0 host halt
 
 Disable parkmod to fix the issue of failure while copying
 large files with USB 3.0.

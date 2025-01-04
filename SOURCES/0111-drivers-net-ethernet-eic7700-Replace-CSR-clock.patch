@@ -1,7 +1,7 @@
-From 384ed1371050c23f0cf4386ae260eedc60099a41 Mon Sep 17 00:00:00 2001
+From 0295e0c3e78c61c0d34efb0a81cfe23d04dea783 Mon Sep 17 00:00:00 2001
 From: Lifei Fang <fanglifei@eswincomputing.com>
 Date: Fri, 8 Nov 2024 14:11:49 +0530
-Subject: [PATCH 111/114] drivers: net: ethernet: eic7700: Replace CSR clock
+Subject: [PATCH 111/127] drivers: net: ethernet: eic7700: Replace CSR clock
 
 - Replaced CSR clock with stmmaceth clock in dtsi
 - Removed enabling and disabling of stmmaceth clock

@@ -1,7 +1,7 @@
-From bc34f11a580af4e846178158b85f4dbf5ba187d4 Mon Sep 17 00:00:00 2001
+From a35822f16043810d0579e6251bdc3c5d6bda1d3c Mon Sep 17 00:00:00 2001
 From: Yu Ning <ningyu@eswincomputing.com>
 Date: Tue, 30 Jul 2024 11:21:30 +0000
-Subject: [PATCH 020/114] drivers: bus-error: Added SiFive Bus Error driver
+Subject: [PATCH 020/127] drivers: bus-error: Added SiFive Bus Error driver
 
 Signed-off-by: Yu Ning <ningyu@eswincomputing.com>
 Signed-off-by: Darshan Prajapati <darshan.prajapati@einfochips.com>

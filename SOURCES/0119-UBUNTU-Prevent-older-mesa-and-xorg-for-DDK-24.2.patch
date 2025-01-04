@@ -1,0 +1,29 @@
+From 30836ab155aec5bfe5e246bde714a7d0029c2847 Mon Sep 17 00:00:00 2001
+From: Pinkesh Vaghela <pinkesh.vaghela@einfochips.com>
+Date: Wed, 4 Dec 2024 13:57:35 +0000
+Subject: [PATCH 119/127] UBUNTU: Prevent older mesa and xorg for DDK 24.2
+
+Add "Breaks" for mesa and xorg version to prevent older mesa and xorg
+packages with new DDK 24.2 kernel
+
+Signed-off-by: Pinkesh Vaghela <pinkesh.vaghela@einfochips.com>
+---
+ debian/control.d/flavour-control.stub | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/debian/control.d/flavour-control.stub b/debian/control.d/flavour-control.stub
+index cc30c87de207..472ec6cd1c65 100644
+--- a/debian/control.d/flavour-control.stub
++++ b/debian/control.d/flavour-control.stub
+@@ -26,7 +26,7 @@ Priority: optional
+ Provides: linux-image, fuse-module, =PROVIDES=
+ Depends: ${misc:Depends}, ${shlibs:Depends}, kmod, linux-base (>= 4.5ubuntu1~16.04.1), linux-modules-PKGVER-ABINUM-FLAVOUR
+ Recommends: BOOTLOADER, initramfs-tools | linux-initramfs-tool
+-Breaks: flash-kernel (<< 3.90ubuntu2) [arm64 armhf], s390-tools (<< 2.3.0-0ubuntu3) [s390x]
++Breaks: flash-kernel (<< 3.90ubuntu2) [arm64 armhf], s390-tools (<< 2.3.0-0ubuntu3) [s390x], mesa (<< 1:22.3.5), xorg-server (<< 2:21.1.13)
+ Suggests: fdutils, SRCPKGNAME-tools, linux-headers-PKGVER-ABINUM-FLAVOUR
+ Description: Linux kernel image for version PKGVER on DESC
+  This package contains the Linux kernel image for version PKGVER on
+-- 
+2.47.0
+

@@ -159,19 +159,19 @@ Summary: The Linux kernel
 #  to build the base kernel using the debug configuration. (Specifying
 #  the --with-release option overrides this setting.)
 %define debugbuildsenabled 1
-%define buildid .hifive_9.1	
-%define specrpmversion 6.6.63
-%define specversion 6.6.63
+%define buildid .hifive_10.6
+%define specrpmversion 6.6.69
+%define specversion 6.6.69
 %define patchversion 6.6
 %define pkgrelease 200
 %define kversion 6
-%define tarfile_release 6.6.63
+%define tarfile_release 6.6.69
 # This is needed to do merge window version magic
 %define patchlevel 6
 # This allows pkg_release to have configurable %%{?dist} tag
 %define specrelease 200%{?buildid}%{?dist}
 # This defines the kabi tarball version
-%define kabiversion 6.6.63
+%define kabiversion 6.6.69
 
 # If this variable is set to 1, a bpf selftests build failure will cause a
 # fatal kernel package build error
@@ -1109,8 +1109,19 @@ Patch0211: 0111-drivers-net-ethernet-eic7700-Replace-CSR-clock.patch
 Patch0212: 0112-drivers-gpu-img-Cleanup-debug-prints.patch
 Patch0213: 0113-UBUNTU-Config-Disable-NUMA-and-optimize-configs.patch
 Patch0214: 0114-UBUNTU-linux-premier-6.6.21-9.1.patch
-Patch0215: 0115-update-pwm_apply_state-to-pwm_apply_might_sleep.patch
-
+Patch0215: 0115-drivers-gpu-img-Update-to-DDK-24.2.patch
+Patch0216: 0116-UBUNTU-linux-premier-6.6.21-10.1.patch
+Patch0217: 0117-UBUNTU-Add-dependency-for-eswin-eic7x-gpu.patch
+Patch0218: 0118-UBUNTU-linux-premier-6.6.21-10.2.patch
+Patch0219: 0119-UBUNTU-Prevent-older-mesa-and-xorg-for-DDK-24.2.patch
+Patch0220: 0120-UBUNTU-linux-premier-6.6.21-10.3.patch
+Patch0221: 0121-UBUNTU-Add-all-mesa-and-xorg-packages-in-Breaks.patch
+Patch0222: 0122-UBUNTU-linux-premier-6.6.21-10.4.patch
+Patch0223: 0123-UBUNTU-Removed-Breaks-for-mesa-opencl-icd.patch
+Patch0224: 0124-UBUNTU-linux-premier-6.6.21-10.5.patch
+Patch0225: 0125-UBUNTU-Updated-dependency-for-eswin-eic7x-gpu.patch
+Patch0226: 0126-UBUNTU-linux-premier-6.6.21-10.6.patch
+Patch0227: 0127-update-pwm_apply_state-to-pwm_apply_might_sleep.patch
 
 
 
@@ -1981,7 +1992,19 @@ ApplyOptionalPatch 0111-drivers-net-ethernet-eic7700-Replace-CSR-clock.patch
 ApplyOptionalPatch 0112-drivers-gpu-img-Cleanup-debug-prints.patch
 ApplyOptionalPatch 0113-UBUNTU-Config-Disable-NUMA-and-optimize-configs.patch
 ApplyOptionalPatch 0114-UBUNTU-linux-premier-6.6.21-9.1.patch 
-ApplyOptionalPatch 0115-update-pwm_apply_state-to-pwm_apply_might_sleep.patch
+ApplyOptionalPatch 0115-drivers-gpu-img-Update-to-DDK-24.2.patch
+ApplyOptionalPatch 0116-UBUNTU-linux-premier-6.6.21-10.1.patch
+ApplyOptionalPatch 0117-UBUNTU-Add-dependency-for-eswin-eic7x-gpu.patch
+ApplyOptionalPatch 0118-UBUNTU-linux-premier-6.6.21-10.2.patch
+ApplyOptionalPatch 0119-UBUNTU-Prevent-older-mesa-and-xorg-for-DDK-24.2.patch
+ApplyOptionalPatch 0120-UBUNTU-linux-premier-6.6.21-10.3.patch
+ApplyOptionalPatch 0121-UBUNTU-Add-all-mesa-and-xorg-packages-in-Breaks.patch
+ApplyOptionalPatch 0122-UBUNTU-linux-premier-6.6.21-10.4.patch
+ApplyOptionalPatch 0123-UBUNTU-Removed-Breaks-for-mesa-opencl-icd.patch
+ApplyOptionalPatch 0124-UBUNTU-linux-premier-6.6.21-10.5.patch
+ApplyOptionalPatch 0125-UBUNTU-Updated-dependency-for-eswin-eic7x-gpu.patch
+ApplyOptionalPatch 0126-UBUNTU-linux-premier-6.6.21-10.6.patch
+ApplyOptionalPatch 0127-update-pwm_apply_state-to-pwm_apply_might_sleep.patch
 
 
 
@@ -3974,6 +3997,10 @@ fi\
 #
 #
 %changelog
+* Fri Jan 03 2025 Jason Montleon <jason@montleon.com> [6.6.69-200.hifive_10.6]
+- Update to HiFive 10.6
+- Update riscv64 config options for p550
+
 * Tue Nov 26 2024 Jason Montleon <jason@montleon.com> [6.6.63-200.hifive]
 - Initial attempt
 

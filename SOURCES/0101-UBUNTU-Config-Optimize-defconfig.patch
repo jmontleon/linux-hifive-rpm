@@ -1,7 +1,7 @@
-From a99504d8c2b7ab2202cfe9fde1ab605747e0c3f7 Mon Sep 17 00:00:00 2001
+From b284455564da93669d698ff0428ddce358c366c8 Mon Sep 17 00:00:00 2001
 From: Pinkesh Vaghela <pinkesh.vaghela@einfochips.com>
 Date: Wed, 23 Oct 2024 17:09:07 +0000
-Subject: [PATCH 101/114] UBUNTU: [Config] Optimize defconfig
+Subject: [PATCH 101/127] UBUNTU: [Config] Optimize defconfig
 
 - Remove unwanted Display panel configs
 - Remove unnecessary Frame buffer configs

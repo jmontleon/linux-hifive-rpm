@@ -1,7 +1,7 @@
-From 9e515be83437d23d993b7c3bf332853a9724bfae Mon Sep 17 00:00:00 2001
+From bc1300c8d45a0bc24bd18393d44385f349779ec2 Mon Sep 17 00:00:00 2001
 From: Min Lin <linmin@eswincomputing.com>
 Date: Mon, 29 Jul 2024 17:05:36 +0530
-Subject: [PATCH 004/114] riscv: asm: Added changes to asm header files
+Subject: [PATCH 004/127] riscv: asm: Added changes to asm header files
 
 - Added wfe and iomb functions for riscv
 - Added memory port to system port and system port to memory port

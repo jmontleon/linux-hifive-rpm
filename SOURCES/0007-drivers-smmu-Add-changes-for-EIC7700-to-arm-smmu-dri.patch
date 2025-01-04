@@ -1,7 +1,7 @@
-From 0c3af6311099d06863f5b9d8aa14b1c7055e1a94 Mon Sep 17 00:00:00 2001
+From 7e01ddd0025d87ef256f4681e2a5db84330b6510 Mon Sep 17 00:00:00 2001
 From: Pinkesh Vaghela <pinkesh.vaghela@einfochips.com>
 Date: Mon, 29 Jul 2024 17:31:16 +0530
-Subject: [PATCH 007/114] drivers: smmu: Add changes for EIC7700 to arm smmu
+Subject: [PATCH 007/127] drivers: smmu: Add changes for EIC7700 to arm smmu
  driver
 
 Clearing interrupt bits from interrupt handler because interrupt mode of

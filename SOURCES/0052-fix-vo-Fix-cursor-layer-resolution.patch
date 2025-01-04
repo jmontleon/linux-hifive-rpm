@@ -1,7 +1,7 @@
-From 5a3540e2a5fabeaecc10d6524cf862a16024d365 Mon Sep 17 00:00:00 2001
+From c939f093524e0e00796c7cd76befe5b1b4da99f4 Mon Sep 17 00:00:00 2001
 From: Lijun Li <lilijun@eswincomputing.com>
 Date: Wed, 19 Jun 2024 15:53:32 +0800
-Subject: [PATCH 052/114] fix(vo): Fix cursor layer resolution
+Subject: [PATCH 052/127] fix(vo): Fix cursor layer resolution
 
 Changelogs:
 1. Fix cursor layer only supporting 32x32 resolution

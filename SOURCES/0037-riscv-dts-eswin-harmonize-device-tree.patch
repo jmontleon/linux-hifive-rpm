@@ -1,7 +1,7 @@
-From 8347fefc418f918f5e2db79593490169428c81b7 Mon Sep 17 00:00:00 2001
+From 3da81ff0be1ff57fbb99171bdef649d9b0c0a066 Mon Sep 17 00:00:00 2001
 From: Heinrich Schuchardt <heinrich.schuchardt@canonical.com>
 Date: Thu, 29 Aug 2024 13:02:51 +0530
-Subject: [PATCH 037/114] riscv: dts: eswin: harmonize device-tree
+Subject: [PATCH 037/127] riscv: dts: eswin: harmonize device-tree
 
 - use eswin/eic7700-hifive-premier-p550.dtb as device-tree name
 - use "sifive,hifive-premier-p550", "eswin,eic7700" as compatible strings

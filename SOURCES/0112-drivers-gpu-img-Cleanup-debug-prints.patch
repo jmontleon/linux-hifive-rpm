@@ -1,7 +1,7 @@
-From 25b0bff64079df102be53d57b2f9a8a58ffaf0be Mon Sep 17 00:00:00 2001
+From 8f4d51c66e7079bd3ecab443515e0f9de8765894 Mon Sep 17 00:00:00 2001
 From: Pritesh Patel <pritesh.patel@einfochips.com>
 Date: Fri, 8 Nov 2024 14:21:00 +0530
-Subject: [PATCH 112/114] drivers: gpu: img: Cleanup debug prints
+Subject: [PATCH 112/127] drivers: gpu: img: Cleanup debug prints
 
 Removed unwanted debug prints
 

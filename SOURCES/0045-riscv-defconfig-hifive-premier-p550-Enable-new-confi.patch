@@ -1,7 +1,7 @@
-From a497dfaf17ce88c293be75d23790b50efce0c583 Mon Sep 17 00:00:00 2001
+From dfdad798920d128beb7429e5bde5f9dfdc059162 Mon Sep 17 00:00:00 2001
 From: Pritesh Patel <pritesh.patel@einfochips.com>
 Date: Thu, 12 Sep 2024 07:54:34 +0000
-Subject: [PATCH 045/114] riscv: defconfig: hifive-premier-p550: Enable new
+Subject: [PATCH 045/127] riscv: defconfig: hifive-premier-p550: Enable new
  configs
 
 Enabled kernel debug configs

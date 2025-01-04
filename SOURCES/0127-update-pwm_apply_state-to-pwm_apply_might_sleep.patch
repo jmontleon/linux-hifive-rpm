@@ -1,0 +1,34 @@
+From c81603c44ffb5d858acc95e0ecfabe1d32326d39 Mon Sep 17 00:00:00 2001
+From: Jason Montleon <jmontleo@redhat.com>
+Date: Tue, 26 Nov 2024 19:06:01 -0500
+Subject: [PATCH 127/127] update pwm_apply_state to pwm_apply_might_sleep
+
+---
+ drivers/hwmon/eswin-fan-control.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/hwmon/eswin-fan-control.c b/drivers/hwmon/eswin-fan-control.c
+index c537807d2eb7..f9af17a36051 100644
+--- a/drivers/hwmon/eswin-fan-control.c
++++ b/drivers/hwmon/eswin-fan-control.c
+@@ -111,7 +111,7 @@ static ssize_t eswin_fan_pwm_ctl_store(struct device *dev, struct device_attribu
+ 		dev_err(dev, "get error attr index 0x%x\n", attr->index);
+ 	}
+ 
+-	pwm_apply_state(ctl->pwm, &state);
++	pwm_apply_might_sleep(ctl->pwm, &state);
+ 
+ 	return count;
+ }
+@@ -209,7 +209,7 @@ static int eswin_fan_control_set_pwm_duty(const long val, struct eswin_fan_contr
+ 
+ 	pwm_get_state(ctl->pwm, &state);
+ 	pwm_set_relative_duty_cycle(&state, val, 100);
+-	pwm_apply_state(ctl->pwm, &state);
++	pwm_apply_might_sleep(ctl->pwm, &state);
+ 
+ 	return 0;
+ }
+-- 
+2.47.0
+

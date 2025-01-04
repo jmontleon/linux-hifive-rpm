@@ -1,7 +1,7 @@
-From 286da50d846e9da8e1c03f865bd361c9ef57d315 Mon Sep 17 00:00:00 2001
+From 5f646d56c2a0dca3f1acb6ce53b1d0d1e1c6d324 Mon Sep 17 00:00:00 2001
 From: Pinkesh Vaghela <pinkesh.vaghela@einfochips.com>
 Date: Thu, 26 Sep 2024 11:55:55 +0000
-Subject: [PATCH 082/114] UBUNTU: [Config] Update for hifive-premier-p550 board
+Subject: [PATCH 082/127] UBUNTU: [Config] Update for hifive-premier-p550 board
 
 Changed sdhci from builtin to modular for eMMC and SD Card boot
 Add Imagination GPU configs

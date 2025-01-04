@@ -1,7 +1,7 @@
-From f9fcc03f9d7b7d7f3e46a9b18a94b90b0a3ad3f2 Mon Sep 17 00:00:00 2001
+From 6687729530b885c9e76f2ca27384da1bf0a6ceba Mon Sep 17 00:00:00 2001
 From: Min Lin <linmin@eswincomputing.com>
 Date: Mon, 29 Jul 2024 14:19:28 +0000
-Subject: [PATCH 005/114] riscv: mm: dma-noncoherent: Add arch_dma_set_uncached
+Subject: [PATCH 005/127] riscv: mm: dma-noncoherent: Add arch_dma_set_uncached
 
 Add arch_dma_set_uncached and arch_dma_clear_uncached
 

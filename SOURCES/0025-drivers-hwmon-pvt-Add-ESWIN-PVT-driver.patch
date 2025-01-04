@@ -1,7 +1,7 @@
-From eb984b797c4c2b737459c4f79f6362ef4b5420ec Mon Sep 17 00:00:00 2001
+From 1572a5e6ed7d4dce38558c002049b5683497be28 Mon Sep 17 00:00:00 2001
 From: Yulin Lu <luyulin@eswincomputing.com>
 Date: Tue, 30 Jul 2024 14:13:13 +0000
-Subject: [PATCH 025/114] drivers: hwmon: pvt: Add ESWIN PVT driver
+Subject: [PATCH 025/127] drivers: hwmon: pvt: Add ESWIN PVT driver
 
 Signed-off-by: Yulin Lu <luyulin@eswincomputing.com>
 Signed-off-by: Darshan Prajapati <darshan.prajapati@einfochips.com>

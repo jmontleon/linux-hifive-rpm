@@ -1,7 +1,7 @@
-From 92a5bb895572df5f6218a559067973fccd64e36b Mon Sep 17 00:00:00 2001
+From 45deeb256d96e501272fb144cc7c99942458edf6 Mon Sep 17 00:00:00 2001
 From: Yifeng Huang <huangyifeng@eswincomputing.com>
 Date: Mon, 29 Jul 2024 16:58:46 +0530
-Subject: [PATCH 003/114] drivers: clk: eswin: added clock driver for eic7700
+Subject: [PATCH 003/127] drivers: clk: eswin: added clock driver for eic7700
 
 Signed-off-by: Yifeng Huang<huangyifeng@eswincomputing.com>
 Signed-off-by: Pinkesh Vaghela <pinkesh.vaghela@einfochips.com>

@@ -1,7 +1,7 @@
-From e6816d995fff72cc7b34c232369ba258cdad3a64 Mon Sep 17 00:00:00 2001
+From e327e00b1b00381c91a6c22f5dc06ad6866ffd0f Mon Sep 17 00:00:00 2001
 From: Emil Renner Berthing <emil.renner.berthing@canonical.com>
 Date: Thu, 5 Sep 2024 10:57:02 +0200
-Subject: [PATCH 078/114] UBUNTU: [Packaging] Add base packaging
+Subject: [PATCH 078/127] UBUNTU: [Packaging] Add base packaging
 
 Signed-off-by: Emil Renner Berthing <emil.renner.berthing@canonical.com>
 ---

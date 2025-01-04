@@ -1,7 +1,7 @@
-From 7c1e9b9ab21eec3e15d5f329c9ce3ff6d30da558 Mon Sep 17 00:00:00 2001
+From c8317601b0d26fdb5aa53218d7597e8bfc3ad332 Mon Sep 17 00:00:00 2001
 From: Emil Renner Berthing <emil.renner.berthing@canonical.com>
 Date: Thu, 29 Aug 2024 12:31:00 +0200
-Subject: [PATCH 081/114] UBUNTU: [Config] Update for the ESWIN EIC7700
+Subject: [PATCH 081/127] UBUNTU: [Config] Update for the ESWIN EIC7700
 
 The ESWIN EIC7700 SoC has non-coherent peripheral DMAs and handles it in
 a non-standard way, so unfortunately this kernel cannot be built to

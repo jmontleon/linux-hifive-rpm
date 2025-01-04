@@ -1,7 +1,7 @@
-From f95194b08c3dc439a8a233d926ef445ce2ee5aca Mon Sep 17 00:00:00 2001
+From 2c62d6706a5b5590a0f1716e63bb5c16e887f932 Mon Sep 17 00:00:00 2001
 From: Darshan Prajapati <darshan.prajapati@einfochips.com>
 Date: Wed, 9 Oct 2024 18:48:07 +0530
-Subject: [PATCH 088/114] riscv: defconfig: hifive-premier-p550: Update
+Subject: [PATCH 088/127] riscv: defconfig: hifive-premier-p550: Update
  defconfig
 
 Removed "CONFIG_INIT_ON_ALLOC_DEFAULT_ON" from

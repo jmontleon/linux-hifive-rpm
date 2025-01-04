@@ -1,0 +1,28 @@
+From 590530cb5683c397c79f54721156bbdd95773f65 Mon Sep 17 00:00:00 2001
+From: Pinkesh Vaghela <pinkesh.vaghela@einfochips.com>
+Date: Fri, 20 Dec 2024 12:42:03 +0000
+Subject: [PATCH 125/127] UBUNTU: Updated dependency for eswin-eic7x-gpu
+
+Updated version for eswin-eic7x-gpu package in dependency
+
+Signed-off-by: Pinkesh Vaghela <pinkesh.vaghela@einfochips.com>
+---
+ debian/control.d/flavour-control.stub | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/debian/control.d/flavour-control.stub b/debian/control.d/flavour-control.stub
+index 6f45535ffade..d152b598a8ac 100644
+--- a/debian/control.d/flavour-control.stub
++++ b/debian/control.d/flavour-control.stub
+@@ -62,7 +62,7 @@ Build-Profiles: <!stage1>
+ Architecture: ARCH
+ Section: kernel
+ Priority: optional
+-Depends: ${misc:Depends}, ${shlibs:Depends}, eswin-eic7x-gpu (>= 24.2+0ubuntu11)
++Depends: ${misc:Depends}, ${shlibs:Depends}, eswin-eic7x-gpu (>= 1:24.2+0ubuntu19)
+ Built-Using: ${linux:BuiltUsing}
+ Description: Linux kernel modules for version PKGVER on DESC
+  Contains the corresponding System.map file, the modules built by the
+-- 
+2.47.0
+

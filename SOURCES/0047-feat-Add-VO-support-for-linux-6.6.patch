@@ -1,7 +1,7 @@
-From 70e1d5dc37dfa760e2b0787b64580515acef9257 Mon Sep 17 00:00:00 2001
+From 930a6dc873e1f44d0faa8fbbcecf33c38daf6e7c Mon Sep 17 00:00:00 2001
 From: Lifei Fang <fanglifei@eswincomputing.com>
 Date: Tue, 21 May 2024 15:57:24 +0800
-Subject: [PATCH 047/114] feat: Add VO support for linux 6.6
+Subject: [PATCH 047/127] feat: Add VO support for linux 6.6
 
 Changelogs:
 1. Add support for DC8000 and virtual display

@@ -1,0 +1,27 @@
+From 77935aeabf78663981f2eb823909f8c370c0eec1 Mon Sep 17 00:00:00 2001
+From: Pinkesh Vaghela <pinkesh.vaghela@einfochips.com>
+Date: Thu, 5 Dec 2024 13:43:04 +0000
+Subject: [PATCH 122/127] UBUNTU: linux-premier-6.6.21-10.4
+
+Signed-off-by: Pinkesh Vaghela <pinkesh.vaghela@einfochips.com>
+---
+ debian/changelog | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/debian/changelog b/debian/changelog
+index e4128f378d9c..21f36074b0c8 100644
+--- a/debian/changelog
++++ b/debian/changelog
+@@ -1,3 +1,9 @@
++linux-premier (6.6.21-10.4) noble; urgency=medium
++
++  * Add all package of mesa and xorg in Breaks
++
++ -- Pinkesh Vaghela <pinkesh.vaghela@einfochips.com>  Thu, 05 Dec 2024 13:42:10 +0000
++
+ linux-premier (6.6.21-10.3) noble; urgency=medium
+ 
+   * Prevent older mesa and xorg for DDK 24.2
+-- 
+2.47.0
+
