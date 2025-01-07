@@ -169,7 +169,7 @@ Summary: The Linux kernel
 # This is needed to do merge window version magic
 %define patchlevel 6
 # This allows pkg_release to have configurable %%{?dist} tag
-%define specrelease 205%{?buildid}%{?dist}
+%define specrelease 206%{?buildid}%{?dist}
 # This defines the kabi tarball version
 %define kabiversion 6.6.69
 
@@ -3999,6 +3999,13 @@ fi\
 #
 #
 %changelog
+* Tue Jan 07 2025 Jason Montleon <jason@montleon.com> [6.6.69-206.hifive_10.6]
+- Unset CONFIG_RISCV_SBI_V01
+
+* Mon Jan 06 2025 Jason Montleon <jason@montleon.com> [6.6.69-205.hifive_10.6]
+- Add patch to improve fan behavior
+- Switch to vmlinuz.efi target
+
 * Fri Jan 03 2025 Jason Montleon <jason@montleon.com> [6.6.69-200.hifive_10.6]
 - Update to HiFive 10.6
 - Update riscv64 config options for p550
