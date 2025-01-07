@@ -1,7 +1,7 @@
 From 763a293fd07efed0c4be8131bb6fb6bbf8326c12 Mon Sep 17 00:00:00 2001
 From: Lei Deng <denglei@eswincomputing.com>
 Date: Thu, 18 Jul 2024 16:38:30 +0800
-Subject: [PATCH 064/127] feat:HDMI support low power.
+Subject: [PATCH 064/128] feat:HDMI support low power.
 
 Changelogs:
 	HDMI support low power.

@@ -1,7 +1,7 @@
 From 09b99699d61c64b6c57272df3ff50ee64f9d19cf Mon Sep 17 00:00:00 2001
 From: Lei Deng <denglei@eswincomputing.com>
 Date: Tue, 30 Jul 2024 11:57:29 +0000
-Subject: [PATCH 022/127] drivers: audio: Added audio drivers
+Subject: [PATCH 022/128] drivers: audio: Added audio drivers
 
 Add custom ES8328 audio codec driver for hifive premier p550 board
 Add eswin i2s driver

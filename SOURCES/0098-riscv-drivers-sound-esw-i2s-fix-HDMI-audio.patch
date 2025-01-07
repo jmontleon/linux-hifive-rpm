@@ -1,7 +1,7 @@
 From 444c66125c70d55ac8b39f401b0bebcc76e3891f Mon Sep 17 00:00:00 2001
 From: Lei Deng <denglei@eswincomputing.com>
 Date: Tue, 22 Oct 2024 09:52:36 +0000
-Subject: [PATCH 098/127] riscv: drivers: sound: esw-i2s: fix HDMI audio
+Subject: [PATCH 098/128] riscv: drivers: sound: esw-i2s: fix HDMI audio
 
 HDMI audio only supports playback
 

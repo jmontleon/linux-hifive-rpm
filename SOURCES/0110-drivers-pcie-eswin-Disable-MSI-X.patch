@@ -1,7 +1,7 @@
 From 2be3c232cdf0d5e5d255a7b82060d94d259cb549 Mon Sep 17 00:00:00 2001
 From: Yu Ning <ningyu@eswincomputing.com>
 Date: Thu, 7 Nov 2024 13:37:34 +0000
-Subject: [PATCH 110/127] drivers: pcie: eswin: Disable MSI-X
+Subject: [PATCH 110/128] drivers: pcie: eswin: Disable MSI-X
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit

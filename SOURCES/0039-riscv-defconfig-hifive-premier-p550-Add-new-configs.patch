@@ -1,7 +1,7 @@
 From f957cac9a0686dab491bc10d57dcba50e78c3567 Mon Sep 17 00:00:00 2001
 From: Pritesh Patel <pritesh.patel@einfochips.com>
 Date: Thu, 29 Aug 2024 15:39:54 +0530
-Subject: [PATCH 039/127] riscv: defconfig: hifive-premier-p550: Add new
+Subject: [PATCH 039/128] riscv: defconfig: hifive-premier-p550: Add new
  configs
 
 Enabled HDMI sound related configs

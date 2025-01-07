@@ -1,7 +1,7 @@
 From 4cd00ee99155e90b7eda2a69fa559d9f6fc569b7 Mon Sep 17 00:00:00 2001
 From: Jeegar Lakhani <jeegar.lakhani@sifive.com>
 Date: Mon, 26 Aug 2024 22:33:52 -0700
-Subject: [PATCH 068/127] Export arch sync dma symbols for use by external
+Subject: [PATCH 068/128] Export arch sync dma symbols for use by external
  modules
 
 Signed-off-by: Jeegar Lakhani <jeegar.lakhani@sifive.com>

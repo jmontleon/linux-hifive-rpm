@@ -1,7 +1,7 @@
 From 969208f68df75423d6aebf0e55f8f57ebd5aef06 Mon Sep 17 00:00:00 2001
 From: Wei Yang <yangwei1@eswincomputing.com>
 Date: Tue, 1 Oct 2024 18:14:50 +0530
-Subject: [PATCH 076/127] drivers: fan-control: fix fan speed read
+Subject: [PATCH 076/128] drivers: fan-control: fix fan speed read
 
 Fixed timeout issue when reading fan speed
 

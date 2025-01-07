@@ -1,7 +1,7 @@
 From 588648b24becc03577a67ac29f81cc417dd42346 Mon Sep 17 00:00:00 2001
 From: Heinrich Schuchardt <heinrich.schuchardt@canonical.com>
 Date: Thu, 29 Aug 2024 13:06:02 +0530
-Subject: [PATCH 038/127] riscv: defconfig: hifive-premier-p550: Improve distro
+Subject: [PATCH 038/128] riscv: defconfig: hifive-premier-p550: Improve distro
  compatibility
 
 With these changes Docker and Ubuntu Firewall are functional.

@@ -1,7 +1,7 @@
 From b7cdd48fa2853ca3f25567648d4456e39bf83134 Mon Sep 17 00:00:00 2001
 From: Pritesh Patel <pritesh.patel@einfochips.com>
 Date: Wed, 4 Sep 2024 08:28:24 +0000
-Subject: [PATCH 043/127] defconfig: hifive-premier-p550: Configure autofs4
+Subject: [PATCH 043/128] defconfig: hifive-premier-p550: Configure autofs4
  driver as inbuilt
 
 When autofs04 driver is built as module, it does not load

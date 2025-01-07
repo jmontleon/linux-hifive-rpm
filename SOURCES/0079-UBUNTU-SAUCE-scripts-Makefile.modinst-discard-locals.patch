@@ -1,7 +1,7 @@
 From 77bce00c3fafce053b9a0d28315147512a58d248 Mon Sep 17 00:00:00 2001
 From: Dimitri John Ledkov <dimitri.ledkov@canonical.com>
 Date: Wed, 9 Mar 2022 14:02:12 +0000
-Subject: [PATCH 079/127] UBUNTU: SAUCE: scripts/Makefile.modinst
+Subject: [PATCH 079/128] UBUNTU: SAUCE: scripts/Makefile.modinst
  discard-locals from modules
 
 On riscv, it appears that all kernel modules are generated with an

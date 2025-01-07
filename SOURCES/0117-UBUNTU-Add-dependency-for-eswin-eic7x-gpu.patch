@@ -1,7 +1,7 @@
 From 1a543bdcc4c34931aaa111f3d20e2220e715bfe7 Mon Sep 17 00:00:00 2001
 From: Pinkesh Vaghela <pinkesh.vaghela@einfochips.com>
 Date: Fri, 29 Nov 2024 10:14:57 +0000
-Subject: [PATCH 117/127] UBUNTU: Add dependency for eswin-eic7x-gpu
+Subject: [PATCH 117/128] UBUNTU: Add dependency for eswin-eic7x-gpu
 
 Add dependency of eswin-eic7x-gpu package version to ensure updated
 firmware for updated imagination GPU driver

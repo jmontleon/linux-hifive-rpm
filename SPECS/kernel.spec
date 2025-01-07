@@ -169,7 +169,7 @@ Summary: The Linux kernel
 # This is needed to do merge window version magic
 %define patchlevel 6
 # This allows pkg_release to have configurable %%{?dist} tag
-%define specrelease 201%{?buildid}%{?dist}
+%define specrelease 205%{?buildid}%{?dist}
 # This defines the kabi tarball version
 %define kabiversion 6.6.69
 
@@ -545,8 +545,8 @@ Summary: The Linux kernel
 %ifarch riscv64
 %define asmarch riscv
 %define hdrarch riscv
-%define make_target Image.gz
-%define kernel_image arch/riscv/boot/Image.gz
+%define make_target vmlinuz.efi
+%define kernel_image arch/riscv/boot/vmlinuz.efi
 %endif
 
 # Should make listnewconfig fail if there's config options
@@ -1122,6 +1122,7 @@ Patch0224: 0124-UBUNTU-linux-premier-6.6.21-10.5.patch
 Patch0225: 0125-UBUNTU-Updated-dependency-for-eswin-eic7x-gpu.patch
 Patch0226: 0126-UBUNTU-linux-premier-6.6.21-10.6.patch
 Patch0227: 0127-update-pwm_apply_state-to-pwm_apply_might_sleep.patch
+Patch0228: 0128-update-pac193x-eswin-fan-control.patch
 
 
 
@@ -2005,6 +2006,7 @@ ApplyOptionalPatch 0124-UBUNTU-linux-premier-6.6.21-10.5.patch
 ApplyOptionalPatch 0125-UBUNTU-Updated-dependency-for-eswin-eic7x-gpu.patch
 ApplyOptionalPatch 0126-UBUNTU-linux-premier-6.6.21-10.6.patch
 ApplyOptionalPatch 0127-update-pwm_apply_state-to-pwm_apply_might_sleep.patch
+ApplyOptionalPatch 0128-update-pac193x-eswin-fan-control.patch
 
 
 

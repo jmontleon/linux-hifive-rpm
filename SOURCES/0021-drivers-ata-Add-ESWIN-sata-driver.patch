@@ -1,7 +1,7 @@
 From f11a1d05c068a82bfb1e1dad841b223aed26f6d9 Mon Sep 17 00:00:00 2001
 From: Yulin Lu <luyulin@eswincomputing.com>
 Date: Tue, 30 Jul 2024 11:27:26 +0000
-Subject: [PATCH 021/127] drivers: ata: Add ESWIN sata driver
+Subject: [PATCH 021/128] drivers: ata: Add ESWIN sata driver
 
 Signed-off-by: Yulin Lu <luyulin@eswincomputing.com>
 Signed-off-by: Pritesh Patel <pritesh.patel@einfochips.com>

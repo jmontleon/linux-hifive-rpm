@@ -1,7 +1,7 @@
 From 1e19697db38ed4b2f24de7c2b846a35f0c1a1828 Mon Sep 17 00:00:00 2001
 From: Shuang Liang <liangshuang@eswincomputing.com>
 Date: Tue, 30 Jul 2024 05:03:58 +0000
-Subject: [PATCH 012/127] driver: mmc: Add ESWIN mmc drivers
+Subject: [PATCH 012/128] driver: mmc: Add ESWIN mmc drivers
 
 Signed-off-by: Shuang Liang <liangshuang@eswincomputing.com>
 Signed-off-by: Darshan Prajapati <darshan.prajapati@einfochips.com>

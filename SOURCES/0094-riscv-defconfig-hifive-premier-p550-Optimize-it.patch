@@ -1,7 +1,7 @@
 From 48a512c519e9b12c985a8f6f1db985934f83d66b Mon Sep 17 00:00:00 2001
 From: Pritesh Patel <pritesh.patel@einfochips.com>
 Date: Fri, 18 Oct 2024 15:41:31 +0530
-Subject: [PATCH 094/127] riscv: defconfig: hifive-premier-p550: Optimize it
+Subject: [PATCH 094/128] riscv: defconfig: hifive-premier-p550: Optimize it
 
 - Disabled subsystems that are not required for our board.
 - Disabled other unnecesary configs.

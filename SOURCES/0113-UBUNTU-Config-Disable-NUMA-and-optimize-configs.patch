@@ -1,7 +1,7 @@
 From 1b786d769a1c0687b2d7ba6cf9786d0466f370e0 Mon Sep 17 00:00:00 2001
 From: Pinkesh Vaghela <pinkesh.vaghela@einfochips.com>
 Date: Fri, 8 Nov 2024 13:54:22 +0000
-Subject: [PATCH 113/127] UBUNTU: [Config] Disable NUMA and optimize configs
+Subject: [PATCH 113/128] UBUNTU: [Config] Disable NUMA and optimize configs
 
 Disabled NUMA and optimized DRM configs
 

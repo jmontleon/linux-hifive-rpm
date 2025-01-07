@@ -1,7 +1,7 @@
 From 70c760a9ffdf6fe717523cd1d56aa40fedf96d12 Mon Sep 17 00:00:00 2001
 From: Pinkesh Vaghela <pinkesh.vaghela@einfochips.com>
 Date: Thu, 7 Nov 2024 10:41:44 +0000
-Subject: [PATCH 109/127] drivers: sound: eswin: Add mutex before registering
+Subject: [PATCH 109/128] drivers: sound: eswin: Add mutex before registering
  to /proc and /sys
 
 audio_proc_class is a global pointer that is assigned the pointer

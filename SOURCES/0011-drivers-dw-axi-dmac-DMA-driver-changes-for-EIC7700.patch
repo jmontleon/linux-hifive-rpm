@@ -1,7 +1,7 @@
 From d0dc870de441ecd6db9a5eaf2640b833da927879 Mon Sep 17 00:00:00 2001
 From: Xiang Xu <xuxiang@eswincomputing.com>
 Date: Tue, 30 Jul 2024 04:54:27 +0000
-Subject: [PATCH 011/127] drivers: dw-axi-dmac: DMA driver changes for EIC7700
+Subject: [PATCH 011/128] drivers: dw-axi-dmac: DMA driver changes for EIC7700
 
 - Removed cfgr clock as aon dma has separate cfg clk register bit
   while dma0 havn't. Since dma cfg clk is default on we do not

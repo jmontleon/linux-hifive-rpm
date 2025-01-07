@@ -1,7 +1,7 @@
 From 7a84ef3fa83ce98d60837f7539d1d66b9895769e Mon Sep 17 00:00:00 2001
 From: Yulin Lu <luyulin@eswincomputing.com>
 Date: Tue, 30 Jul 2024 09:22:56 +0000
-Subject: [PATCH 015/127] driver: pinctrl: Add pincontrol driver for EIC7700
+Subject: [PATCH 015/128] driver: pinctrl: Add pincontrol driver for EIC7700
 
 Signed-off-by: Yulin Lu <luyulin@eswincomputing.com>
 Signed-off-by: Darshan Prajapati <darshan.prajapati@einfochips.com>

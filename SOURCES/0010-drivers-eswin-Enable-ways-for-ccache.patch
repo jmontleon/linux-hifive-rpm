@@ -1,7 +1,7 @@
 From 8a5c40f5447d66dc71c090f905c116f7c0e96a3e Mon Sep 17 00:00:00 2001
 From: Pritesh Patel <pritesh.patel@einfochips.com>
 Date: Fri, 19 Jul 2024 06:45:16 +0000
-Subject: [PATCH 010/127] drivers: eswin: Enable ways for ccache
+Subject: [PATCH 010/128] drivers: eswin: Enable ways for ccache
 
 Enabled all available cache ways to be used as cache.
 This change is required for CPU performance improvement.

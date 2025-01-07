@@ -1,7 +1,7 @@
 From fa0f28d63f9bf1bbb4724a29f078b84d35c90865 Mon Sep 17 00:00:00 2001
 From: Anup Patel <apatel@ventanamicro.com>
 Date: Fri, 24 Nov 2023 12:39:02 +0530
-Subject: [PATCH 032/127] RISC-V: Add SBI debug console helper routines
+Subject: [PATCH 032/128] RISC-V: Add SBI debug console helper routines
 
 Let us provide SBI debug console helper routines which can be
 shared by serial/earlycon-riscv-sbi.c and hvc/hvc_riscv_sbi.c.

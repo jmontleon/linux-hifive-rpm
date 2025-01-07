@@ -1,7 +1,7 @@
 From 944230012f43a25b069758b2fda7f2810f385da2 Mon Sep 17 00:00:00 2001
 From: Wei Yang <yangwei1@eswincomputing.com>
 Date: Wed, 11 Sep 2024 15:27:06 +0000
-Subject: [PATCH 042/127] driver: usb: typec: fusb303b: Update FUSB303B driver
+Subject: [PATCH 042/128] driver: usb: typec: fusb303b: Update FUSB303B driver
 
 This patch fixes the following errors in kernel logs:
 [3.073708] typec_fusb303b 1-0021: cannot register tcpm port, ret=-22

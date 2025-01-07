@@ -1,7 +1,7 @@
 From 6f69ba5911cce5bbce5a04d07568e12bc28d3510 Mon Sep 17 00:00:00 2001
 From: Pinkesh Vaghela <pinkesh.vaghela@einfochips.com>
 Date: Thu, 10 Oct 2024 11:19:13 +0000
-Subject: [PATCH 091/127] UBUNTU: [Config] Update for resolving issues
+Subject: [PATCH 091/128] UBUNTU: [Config] Update for resolving issues
 
 Resolved below issues
 - I2S crash

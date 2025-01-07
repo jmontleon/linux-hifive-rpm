@@ -1,7 +1,7 @@
 From 239760611b17fe90159899d88ec10526804eced3 Mon Sep 17 00:00:00 2001
 From: Xiang Xu <xuxiang@eswincomputing.com>
 Date: Thu, 19 Sep 2024 16:06:12 +0000
-Subject: [PATCH 073/127] driver: dw-axi-dmac: Revert MAX_BLOCK_SIZE macro
+Subject: [PATCH 073/128] driver: dw-axi-dmac: Revert MAX_BLOCK_SIZE macro
 
 - Revert "MAX_BLOCK_SIZE" to original value
 

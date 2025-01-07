@@ -1,7 +1,7 @@
 From dab6f98443aadc5284f30f7e0f39f98400138484 Mon Sep 17 00:00:00 2001
 From: Pinkesh Vaghela <pinkesh.vaghela@einfochips.com>
 Date: Fri, 27 Sep 2024 08:41:39 +0000
-Subject: [PATCH 086/127] UBUNTU: [Config] Update for fixing build errors
+Subject: [PATCH 086/128] UBUNTU: [Config] Update for fixing build errors
 
 Reverted configs to fix config-check build errors.
 

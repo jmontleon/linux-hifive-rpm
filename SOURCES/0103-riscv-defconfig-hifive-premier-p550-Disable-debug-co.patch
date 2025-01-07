@@ -1,7 +1,7 @@
 From a48cc258025051d0ea132e1e832af37ce895f75f Mon Sep 17 00:00:00 2001
 From: Pritesh Patel <pritesh.patel@einfochips.com>
 Date: Thu, 24 Oct 2024 12:19:35 +0530
-Subject: [PATCH 103/127] riscv: defconfig: hifive-premier-p550: Disable debug
+Subject: [PATCH 103/128] riscv: defconfig: hifive-premier-p550: Disable debug
  configs
 
 Disable debug info from kernel
