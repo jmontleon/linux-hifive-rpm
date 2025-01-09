@@ -1,4 +1,4 @@
-From c6809de0e4e833e613fc66425099cfd9470c7e2c Mon Sep 17 00:00:00 2001
+From 2d32a6bffa83ff63ffe14c1c48d532a7679c6fcb Mon Sep 17 00:00:00 2001
 From: Pinkesh Vaghela <pinkesh.vaghela@einfochips.com>
 Date: Thu, 24 Oct 2024 08:01:18 +0000
 Subject: [PATCH 104/128] UBUNTU: [Config] Disabled kernel debug configs

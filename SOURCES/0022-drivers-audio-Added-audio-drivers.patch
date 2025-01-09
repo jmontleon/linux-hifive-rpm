@@ -1,4 +1,4 @@
-From 09b99699d61c64b6c57272df3ff50ee64f9d19cf Mon Sep 17 00:00:00 2001
+From a4518bc11b226bed20be0177ebbfb21bd2eaa20d Mon Sep 17 00:00:00 2001
 From: Lei Deng <denglei@eswincomputing.com>
 Date: Tue, 30 Jul 2024 11:57:29 +0000
 Subject: [PATCH 022/128] drivers: audio: Added audio drivers

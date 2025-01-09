@@ -1,4 +1,4 @@
-From 1547734630f38ef04875c895d72b400a46f66194 Mon Sep 17 00:00:00 2001
+From fd3126f0a170fd4fe36725891477c30d430e85a9 Mon Sep 17 00:00:00 2001
 From: Xiang Xu <xuxiang@eswincomputing.com>
 Date: Tue, 30 Jul 2024 11:17:08 +0000
 Subject: [PATCH 019/128] drivers: rtc: Added EIC7700 Internal RTC driver

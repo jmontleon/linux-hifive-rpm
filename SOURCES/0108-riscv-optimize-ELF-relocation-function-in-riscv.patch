@@ -1,4 +1,4 @@
-From 5abadfae199ade9beaced677a9b4db1c1124609b Mon Sep 17 00:00:00 2001
+From 55d3e67c91d79743b9becf0dd2bb7ab4917b30d2 Mon Sep 17 00:00:00 2001
 From: Maxim Kochetkov <fido_max@inbox.ru>
 Date: Thu, 14 Dec 2023 09:39:06 +0300
 Subject: [PATCH 108/128] riscv: optimize ELF relocation function in riscv

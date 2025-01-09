@@ -1,4 +1,4 @@
-From c8317601b0d26fdb5aa53218d7597e8bfc3ad332 Mon Sep 17 00:00:00 2001
+From cf80498afc333e0759a7b97f402c9e3706043405 Mon Sep 17 00:00:00 2001
 From: Emil Renner Berthing <emil.renner.berthing@canonical.com>
 Date: Thu, 29 Aug 2024 12:31:00 +0200
 Subject: [PATCH 081/128] UBUNTU: [Config] Update for the ESWIN EIC7700

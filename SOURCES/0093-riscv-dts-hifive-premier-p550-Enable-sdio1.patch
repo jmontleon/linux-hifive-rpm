@@ -1,4 +1,4 @@
-From 9bd2f05700885983f6583b14ff979c12a4eaee74 Mon Sep 17 00:00:00 2001
+From 908093d5309f7e2a01962c847d1c43b98e9deb01 Mon Sep 17 00:00:00 2001
 From: Pritesh Patel <pritesh.patel@einfochips.com>
 Date: Fri, 18 Oct 2024 15:48:59 +0530
 Subject: [PATCH 093/128] riscv: dts: hifive-premier-p550: Enable sdio1
