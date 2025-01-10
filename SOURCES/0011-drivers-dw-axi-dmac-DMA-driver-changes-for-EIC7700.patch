@@ -1,4 +1,4 @@
-From 1a2e343ddf707b5d562613cbfade91bdb5ccb0d8 Mon Sep 17 00:00:00 2001
+From a918acb4609c80c84fe0c22914d2a5b9c8080016 Mon Sep 17 00:00:00 2001
 From: Xiang Xu <xuxiang@eswincomputing.com>
 Date: Tue, 30 Jul 2024 04:54:27 +0000
 Subject: [PATCH 011/128] drivers: dw-axi-dmac: DMA driver changes for EIC7700

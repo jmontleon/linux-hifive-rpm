@@ -1,4 +1,4 @@
-From a9c12d6f311a23b140d1daf35e14ee1610202d0c Mon Sep 17 00:00:00 2001
+From 4891a10d8252607893d834f3969e70f8cb5d44aa Mon Sep 17 00:00:00 2001
 From: Emil Renner Berthing <emil.renner.berthing@canonical.com>
 Date: Wed, 14 Aug 2024 14:51:55 +0200
 Subject: [PATCH 077/128] drivers: ata: eswin: Fix section mismatch

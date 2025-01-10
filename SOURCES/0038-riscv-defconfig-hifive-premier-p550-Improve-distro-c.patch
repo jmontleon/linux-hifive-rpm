@@ -1,4 +1,4 @@
-From 80c65fda84ac6bb6d3c2af45325f5c29859cea30 Mon Sep 17 00:00:00 2001
+From 0052c72f3351e52e408a20cd6a91fd2d17a6337b Mon Sep 17 00:00:00 2001
 From: Heinrich Schuchardt <heinrich.schuchardt@canonical.com>
 Date: Thu, 29 Aug 2024 13:06:02 +0530
 Subject: [PATCH 038/128] riscv: defconfig: hifive-premier-p550: Improve distro

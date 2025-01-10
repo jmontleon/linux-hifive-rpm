@@ -1,4 +1,4 @@
-From 6b93ec4584eee5a9cff82c503ddb02fc3f047572 Mon Sep 17 00:00:00 2001
+From f2e90d6d81bc25cba0e4fd7c3b4f08c51d23be1b Mon Sep 17 00:00:00 2001
 From: Pritesh Patel <pritesh.patel@einfochips.com>
 Date: Fri, 19 Jul 2024 06:45:16 +0000
 Subject: [PATCH 010/128] drivers: eswin: Enable ways for ccache

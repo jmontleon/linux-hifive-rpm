@@ -1,4 +1,4 @@
-From 95fed9e0b110adb56406c3b31063e40db11e829e Mon Sep 17 00:00:00 2001
+From f4a817e46b20f37bcbeb903d4f4fc421408e47c0 Mon Sep 17 00:00:00 2001
 From: Yulin Lu <luyulin@eswincomputing.com>
 Date: Tue, 30 Jul 2024 14:07:16 +0000
 Subject: [PATCH 024/128] drivers: hwmon: fan-control: Add ESWIN fancontrol
