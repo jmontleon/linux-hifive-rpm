@@ -1,4 +1,4 @@
-From 221d89fc8ea86be38ffeb914cd20e3944c2bf3b9 Mon Sep 17 00:00:00 2001
+From eccc8e68d448d7bd5a90f91b0904b7536c2d412b Mon Sep 17 00:00:00 2001
 From: Lifei Fang <fanglifei@eswincomputing.com>
 Date: Tue, 30 Jul 2024 10:03:12 +0000
 Subject: [PATCH 018/128] drivers: ethernet: Added ethernet driver for EIC7700

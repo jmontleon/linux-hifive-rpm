@@ -1,4 +1,4 @@
-From f8a629d4c8eb27b9712ac581cedef05375bc27b4 Mon Sep 17 00:00:00 2001
+From 822d76da59ddf48167f4a306ccaafb71c0c4ac37 Mon Sep 17 00:00:00 2001
 From: Yu Ning <ningyu@eswincomputing.com>
 Date: Tue, 30 Jul 2024 11:21:30 +0000
 Subject: [PATCH 020/128] drivers: bus-error: Added SiFive Bus Error driver

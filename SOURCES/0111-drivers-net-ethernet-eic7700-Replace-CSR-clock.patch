@@ -1,4 +1,4 @@
-From 312660c7b4634c111148770badb6498717788e50 Mon Sep 17 00:00:00 2001
+From 7770d3943220713ecdc931a61fefecaec947a3ae Mon Sep 17 00:00:00 2001
 From: Lifei Fang <fanglifei@eswincomputing.com>
 Date: Fri, 8 Nov 2024 14:11:49 +0530
 Subject: [PATCH 111/128] drivers: net: ethernet: eic7700: Replace CSR clock

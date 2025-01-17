@@ -1,4 +1,4 @@
-From 66d4ae2a0b35434fd442b0b69f6b2c50130bc2cb Mon Sep 17 00:00:00 2001
+From 12939ff2a0fb425688769eb5a5dac108a9439c8e Mon Sep 17 00:00:00 2001
 From: Pinkesh Vaghela <pinkesh.vaghela@einfochips.com>
 Date: Mon, 29 Jul 2024 17:31:16 +0530
 Subject: [PATCH 007/128] drivers: smmu: Add changes for EIC7700 to arm smmu
