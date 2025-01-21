@@ -1,4 +1,4 @@
-From 4ac942efabbfec93e464c1fb0cbb2cd1ff30186d Mon Sep 17 00:00:00 2001
+From 237e7e32fee6491c2ad1350d2478c3a166f8592f Mon Sep 17 00:00:00 2001
 From: Pinkesh Vaghela <pinkesh.vaghela@einfochips.com>
 Date: Tue, 13 Aug 2024 21:46:31 +0530
 Subject: [PATCH 035/128] hifive-premier-p550: Remove 1.5GHz to 1.8GHz cpu freq

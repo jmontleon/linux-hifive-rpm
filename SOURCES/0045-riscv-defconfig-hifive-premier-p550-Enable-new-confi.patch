@@ -1,4 +1,4 @@
-From 54d40de02d59df9cefa2e0be1af4177ed1eb031e Mon Sep 17 00:00:00 2001
+From 3b861d3ed963eccb29910739705c338999442178 Mon Sep 17 00:00:00 2001
 From: Pritesh Patel <pritesh.patel@einfochips.com>
 Date: Thu, 12 Sep 2024 07:54:34 +0000
 Subject: [PATCH 045/128] riscv: defconfig: hifive-premier-p550: Enable new

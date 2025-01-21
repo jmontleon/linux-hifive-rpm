@@ -1,4 +1,4 @@
-From 2ece234982331ab25558441d582bc931de5c9751 Mon Sep 17 00:00:00 2001
+From 7583103648211d6ce1e3ef6c5ea320f0d998c54f Mon Sep 17 00:00:00 2001
 From: Lei Deng <denglei@eswincomputing.com>
 Date: Tue, 22 Oct 2024 09:52:36 +0000
 Subject: [PATCH 098/128] riscv: drivers: sound: esw-i2s: fix HDMI audio

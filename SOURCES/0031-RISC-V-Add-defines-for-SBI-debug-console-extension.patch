@@ -1,4 +1,4 @@
-From 08c2ec5e603b48971b123c63581a92d8cc44dd1c Mon Sep 17 00:00:00 2001
+From a596d77b2020ceb3fb4b885b83cae2567b2a0e83 Mon Sep 17 00:00:00 2001
 From: Anup Patel <apatel@ventanamicro.com>
 Date: Fri, 22 Jul 2022 18:54:54 +0530
 Subject: [PATCH 031/128] RISC-V: Add defines for SBI debug console extension
