@@ -1,4 +1,4 @@
-From 78e995ea67b26ec40c95111d622cab75c8d86eec Mon Sep 17 00:00:00 2001
+From 0b35c21191702ff940d18ad4e9fc84bec0dcd1d1 Mon Sep 17 00:00:00 2001
 From: Pritesh Patel <pritesh.patel@einfochips.com>
 Date: Fri, 23 Aug 2024 10:46:29 +0530
 Subject: [PATCH 036/128] riscv: defconfig: hifive-premier-p550: Update command

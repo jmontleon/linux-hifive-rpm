@@ -1,4 +1,4 @@
-From bb4dbfa325116a50a20ed166adaa9b6c6ab6c110 Mon Sep 17 00:00:00 2001
+From a482b2d913d89a2dbc4d24d89a2218848b01cf84 Mon Sep 17 00:00:00 2001
 From: Wei Yang <yangwei1@eswincomputing.com>
 Date: Tue, 1 Oct 2024 18:14:50 +0530
 Subject: [PATCH 076/128] drivers: fan-control: fix fan speed read

@@ -1,4 +1,4 @@
-From 5ef9a40e28a30641e07d241d7120a8678489f564 Mon Sep 17 00:00:00 2001
+From daec976feb7d42ac7bf5b0104dd42f108576f22a Mon Sep 17 00:00:00 2001
 From: Yifeng Huang <huangyifeng@eswincomputing.com>
 Date: Tue, 30 Jul 2024 05:07:25 +0000
 Subject: [PATCH 013/128] driver: reset: Add eswin reset driver

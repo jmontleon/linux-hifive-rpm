@@ -1,4 +1,4 @@
-From ba60e2fb20532be36afa0f277d761e76a42aa3d9 Mon Sep 17 00:00:00 2001
+From 9298ea12e9267d319f7ec3bc8b9d77cf862b2793 Mon Sep 17 00:00:00 2001
 From: Min Lin <linmin@eswincomputing.com>
 Date: Mon, 29 Jul 2024 17:05:36 +0530
 Subject: [PATCH 004/128] riscv: asm: Added changes to asm header files
@@ -18,8 +18,8 @@ Signed-off-by: Pinkesh Vaghela <pinkesh.vaghela@einfochips.com>
  arch/riscv/include/asm/barrier.h      |  2 +
  arch/riscv/include/asm/io.h           |  1 +
  arch/riscv/include/asm/pgtable-bits.h |  1 +
- arch/riscv/include/asm/pgtable.h      | 72 ++++++++++++++++++++++++++-
- 4 files changed, 75 insertions(+), 1 deletion(-)
+ arch/riscv/include/asm/pgtable.h      | 74 ++++++++++++++++++++++++++-
+ 4 files changed, 76 insertions(+), 2 deletions(-)
 
 diff --git a/arch/riscv/include/asm/barrier.h b/arch/riscv/include/asm/barrier.h
 index 110752594228..ca07d68c70a2 100644
@@ -59,9 +59,18 @@ index f896708e8331..0a8abaf664f2 100644
  #define _PAGE_SPECIAL   _PAGE_SOFT
  #define _PAGE_TABLE     _PAGE_PRESENT
 diff --git a/arch/riscv/include/asm/pgtable.h b/arch/riscv/include/asm/pgtable.h
-index f540b2625714..44d9f977ba34 100644
+index f540b2625714..4282ca1f2721 100644
 --- a/arch/riscv/include/asm/pgtable.h
 +++ b/arch/riscv/include/asm/pgtable.h
+@@ -84,7 +84,7 @@
+  * Define vmemmap for pfn_to_page & page_to_pfn calls. Needed if kernel
+  * is configured with CONFIG_SPARSEMEM_VMEMMAP enabled.
+  */
+-#define vmemmap		((struct page *)VMEMMAP_START - vmemmap_start_pfn)
++#define vmemmap		((struct page *)VMEMMAP_START)
+ 
+ #define PCI_IO_SIZE      SZ_16M
+ #define PCI_IO_END       VMEMMAP_START
 @@ -208,6 +208,54 @@ extern struct pt_alloc_ops pt_ops __initdata;
  #define _PAGE_IOREMAP	((_PAGE_KERNEL & ~_PAGE_MTMASK) | _PAGE_IO)
  #define PAGE_KERNEL_IO		__pgprot(_PAGE_IOREMAP)

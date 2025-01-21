@@ -1,4 +1,4 @@
-From 245848d3cd12068387e69cdf682f32f02479fd03 Mon Sep 17 00:00:00 2001
+From 74d9ff8fb6f09ea7a5ea12edfbd8fb49fbb20dbc Mon Sep 17 00:00:00 2001
 From: Pritesh Patel <pritesh.patel@einfochips.com>
 Date: Thu, 19 Sep 2024 10:34:14 +0000
 Subject: [PATCH 071/128] riscv: defconfig: hifive-premier-p550: Remove
