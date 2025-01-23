@@ -1,4 +1,4 @@
-From cd337e276c94e792f4ce317812041e37c31b64e1 Mon Sep 17 00:00:00 2001
+From 872e7928e4b72fa484b8938c619f994807dee6e1 Mon Sep 17 00:00:00 2001
 From: Pritesh Patel <pritesh.patel@einfochips.com>
 Date: Thu, 29 Aug 2024 15:42:10 +0530
 Subject: [PATCH 040/128] riscv: dts: hifive-premier-p550: Remove memory nodes

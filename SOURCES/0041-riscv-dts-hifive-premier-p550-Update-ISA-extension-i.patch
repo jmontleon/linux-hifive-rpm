@@ -1,4 +1,4 @@
-From 4d950cff6d8363d1646b65bf8596891cf66d793d Mon Sep 17 00:00:00 2001
+From 115d2d898849851c94a42d48b0417caa723c774a Mon Sep 17 00:00:00 2001
 From: Pritesh Patel <pritesh.patel@einfochips.com>
 Date: Tue, 3 Sep 2024 11:52:32 +0000
 Subject: [PATCH 041/128] riscv: dts: hifive-premier-p550: Update ISA extension

@@ -1,4 +1,4 @@
-From 831e4aa75b96fbe209d0cbfacf6ff63736717d63 Mon Sep 17 00:00:00 2001
+From 643ff6500377b766b4d196ee97f6593796fd8627 Mon Sep 17 00:00:00 2001
 From: Jason Montleon <jmontleo@redhat.com>
 Date: Mon, 6 Jan 2025 18:09:21 -0500
 Subject: [PATCH 128/128] update pac193x / eswin-fan-control

@@ -1,4 +1,4 @@
-From 4706043f5a9081bf52707d88c0ece9f090f67d7d Mon Sep 17 00:00:00 2001
+From 5af138a8f3ea6e5fbca5e5965f8ddc41fc7824b9 Mon Sep 17 00:00:00 2001
 From: Lei Deng <denglei@eswincomputing.com>
 Date: Tue, 22 Oct 2024 10:00:19 +0000
 Subject: [PATCH 099/128] riscv: drivers: sound: eswin: Resolve the i2s driver

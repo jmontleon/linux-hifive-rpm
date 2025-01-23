@@ -1,4 +1,4 @@
-From 8c3f0fbca443055a252e826716cb02a2bf008403 Mon Sep 17 00:00:00 2001
+From b9a86f6966af9596c8603bb63e7352621cd5093e Mon Sep 17 00:00:00 2001
 From: Sean Cross <xobs@kosagi.com>
 Date: Tue, 10 Sep 2024 18:52:31 +0530
 Subject: [PATCH 044/128] driver: audio: hifive-premier-p550: Update driver

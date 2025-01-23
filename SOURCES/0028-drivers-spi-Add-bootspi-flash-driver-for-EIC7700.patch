@@ -1,4 +1,4 @@
-From 1ac8a402f39efb5f8021e61dcdf977f6e009fcd6 Mon Sep 17 00:00:00 2001
+From 9257ba36bf17bcfd64720ab8db4d2e90eacdd4f0 Mon Sep 17 00:00:00 2001
 From: Yifeng Huang <huangyifeng@eswincomputing.com>
 Date: Tue, 30 Jul 2024 15:18:03 +0000
 Subject: [PATCH 028/128] drivers: spi: Add bootspi flash driver for EIC7700

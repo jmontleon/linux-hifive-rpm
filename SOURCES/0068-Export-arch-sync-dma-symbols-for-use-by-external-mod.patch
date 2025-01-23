@@ -1,4 +1,4 @@
-From a7bf28f85931ba1e64aaa631f24460db4d63fdb9 Mon Sep 17 00:00:00 2001
+From c93302f99522719c59ca71f5d5601f2888aae75d Mon Sep 17 00:00:00 2001
 From: Jeegar Lakhani <jeegar.lakhani@sifive.com>
 Date: Mon, 26 Aug 2024 22:33:52 -0700
 Subject: [PATCH 068/128] Export arch sync dma symbols for use by external

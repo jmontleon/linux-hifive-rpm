@@ -1,4 +1,4 @@
-From 9607e0d9aad102ccadfb463226ea8fc9c302cfe4 Mon Sep 17 00:00:00 2001
+From 2b52841ac092518f845c09bf15e3a42b668ee065 Mon Sep 17 00:00:00 2001
 From: Pinkesh Vaghela <pinkesh.vaghela@einfochips.com>
 Date: Fri, 8 Nov 2024 13:54:22 +0000
 Subject: [PATCH 113/128] UBUNTU: [Config] Disable NUMA and optimize configs

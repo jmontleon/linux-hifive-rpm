@@ -1,4 +1,4 @@
-From a917594a4f6bd82a11611f68469f7ddb5f155840 Mon Sep 17 00:00:00 2001
+From eaa30ec7e573eb0ce001a9d269602076623b662f Mon Sep 17 00:00:00 2001
 From: Anup Patel <apatel@ventanamicro.com>
 Date: Fri, 24 Nov 2023 12:39:03 +0530
 Subject: [PATCH 033/128] tty/serial: Add RISC-V SBI debug console based

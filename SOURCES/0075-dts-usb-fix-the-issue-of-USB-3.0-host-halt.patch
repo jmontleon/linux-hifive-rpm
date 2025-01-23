@@ -1,4 +1,4 @@
-From 235232a63de7f771182bb842129bde8eb0c14108 Mon Sep 17 00:00:00 2001
+From 5a667678e4a2ad71d306095ba87cb79e1fd80c9d Mon Sep 17 00:00:00 2001
 From: Shuang Liang <liangshuang@eswincomputing.com>
 Date: Sun, 29 Sep 2024 20:38:09 +0530
 Subject: [PATCH 075/128] dts: usb: fix the issue of USB 3.0 host halt

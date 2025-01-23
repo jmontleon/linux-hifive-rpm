@@ -1,4 +1,4 @@
-From 4fca85154e777ee88aff8f618d5713e118d57767 Mon Sep 17 00:00:00 2001
+From e379a27f84418db0988cf509eb5a38b4b22a5c2d Mon Sep 17 00:00:00 2001
 From: Pinkesh Vaghela <pinkesh.vaghela@einfochips.com>
 Date: Wed, 4 Dec 2024 13:57:35 +0000
 Subject: [PATCH 119/128] UBUNTU: Prevent older mesa and xorg for DDK 24.2
