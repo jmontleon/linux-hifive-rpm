@@ -1,4 +1,4 @@
-From 1492b31db5c776e57c4abb21eea9a8cfbc5fc6d5 Mon Sep 17 00:00:00 2001
+From d875c26d893dea2c36e49738fd2cc3791c121fe6 Mon Sep 17 00:00:00 2001
 From: Pritesh Patel <pritesh.patel@einfochips.com>
 Date: Thu, 7 Nov 2024 14:37:06 +0000
 Subject: [PATCH 106/128] riscv: defconfig: hifive-premier-p550: Disable NUMA

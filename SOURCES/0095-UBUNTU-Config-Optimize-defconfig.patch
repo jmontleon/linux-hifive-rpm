@@ -1,4 +1,4 @@
-From 62a658244b02e0e58245fc52db3a8be0efce4fcf Mon Sep 17 00:00:00 2001
+From 56d8cd25cecad4aa2431993470fe74dcbc7e5874 Mon Sep 17 00:00:00 2001
 From: Pinkesh Vaghela <pinkesh.vaghela@einfochips.com>
 Date: Fri, 18 Oct 2024 21:39:08 +0530
 Subject: [PATCH 095/128] UBUNTU: [Config] Optimize defconfig

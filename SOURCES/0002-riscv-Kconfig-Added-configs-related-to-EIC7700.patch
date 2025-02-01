@@ -1,4 +1,4 @@
-From 80cfe7ad36d166481af0f4100e5daf09128396d8 Mon Sep 17 00:00:00 2001
+From 4567e594699430ed83f12c9b27d28f6a7fbe0a0b Mon Sep 17 00:00:00 2001
 From: Min Lin <linmin@eswincomputing.com>
 Date: Mon, 29 Jul 2024 16:49:31 +0530
 Subject: [PATCH 002/128] riscv: Kconfig: Added configs related to EIC7700

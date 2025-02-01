@@ -1,4 +1,4 @@
-From 458d53d9f11fed9434315929bc0259e97b36aec9 Mon Sep 17 00:00:00 2001
+From 8a8d880f69b8068535950050db684ddcb2b95b6f Mon Sep 17 00:00:00 2001
 From: Pinkesh Vaghela <pinkesh.vaghela@einfochips.com>
 Date: Thu, 26 Sep 2024 11:55:55 +0000
 Subject: [PATCH 082/128] UBUNTU: [Config] Update for hifive-premier-p550 board

@@ -1,4 +1,4 @@
-From 9f0e1ececd1a94a9549f093ac2a2c7727a742ad9 Mon Sep 17 00:00:00 2001
+From de0610e3894211f4a5fecd5d1b51b5d82b312b12 Mon Sep 17 00:00:00 2001
 From: Min Lin <linmin@eswincomputing.com>
 Date: Mon, 29 Jul 2024 16:22:35 +0530
 Subject: [PATCH 001/128] dts: eswin: Add dts and dtsi files for HiFive Premier

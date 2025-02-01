@@ -1,4 +1,4 @@
-From eb4df1f5152880519b3600e8dcf72d81ec87ecbf Mon Sep 17 00:00:00 2001
+From 04ab93fef6992ec43ff59ae304171baf591b8635 Mon Sep 17 00:00:00 2001
 From: Heinrich Schuchardt <heinrich.schuchardt@canonical.com>
 Date: Thu, 29 Aug 2024 13:02:51 +0530
 Subject: [PATCH 037/128] riscv: dts: eswin: harmonize device-tree
