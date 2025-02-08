@@ -1,4 +1,4 @@
-From 7f7bbd1863c6dc71d69c54e634602611294ad73f Mon Sep 17 00:00:00 2001
+From 21d74cabbb63eb28e69ec09eaf06a9bc9c025787 Mon Sep 17 00:00:00 2001
 From: Pritesh Patel <pritesh.patel@einfochips.com>
 Date: Thu, 7 Nov 2024 06:26:02 +0000
 Subject: [PATCH 107/128] riscv: defconfig: hifive-premier-p550: Optimize DRM

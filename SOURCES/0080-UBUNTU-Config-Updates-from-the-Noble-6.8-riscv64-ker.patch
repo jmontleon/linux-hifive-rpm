@@ -1,4 +1,4 @@
-From cc7015afa330852d395c32340bf4ea6f23e018e0 Mon Sep 17 00:00:00 2001
+From fd8cd09d022815cba9ed04aa5982ef732c8a6377 Mon Sep 17 00:00:00 2001
 From: Emil Renner Berthing <emil.renner.berthing@canonical.com>
 Date: Sun, 18 Aug 2024 20:05:25 +0200
 Subject: [PATCH 080/128] UBUNTU: [Config] Updates from the Noble 6.8 riscv64

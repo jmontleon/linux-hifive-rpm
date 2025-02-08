@@ -1,4 +1,4 @@
-From 86fcabc1f5f9527060ea37e93cefc1d49cef79bd Mon Sep 17 00:00:00 2001
+From c0d3f681fafba868ebea338fcec02a04cb4c7a55 Mon Sep 17 00:00:00 2001
 From: Min Lin <linmin@eswincomputing.com>
 Date: Mon, 29 Jul 2024 14:34:51 +0000
 Subject: [PATCH 008/128] driver: iommu: Add IOMMU driver for EIC7700
@@ -55,7 +55,7 @@ index 000000000000..d63610d53d4f
 +obj-$(CONFIG_IOMMU_ESWIN) += eic7700-sid.o
 diff --git a/drivers/iommu/eswin/eic7700-sid.c b/drivers/iommu/eswin/eic7700-sid.c
 new file mode 100644
-index 000000000000..f45e3c1d793e
+index 000000000000..14f172f3f314
 --- /dev/null
 +++ b/drivers/iommu/eswin/eic7700-sid.c
 @@ -0,0 +1,663 @@
@@ -689,7 +689,7 @@ index 000000000000..f45e3c1d793e
 +	}
 +
 +	pr_debug("%s called!\n", __func__);
-+	of_property_for_each_u32(node, "tbus", prop, cur, tbu_id) {
++	of_property_for_each_u32(node, "tbus", tbu_id) {
 +		pr_debug("tbus = <0x%02x>\n", tbu_id);
 +		if (0 == eic7700_get_tbu_priv(nid, tbu_id, &tbu_priv_p)) {
 +			tbu_client_p = tbu_priv_p->tbu_client_p;

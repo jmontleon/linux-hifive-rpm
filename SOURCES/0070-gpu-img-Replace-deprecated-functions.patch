@@ -1,4 +1,4 @@
-From 7cd47794bec80859a5ccf6e321fb1f3220e15b42 Mon Sep 17 00:00:00 2001
+From 2cb69757a03a48c66c172c978e95c4c3f5863461 Mon Sep 17 00:00:00 2001
 From: Pritesh Patel <pritesh.patel@einfochips.com>
 Date: Tue, 17 Sep 2024 10:18:04 +0000
 Subject: [PATCH 070/128] gpu: img: Replace deprecated functions

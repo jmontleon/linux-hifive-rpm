@@ -1,4 +1,4 @@
-From 9d36286dd433ee82cc4d6603a0d851d8aff921c4 Mon Sep 17 00:00:00 2001
+From dece982cdca36760e14970fe91813dcadfa530bb Mon Sep 17 00:00:00 2001
 From: Darshan Prajapati <darshan.prajapati@einfochips.com>
 Date: Wed, 9 Oct 2024 18:48:07 +0530
 Subject: [PATCH 088/128] riscv: defconfig: hifive-premier-p550: Update

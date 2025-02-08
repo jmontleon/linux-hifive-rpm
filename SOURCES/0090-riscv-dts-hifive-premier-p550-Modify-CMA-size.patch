@@ -1,4 +1,4 @@
-From a428e7b9bc2e78b670893bf339234bc2bd32f332 Mon Sep 17 00:00:00 2001
+From f2fda2065e5942c7e0efaf1d03c1cc26912019ad Mon Sep 17 00:00:00 2001
 From: Pritesh Patel <pritesh.patel@einfochips.com>
 Date: Thu, 10 Oct 2024 14:25:45 +0530
 Subject: [PATCH 090/128] riscv: dts: hifive-premier-p550: Modify CMA size

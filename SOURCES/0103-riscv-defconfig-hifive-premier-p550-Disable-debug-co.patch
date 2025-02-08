@@ -1,4 +1,4 @@
-From b3749e6d2b21f89fcf6ee48573ccb79a7e7d1632 Mon Sep 17 00:00:00 2001
+From 06bf6394b46ad1c04775564e138b191334fc65d6 Mon Sep 17 00:00:00 2001
 From: Pritesh Patel <pritesh.patel@einfochips.com>
 Date: Thu, 24 Oct 2024 12:19:35 +0530
 Subject: [PATCH 103/128] riscv: defconfig: hifive-premier-p550: Disable debug

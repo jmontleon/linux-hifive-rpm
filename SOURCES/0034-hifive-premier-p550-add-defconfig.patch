@@ -1,4 +1,4 @@
-From a0fc7fad3f9239859c50427a55ed937f873c2558 Mon Sep 17 00:00:00 2001
+From 334d11e8201d4ff05fe17cf92589cd14caed6e81 Mon Sep 17 00:00:00 2001
 From: Pritesh Patel <pritesh.patel@einfochips.com>
 Date: Tue, 13 Aug 2024 14:38:08 +0000
 Subject: [PATCH 034/128] hifive-premier-p550: add defconfig

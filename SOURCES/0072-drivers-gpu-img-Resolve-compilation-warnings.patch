@@ -1,4 +1,4 @@
-From e096d31e883a443899edf2f7af3acce44963b9f2 Mon Sep 17 00:00:00 2001
+From 36990ff27968ec970211b56471694f33b8656e4e Mon Sep 17 00:00:00 2001
 From: Pritesh Patel <pritesh.patel@einfochips.com>
 Date: Thu, 19 Sep 2024 11:52:55 +0000
 Subject: [PATCH 072/128] drivers: gpu: img: Resolve compilation warnings
