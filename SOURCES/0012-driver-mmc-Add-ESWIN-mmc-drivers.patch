@@ -1,4 +1,4 @@
-From 3061dacc4279985f302984e918faea0ab2ccf8cc Mon Sep 17 00:00:00 2001
+From 0524d922081a62948721579107c083eb6e9a9160 Mon Sep 17 00:00:00 2001
 From: Shuang Liang <liangshuang@eswincomputing.com>
 Date: Tue, 30 Jul 2024 05:03:58 +0000
 Subject: [PATCH 012/128] driver: mmc: Add ESWIN mmc drivers

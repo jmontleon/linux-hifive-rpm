@@ -1,4 +1,4 @@
-From 733ef0d25f44078594809cfa83de554315f0af5a Mon Sep 17 00:00:00 2001
+From 812a644c9a595bc1350f027c7c33d1d8a4bccc6b Mon Sep 17 00:00:00 2001
 From: Pritesh Patel <pritesh.patel@einfochips.com>
 Date: Fri, 18 Oct 2024 15:41:31 +0530
 Subject: [PATCH 094/128] riscv: defconfig: hifive-premier-p550: Optimize it

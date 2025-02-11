@@ -1,4 +1,4 @@
-From 2b03b190c442a56704c5eaff86a47f4f68aa2ac8 Mon Sep 17 00:00:00 2001
+From 11dd3257d19ff328a789a975d95ee4b312791b56 Mon Sep 17 00:00:00 2001
 From: Pinkesh Vaghela <pinkesh.vaghela@einfochips.com>
 Date: Thu, 7 Nov 2024 10:41:44 +0000
 Subject: [PATCH 109/128] drivers: sound: eswin: Add mutex before registering

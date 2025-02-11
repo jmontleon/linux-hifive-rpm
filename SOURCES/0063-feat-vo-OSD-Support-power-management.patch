@@ -1,4 +1,4 @@
-From a0ddeda80fc1e9f3fbca747ac9c46af8f8503aab Mon Sep 17 00:00:00 2001
+From 4fd140fd49c5021f5a45c165ede94993633ad356 Mon Sep 17 00:00:00 2001
 From: Lifei Fang <fanglifei@eswincomputing.com>
 Date: Tue, 16 Jul 2024 17:43:26 +0800
 Subject: [PATCH 063/128] feat(vo): OSD Support power management
