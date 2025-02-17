@@ -1,4 +1,4 @@
-From 6b3c74b16186b344ab1cb3a3fa6fcc9e8b4a27c1 Mon Sep 17 00:00:00 2001
+From 053d333cfbdf4212720355a214cc6c57c2d380bf Mon Sep 17 00:00:00 2001
 From: Pritesh Patel <pritesh.patel@einfochips.com>
 Date: Wed, 4 Sep 2024 08:28:24 +0000
 Subject: [PATCH 043/128] defconfig: hifive-premier-p550: Configure autofs4

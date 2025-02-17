@@ -1,4 +1,4 @@
-From 85287db45ec75625b205fc0d2b58f2faaabb26a0 Mon Sep 17 00:00:00 2001
+From a9eb9b369b2347fdcb2d343cbac4e68ab9b46696 Mon Sep 17 00:00:00 2001
 From: Pinkesh Vaghela <pinkesh.vaghela@einfochips.com>
 Date: Mon, 29 Jul 2024 17:31:16 +0530
 Subject: [PATCH 007/128] drivers: smmu: Add changes for EIC7700 to arm smmu
@@ -16,7 +16,7 @@ Signed-off-by: Pinkesh Vaghela <pinkesh.vaghela@einfochips.com>
  2 files changed, 87 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-index 68b81f9c2f4b..cd7f1f6bf304 100644
+index 6cecbac0e6ba..ab4e3a8c1c34 100644
 --- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
 +++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
 @@ -30,8 +30,24 @@

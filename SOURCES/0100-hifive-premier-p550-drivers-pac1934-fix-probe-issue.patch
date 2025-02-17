@@ -1,4 +1,4 @@
-From 77195df119b210334b61d9a6308476f69f3a0ca6 Mon Sep 17 00:00:00 2001
+From 132a29c880785d30a4b90661e9f3e330b7927e69 Mon Sep 17 00:00:00 2001
 From: Pritesh Patel <pritesh.patel@einfochips.com>
 Date: Tue, 22 Oct 2024 11:53:25 +0000
 Subject: [PATCH 100/128] hifive-premier-p550: drivers: pac1934: fix probe

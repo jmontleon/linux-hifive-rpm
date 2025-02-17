@@ -1,4 +1,4 @@
-From 8f4e1c3cfd58d243a3424c950a870e42fb59479c Mon Sep 17 00:00:00 2001
+From 69504a8fd669e830c400d1ed50124190dc455cf7 Mon Sep 17 00:00:00 2001
 From: Anup Patel <apatel@ventanamicro.com>
 Date: Fri, 24 Nov 2023 12:39:02 +0530
 Subject: [PATCH 032/128] RISC-V: Add SBI debug console helper routines

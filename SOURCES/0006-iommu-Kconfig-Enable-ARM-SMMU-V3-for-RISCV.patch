@@ -1,4 +1,4 @@
-From 1a33a56f7b5ba47164e6084feb8f30b2003ba928 Mon Sep 17 00:00:00 2001
+From aa6594cdd8c04296641a6dd8d65a260d700e06cb Mon Sep 17 00:00:00 2001
 From: Pinkesh Vaghela <pinkesh.vaghela@einfochips.com>
 Date: Mon, 29 Jul 2024 17:12:50 +0530
 Subject: [PATCH 006/128] iommu: Kconfig: Enable ARM SMMU V3 for RISCV

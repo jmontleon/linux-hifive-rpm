@@ -1,4 +1,4 @@
-From d5eade16b4e2168c1b0895c88dc44135af792f94 Mon Sep 17 00:00:00 2001
+From 37f6cb145f07be4f6ebb08bf0113f71a1aa38297 Mon Sep 17 00:00:00 2001
 From: Dimitri John Ledkov <dimitri.ledkov@canonical.com>
 Date: Wed, 9 Mar 2022 14:02:12 +0000
 Subject: [PATCH 079/128] UBUNTU: SAUCE: scripts/Makefile.modinst

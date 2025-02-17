@@ -1,4 +1,4 @@
-From f01162eb3593b1266dd3e0127c7ff9c434a949e1 Mon Sep 17 00:00:00 2001
+From d5269cd76ec10e111480e4808271be7713d35b3f Mon Sep 17 00:00:00 2001
 From: Pritesh Patel <pritesh.patel@einfochips.com>
 Date: Fri, 8 Nov 2024 14:21:00 +0530
 Subject: [PATCH 112/128] drivers: gpu: img: Cleanup debug prints

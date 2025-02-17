@@ -1,4 +1,4 @@
-From 4e1c3cac6038183d1388fb7b557634460ff10b49 Mon Sep 17 00:00:00 2001
+From 53fac95ba0b925177bc9aa292c6449aec9835b0e Mon Sep 17 00:00:00 2001
 From: Pritesh Patel <pritesh.patel@einfochips.com>
 Date: Mon, 16 Sep 2024 07:28:45 +0000
 Subject: [PATCH 046/128] riscv: defconfig: hifive-premier-p550: Support Ubuntu

@@ -1,4 +1,4 @@
-From 52cb5473162220b2e967de23e2146b391b72f606 Mon Sep 17 00:00:00 2001
+From 1157e5295ea27da7cf3072bbb95aa0193bcdef67 Mon Sep 17 00:00:00 2001
 From: Pinkesh Vaghela <pinkesh.vaghela@einfochips.com>
 Date: Thu, 5 Dec 2024 13:38:14 +0000
 Subject: [PATCH 121/128] UBUNTU: Add all mesa and xorg packages in Breaks
