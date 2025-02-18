@@ -1,5 +1,8 @@
 # linux-hifive-rpm
 
+This repo is deprecated
+Use https://github.com/jmontleon/linux-rockos-rpm instead
+
 This repo contains sources for building a Fedora-like HiFive P550 / EWSIN EIC7700 kernel.
 
 Built kernels can currently be found at https://people.redhat.com/jmontleo/
